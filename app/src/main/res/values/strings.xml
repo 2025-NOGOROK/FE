@@ -2,4 +2,9 @@
     <string name="app_name">NOGOROK</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login">로그인</string>
+    <string name="email_hint">이메일</string>
+    <string name="password_hint">비밀번호</string>
+    <string name="go_register">회원가입</string>
+    <string name="register">회원가입</string>
 </resources>
