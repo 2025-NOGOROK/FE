@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.nogorok"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -28,13 +28,19 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
 }
+
+kotlin {
+    jvmToolchain(17)
+}
+
+
 
 dependencies {
 
@@ -45,6 +51,8 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
+    implementation(files("libs/samsung-health-data-1.5.1.aar"))
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
