@@ -17,8 +17,8 @@ class LoginActivity : AppCompatActivity() {
         val goRegister = findViewById<TextView>(R.id.tv_go_register)
 
         loginBtn.setOnClickListener {
-            // 로그인 처리 후
             val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("fragment_to_load", "home") // HomeFragment로 이동 정보 전달
             startActivity(intent)
             finish()
         }

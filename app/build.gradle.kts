@@ -52,6 +52,8 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
     implementation(files("libs/samsung-health-data-1.5.1.aar"))
+    //implementation(files("libs/samsung-health-data-api-1.0.0-b2.aar"))
+
 
 
     testImplementation(libs.junit)

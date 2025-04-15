@@ -28,22 +28,26 @@ class HomeFragment : Fragment() {
             ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
         ).get(HeartRateViewModel::class.java)
 
-        // Samsung Health 연결
-        viewModel.initHealthStore()
-
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 심박수 LiveData 관찰
+        // 1. Samsung Health 연결 시작
+        viewModel.initHealthStore()
+
+        // 2. 심박수 LiveData 관찰
         viewModel.heartRates.observe(viewLifecycleOwner) { rates ->
             val average = if (rates.isNotEmpty()) "%.1f".format(rates.average()) else "N/A"
             heartRateText.text = "심박수 평균: $average bpm"
         }
 
-        // 권한 요청
-        viewModel.requestPermissions(requireActivity())
+        // 3. 권한 필요 시 ViewModel이 알려주면 요청 실행
+        viewModel.permissionRequired.observe(viewLifecycleOwner) { needed ->
+            if (needed) {
+                viewModel.requestPermissions(requireActivity())
+            }
+        }
     }
 }
