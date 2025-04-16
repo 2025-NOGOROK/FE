@@ -1,3 +1,5 @@
 <resources>
-    <style name="Theme.Nogorok" parent="@android:style/Theme.Light.NoTitleBar"/>
+    <style name="Theme.Nogorok" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- 커스텀 색상, 폰트 등 필요하면 여기에 추가 -->
+    </style>
 </resources>
