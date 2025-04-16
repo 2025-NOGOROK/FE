@@ -1,0 +1,3 @@
+<resources>
+    <style name="Theme.Nogorok" parent="@android:style/Theme.Light.NoTitleBar"/>
+</resources>
