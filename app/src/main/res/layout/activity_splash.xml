@@ -1,32 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:layout_height="match_parent">
 
-    <!-- 로고 이미지 (필요시 res/drawable에 추가) -->
-    <ImageView
-        android:id="@+id/img_logo"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:src="@drawable/ic_launcher_foreground"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+    <!-- 첫 화면: 로고 -->
+    <LinearLayout
+        android:id="@+id/splash_logo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F5EFD8"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible">
 
-    <!-- 앱 이름 텍스트 -->
-    <TextView
-        android:id="@+id/tv_app_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/img_logo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/nogorok_logo_splash"
+            android:contentDescription="노고록 로고" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="노고록"
+            android:textColor="#7E6F5A"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"/>
+    </LinearLayout>
+
+    <!-- Splash1 -->
+    <LinearLayout
+        android:id="@+id/splash1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#7E6F5A"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="32dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="하루하루 쌓이는 고단함을\n기록하고, 돌아보고, 회복하는 시간"
+            android:textAlignment="center"
+            android:textColor="#F5EFD8"
+            android:textSize="20sp"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="노력과 고민의 기록이 곧 나를 회복시키는 루틴이 됩니다."
+            android:textAlignment="center"
+            android:textColor="#F5EFD8"
+            android:textSize="14sp"
+            android:layout_marginBottom="16dp"/>
+
+        <ImageView
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:src="@drawable/splash1"
+            android:contentDescription="사람과 고양이 일러스트" />
+
+        <Button
+            android:id="@+id/btn_start1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:backgroundTint="#F5EFD8"
+            android:text="시작하기"
+            android:textColor="#7E6F5A"/>
+    </LinearLayout>
+
+    <!-- Splash2 -->
+    <LinearLayout
+        android:id="@+id/splash2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#7E6F5A"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="32dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="당신의 몸이 말해주는\n스트레스 신호를 기록해요"
+            android:textAlignment="center"
+            android:textColor="#F5EFD8"
+            android:textSize="20sp"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="스마트워치와 연동하여 스트레스 지수를 분석할게요."
+            android:textAlignment="center"
+            android:textColor="#F5EFD8"
+            android:textSize="14sp"
+            android:layout_marginBottom="16dp"/>
+
+        <ImageView
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:src="@drawable/splash2"
+            android:contentDescription="고민하는 사람과 고양이 일러스트" />
+
+        <Button
+            android:id="@+id/btn_start2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:backgroundTint="#F5EFD8"
+            android:text="시작하기"
+            android:textColor="#7E6F5A"/>
+    </LinearLayout>
+
+    <!-- Splash3 -->
+    <LinearLayout
+        android:id="@+id/splash3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#7E6F5A"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="32dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="스트레스 지수에 따른 맞춤 루틴,\n오늘도 나를 돌보는 연습을 시작해요."
+            android:textAlignment="center"
+            android:textColor="#F5EFD8"
+            android:textSize="20sp"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="하루하루의 감정과 고단함, 이제 노고록이 함께 기억할게요."
+            android:textAlignment="center"
+            android:textColor="#F5EFD8"
+            android:textSize="14sp"
+            android:layout_marginBottom="16dp"/>
+
+        <ImageView
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:src="@drawable/splash3"
+            android:contentDescription="행복한 사람과 고양이 일러스트" />
+
+        <Button
+            android:id="@+id/btn_start3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:backgroundTint="#F5EFD8"
+            android:text="시작하기"
+            android:textColor="#7E6F5A"/>
+    </LinearLayout>
+</FrameLayout>

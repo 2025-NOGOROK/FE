@@ -12,11 +12,29 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NOGOROK"
         tools:targetApi="31">
+
+        <!-- 회원가입/로그인 선택 화면 액티비티 -->
+        <activity
+            android:name=".SignupLoginActivity"
+            android:exported="false"
+            android:label="@string/title_activity_signup_login"
+            android:theme="@style/Theme.NOGOROK" />
+
+        <!-- 회원가입 화면 액티비티 (필요시 사용) -->
         <activity android:name=".RegisterActivity" />
+
+        <!-- 로그인 화면 액티비티 (필요시 사용) -->
         <activity android:name=".LoginActivity" />
+
+        <!-- 메인 화면 액티비티 (Splash에서 이동할 곳) -->
         <activity android:name=".MainActivity" />
-        <activity android:name=".SplashActivity" android:exported="true" >
+
+        <!-- 스플래시 액티비티: 앱 최초 실행 시 가장 먼저 뜨는 화면 -->
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true"> <!-- Android 12 이상 필수 -->
             <intent-filter>
+                <!-- 이 액티비티를 앱의 런처(첫 화면)로 지정 -->
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
