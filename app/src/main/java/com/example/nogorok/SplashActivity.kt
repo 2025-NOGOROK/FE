@@ -25,11 +25,11 @@ class SplashActivity : AppCompatActivity() {
         val btnStart2 = findViewById<Button>(R.id.btn_start2)
         val btnStart3 = findViewById<Button>(R.id.btn_start3)
 
-        // 1초 동안 로고 화면 보여주기
+        // 2.5초 동안 로고 화면 보여주기, 그 후 splash1 화면을 보여줌
         Handler(Looper.getMainLooper()).postDelayed({
             splashLogo.visibility = View.GONE
             splash1.visibility = View.VISIBLE
-        }, 1000)
+        }, 2500)
 
         // 첫 번째 시작하기 버튼 클릭 시 두 번째 스플래시 화면으로 전환
         btnStart1.setOnClickListener {
