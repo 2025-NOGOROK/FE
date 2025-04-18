@@ -50,7 +50,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
-    implementation(files("libs/samsung-health-data-1.5.1.aar"))
+    //implementation(files("libs/samsung-health-data-1.5.1.aar"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
