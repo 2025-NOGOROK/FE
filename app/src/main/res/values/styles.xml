@@ -1,5 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- 앱 전체 테마: MaterialComponents 계열, ActionBar 없음 -->
     <style name="Theme.Nogorok" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- 커스텀 색상, 폰트 등 필요하면 여기에 추가 -->
+        <!-- 필요하면 커스텀 색상, 폰트, 위젯 스타일 추가 -->
+        <!-- 예시: -->
+        <!-- <item name="colorPrimary">#73605A</item> -->
+        <!-- <item name="colorPrimaryVariant">#5A4A3F</item> -->
+        <!-- <item name="colorOnPrimary">#F4EED4</item> -->
     </style>
 </resources>

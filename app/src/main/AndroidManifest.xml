@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.nogorok">
 
@@ -9,6 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Nogorok">
 
+        <!-- 로그인 액티비티가 앱 시작점 -->
         <activity android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
@@ -17,5 +19,10 @@
             </intent-filter>
         </activity>
 
+        <!-- 비밀번호 찾기 액티비티 등록 (이름 꼭 맞춰줘!) -->
+        <activity android:name=".FindPasswordEmailActivity" />
+        <activity android:name=".FindPasswordResetActivity" />
+
+        <!-- 다른 액티비티도 여기에 추가 -->
     </application>
 </manifest>
