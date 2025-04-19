@@ -24,7 +24,9 @@ class LoginActivity : AppCompatActivity() {
         }
 
         goRegister.setOnClickListener {
-            startActivity(Intent(this, RegisterActivity::class.java))
+            // 회원가입 약관 동의 페이지로 이동!
+            val intent = Intent(this, RegisterTermsActivity::class.java)
+            startActivity(intent)
         }
     }
 }
