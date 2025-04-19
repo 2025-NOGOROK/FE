@@ -12,6 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NOGOROK"
         tools:targetApi="31">
+        <!-- AndroidManifest.xml에 아래처럼 등록 -->
+        <activity android:name=".ServiceTermsActivity"/>
+        <activity android:name=".PrivacyTermsActivity"/>
+        <activity android:name=".HealthTermsActivity"/>
+        <activity android:name=".LocationTermsActivity"/>
         <activity android:name=".RegisterTermsActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />
