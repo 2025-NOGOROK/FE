@@ -7,4 +7,12 @@
     <string name="password_hint">비밀번호</string>
     <string name="go_register">회원가입</string>
     <string name="register">회원가입</string>
+    <string name="time">시간</string>
+    <string name="heart_rate_unit">bpm</string>
+    <string name="min_heart_rate">최소 심박수</string>
+    <string name="max_heart_rate">최대 심박수</string>
+    <string name="no_data">데이터 없음</string>
+    <string name="heart_rate_heading">심박수</string>
+    <string name="heart_rate_list_desc">심박수 기록 리스트</string>
+    <string name="heart_rate_icon">심박수 아이콘</string>
 </resources>

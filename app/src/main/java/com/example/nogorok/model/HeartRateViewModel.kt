@@ -1,104 +1,100 @@
 package com.example.nogorok.model
 
 import android.app.Activity
-import android.app.Application
-import android.util.Log
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.samsung.android.sdk.healthdata.*
+import androidx.lifecycle.*
+import com.example.nogorok.utils.AppConstants
+import com.example.nogorok.utils.getExceptionHandler
+import com.samsung.android.sdk.health.data.HealthDataStore
+import com.samsung.android.sdk.health.data.data.HealthDataPoint
+import com.samsung.android.sdk.health.data.request.DataType
+import com.samsung.android.sdk.health.data.request.DataTypes
+import com.samsung.android.sdk.health.data.request.LocalTimeFilter
+import com.samsung.android.sdk.health.data.request.Ordering
+import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.LocalDateTime
 
-class HeartRateViewModel(application: Application) : AndroidViewModel(application) {
+class HeartRateViewModel(
+    private val healthDataStore: HealthDataStore,
+    activity: Activity
+) : ViewModel() {
 
-    private val _heartRates = MutableLiveData<List<Float>>()
-    val heartRates: LiveData<List<Float>> get() = _heartRates
+    private val _exceptionResponse = MutableLiveData<String>()
+    val exceptionResponse: LiveData<String> = _exceptionResponse
 
-    private lateinit var mStore: HealthDataStore
-    private var isConnected = false
+    private val _dailyHeartRate = MutableLiveData<List<HeartRate>>()
+    val dailyHeartRate: LiveData<List<HeartRate>> = _dailyHeartRate
 
-    // 연결 상태 전달용 LiveData
-    private val _permissionRequired = MutableLiveData<Boolean>()
-    val permissionRequired: LiveData<Boolean> get() = _permissionRequired
+    private val exceptionHandler = getExceptionHandler(activity, _exceptionResponse)
+    private val hrResultList = mutableListOf<HeartRate>()
 
-    fun initHealthStore() {
-        mStore = HealthDataStore(getApplication(), mConnectionListener)
-        mStore.connectService()
-    }
+    fun readHeartRateData() {
+        val today = LocalDate.now()
+        val startDateTime = today.atStartOfDay()
+        val endDateTime = startDateTime.plusDays(1)
 
-    private val mConnectionListener = object : HealthDataStore.ConnectionListener {
-        override fun onConnected() {
-            Log.d("HeartRateVM", "HealthDataStore 연결됨")
-            isConnected = true
-            checkPermissions()
-        }
-
-        override fun onConnectionFailed(error: HealthConnectionErrorResult) {
-            Log.e("HeartRateVM", "연결 실패: $error")
-        }
-
-        override fun onDisconnected() {
-            Log.i("HeartRateVM", "연결 해제됨")
-            isConnected = false
-        }
-    }
-
-    private fun checkPermissions() {
-        val pmsManager = HealthPermissionManager(mStore)
-        val keySet = setOf(
-            HealthPermissionManager.PermissionKey(
-                HealthConstants.HeartRate.HEALTH_DATA_TYPE,
-                HealthPermissionManager.PermissionType.READ
-            )
-        )
-
-        val result = pmsManager.isPermissionAcquired(keySet)
-        if (result.containsValue(false)) {
-            Log.w("HeartRateVM", "권한 없음 → Fragment에 알림")
-            _permissionRequired.postValue(true) // Fragment에서 requestPermissions 호출해야 함
-        } else {
-            Log.d("HeartRateVM", "권한 이미 있음 → 데이터 읽기")
-            readHeartRate()
-        }
-    }
-
-    fun requestPermissions(activity: Activity) {
-        if (!isConnected) {
-            Log.e("HeartRateVM", "HealthDataStore가 연결되지 않음")
-            return
-        }
-
-        val pmsManager = HealthPermissionManager(mStore)
-        val keySet = setOf(
-            HealthPermissionManager.PermissionKey(
-                HealthConstants.HeartRate.HEALTH_DATA_TYPE,
-                HealthPermissionManager.PermissionType.READ
-            )
-        )
-
-        pmsManager.requestPermissions(keySet, activity)
-            .setResultListener { result ->
-                if (result.resultMap.containsValue(false)) {
-                    Log.e("HeartRateVM", "권한 거부됨")
-                } else {
-                    Log.d("HeartRateVM", "권한 획득 → 데이터 읽기")
-                    readHeartRate()
-                }
-            }
-    }
-
-    private fun readHeartRate() {
-        val resolver = HealthDataResolver(mStore, null)
-        val request = HealthDataResolver.ReadRequest.Builder()
-            .setDataType(HealthConstants.HeartRate.HEALTH_DATA_TYPE)
+        val readRequest = DataTypes.HEART_RATE.readDataRequestBuilder
+            .setLocalTimeFilter(LocalTimeFilter.of(startDateTime, endDateTime))
+            .setOrdering(Ordering.DESC)
             .build()
 
-        resolver.read(request).setResultListener { result ->
-            val values = mutableListOf<Float>()
-            result.forEach {
-                values.add(it.getFloat(HealthConstants.HeartRate.HEART_RATE))
-            }
-            _heartRates.postValue(values)
-            result.close()
+        viewModelScope.launch(exceptionHandler) {
+            val result = healthDataStore.readData(readRequest).dataList
+            processReadDataResponse(result)
         }
     }
+
+    private fun processReadDataResponse(dataList: List<HealthDataPoint>) {
+        hrResultList.clear()
+
+        val quarters = listOf(
+            HeartRate(1000f, 0f, 0f, "00:00", "06:00", 0),
+            HeartRate(1000f, 0f, 0f, "06:00", "12:00", 0),
+            HeartRate(1000f, 0f, 0f, "12:00", "18:00", 0),
+            HeartRate(1000f, 0f, 0f, "18:00", "24:00", 0)
+        )
+
+        for (point in dataList) {
+            val time = LocalDateTime.ofInstant(point.startTime, point.zoneOffset)
+            when (time.hour) {
+                in 0..5 -> processHeartRate(point, quarters[0])
+                in 6..11 -> processHeartRate(point, quarters[1])
+                in 12..17 -> processHeartRate(point, quarters[2])
+                in 18..23 -> processHeartRate(point, quarters[3])
+            }
+        }
+
+        quarters.forEach { quarter ->
+            if (quarter.count > 0) {
+                quarter.avg /= quarter.count
+                hrResultList.add(quarter)
+            }
+        }
+
+        _dailyHeartRate.postValue(hrResultList)
+    }
+
+    private fun processHeartRate(point: HealthDataPoint, quarter: HeartRate) {
+        point.getValue(DataType.HeartRateType.HEART_RATE)?.let {
+            quarter.avg += it
+            quarter.count++
+        }
+        point.getValue(DataType.HeartRateType.MAX_HEART_RATE)?.let {
+            quarter.max = maxOf(quarter.max, it)
+        }
+        point.getValue(DataType.HeartRateType.MIN_HEART_RATE)?.let {
+            if (quarter.min != 0f) {
+                quarter.min = minOf(quarter.min, it)
+            }
+        }
+    }
+
+    data class HeartRate(
+        var min: Float,
+        var max: Float,
+        var avg: Float,
+        val startTime: String,
+        val endTime: String,
+        var count: Int
+    )
 }

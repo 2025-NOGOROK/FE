@@ -2,7 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("androidx.navigation.safeargs")
-    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0" // ★ Compose 플러그인 추가
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0" // Compose 플러그인
 }
 
 android {
@@ -38,9 +38,11 @@ android {
         jvmTarget = "17"
     }
 
-    // ★ Compose 활성화
+    // 💡 ViewBinding + Compose 모두 활성화
     buildFeatures {
-        compose = true
+        viewBinding = true
+        dataBinding = true // ✅ ViewBinding 추가
+        compose = true           // ✅ Compose 유지
     }
 }
 
@@ -55,9 +57,11 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
-    implementation(files("libs/samsung-health-data-1.5.1.aar"))
 
-    // Jetpack Compose BOM(버전 통합 관리)
+    // 삼성 헬스 SDK
+    implementation(files("libs/samsung-health-data-api-1.0.0-b2.aar"))
+
+    // Jetpack Compose BOM
     implementation(platform("androidx.compose:compose-bom:2023.10.01"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.material3:material3")
@@ -65,6 +69,7 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     implementation("androidx.activity:activity-compose:1.8.2")
 
+    // 테스트 라이브러리
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

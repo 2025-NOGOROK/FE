@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.nogorok"
     tools:ignore="MissingApplicationIcon"
     tools:overrideLibrary="com.samsung.android.sdk.healthdata">
     <uses-permission android:name="android.permission.INTERNET" />
@@ -25,7 +24,9 @@
 
         <meta-data
             android:name="com.samsung.android.health.permission.read"
-            android:value="com.samsung.health.heart_rate" />
+            android:value="com.samsung.health.heart_rate"
+            />
+
 
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />
