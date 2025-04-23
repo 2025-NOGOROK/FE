@@ -21,14 +21,7 @@
             android:layout_gravity="start|center_vertical"
             android:contentDescription="뒤로가기"
             android:layout_marginStart="4dp"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="회원가입"
-            android:textColor="#73605A"
-            android:textSize="20sp"
-            android:gravity="center"
-            android:textStyle="bold"/>
+
     </FrameLayout>
 
     <!-- 쉼표(,) 로고 -->
