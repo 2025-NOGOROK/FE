@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#FFFBE4">
+    android:background="#FFFFFF">
 
     <!-- 상단 툴바: 중앙 정렬 타이틀 + 뒤로가기 버튼 -->
     <FrameLayout
@@ -33,6 +33,12 @@
             android:layout_gravity="center"
             android:textStyle="bold"/>
     </FrameLayout>
+
+    <!--툴바 하단 선-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#80666666"/>
 
     <!-- 쉼표+노고록 로고 이미지: 왼쪽 정렬 -->
     <ImageView
