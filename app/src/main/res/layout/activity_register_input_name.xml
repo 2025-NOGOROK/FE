@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F4EED4">
+
+    <!-- 툴바: 뒤로가기 -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp">
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_arrow_back"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_gravity="start|center_vertical"
+            android:contentDescription="뒤로가기"
+            android:layout_marginStart="4dp"/>
+    </FrameLayout>
+
+    <!-- 쉼표 이미지 -->
+    <ImageView
+        android:id="@+id/imgComma"
+        android:layout_width="159dp"
+        android:layout_height="32dp"
+        android:src="@drawable/register_comma_1"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="32dp"
+        android:contentDescription="진행 표시"/>
+
+    <!-- 안내문구 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="환영해요.\n당신을 어떻게 불러드릴까요?"
+        android:textColor="#73605A"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginTop="40dp"/>
+
+    <!-- 닉네임 입력 -->
+    <EditText
+        android:id="@+id/edtName"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="24dp"
+        android:background="@null"
+        android:hint="닉네임을 입력해주세요."
+        android:textColor="#FF000000"
+        android:textColorHint="#99666666"
+        android:gravity="center"
+        android:padding="12dp"/>
+
+    <!-- 다음 버튼 -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnNext"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:backgroundTint="#F4EED4"
+        android:text="다음"
+        android:textColor="#8073605A"
+        android:textSize="18sp"
+        app:cornerRadius="16dp"
+        app:strokeWidth="2dp"
+        app:strokeColor="#804D403C"
+        android:enabled="false"/>
+</LinearLayout>
