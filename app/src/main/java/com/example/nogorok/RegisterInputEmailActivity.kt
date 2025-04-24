@@ -61,11 +61,18 @@ class RegisterInputEmailActivity : AppCompatActivity() {
                     .setPositiveButton("확인", null)
                     .show()
             } else {
-                // 다음 단계(알림 동의)로 이동
-                val intent = Intent(this, RegisterInputNotificationActivity::class.java)
+                // 다음 단계(비밀번호 입력)로 이동
+                val intent = Intent(this, RegisterInputPasswordActivity::class.java)
                 intent.putExtra("email", email)
+                // 이전 화면에서 받은 데이터도 함께 전달
+                intent.putExtras(intentFromPrevious())
                 startActivity(intent)
             }
         }
+    }
+
+    // 이전 화면에서 받은 데이터도 함께 전달 (생년월일, 성별 등)
+    private fun intentFromPrevious(): Bundle {
+        return intent.extras ?: Bundle()
     }
 }
