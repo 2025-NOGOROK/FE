@@ -12,7 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NOGOROK"
         tools:targetApi="31">
-        <!-- AndroidManifest.xml에 아래처럼 등록 -->
+
+        <activity android:name=".RegisterInputNameActivity"/>
+        <activity android:name=".RegisterInputBirthGenderActivity"/>
+        <activity android:name=".RegisterInputPasswordActivity"/>
+        <activity android:name=".RegisterInputEmailActivity"/>
+        <activity android:name=".RegisterInputNotificationActivity"/>
+        <activity android:name=".RegisterInputCompleteActivity"/>
         <activity android:name=".ServiceTermsActivity"/>
         <activity android:name=".PrivacyTermsActivity"/>
         <activity android:name=".HealthTermsActivity"/>
