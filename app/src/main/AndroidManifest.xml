@@ -13,7 +13,9 @@
         android:theme="@style/Theme.NOGOROK"
         tools:targetApi="31">
 
-        <activity android:name=".RegisterInputNameActivity"/>
+
+        <activity android:name=".RegisterInputNameActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".RegisterInputBirthGenderActivity"/>
         <activity android:name=".RegisterInputPasswordActivity"/>
         <activity android:name=".RegisterInputEmailActivity"/>
