@@ -87,9 +87,10 @@ class RegisterTermsActivity : AppCompatActivity() {
 
         // 다음 버튼 클릭 시 (회원가입 정보 입력 화면으로 이동)
         btnNext.setOnClickListener {
-            // TODO: 회원가입 정보 입력 화면으로 이동
-            Toast.makeText(this, "다음 단계로 이동!", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, RegisterInputNameActivity::class.java)
+            startActivity(intent)
         }
+
     }
 
     // 버튼 활성화/비활성화 및 색상
