@@ -13,6 +13,27 @@ class RegisterTermsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_terms)
 
+        // 약관 상세 페이지 이동 버튼
+        val btnServiceDetail = findViewById<ImageButton>(R.id.btnServiceDetail)
+        val btnPrivacyDetail = findViewById<ImageButton>(R.id.btnPrivacyDetail)
+        val btnHealthDetail = findViewById<ImageButton>(R.id.btnHealthDetail)
+        val btnLocationDetail = findViewById<ImageButton>(R.id.btnLocationDetail)
+
+// 상세 > 버튼 클릭 시 각 약관 Activity로 이동
+        btnServiceDetail.setOnClickListener {
+            startActivity(Intent(this, ServiceTermsActivity::class.java))
+        }
+        btnPrivacyDetail.setOnClickListener {
+            startActivity(Intent(this, PrivacyTermsActivity::class.java))
+        }
+        btnHealthDetail.setOnClickListener {
+            startActivity(Intent(this, HealthTermsActivity::class.java))
+        }
+        btnLocationDetail.setOnClickListener {
+            startActivity(Intent(this, LocationTermsActivity::class.java))
+        }
+
+
         val btnBack = findViewById<ImageButton>(R.id.btnBack)
         btnBack.setOnClickListener { finish() }
 
