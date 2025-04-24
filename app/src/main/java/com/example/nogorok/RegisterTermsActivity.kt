@@ -71,6 +71,7 @@ class RegisterTermsActivity : AppCompatActivity() {
             val intent = Intent(this, RegisterInputNameActivity::class.java)
             startActivity(intent)
         }
+
     }
 
     // 개별 체크박스 변경 시 전체동의 상태 업데이트
