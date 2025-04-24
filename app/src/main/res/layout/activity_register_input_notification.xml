@@ -38,18 +38,18 @@
         android:layout_height="wrap_content"
         android:text="푸시 알림 동의 설정"
         android:textColor="#73605A"
-        android:textSize="20sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         android:gravity="center"
-        android:layout_marginTop="40dp"/>
+        android:layout_marginTop="80dp"/>
 
     <!-- 안내문구 -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="하루의 고됨이 쌓이기 전에,\n노고록이 조용히 말 걸어줄게요."
-        android:textColor="#73605A"
-        android:textSize="16sp"
+        android:textColor="#000000"
+        android:textSize="20sp"
         android:gravity="center"
         android:layout_marginTop="24dp"/>
 
@@ -57,10 +57,20 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="• 알림은 루틴 리마인드, 감정 상태에 따른 일정 추천 등에 사용됩니다.\n• 언제든 앱 설정에서 알림 수신 여부를 변경할 수 있어요."
-        android:textColor="#73605A"
-        android:textSize="14sp"
+        android:text="• 알림은 루틴 리마인드, 감정 상태에 따른 일정 추천 등에 사용됩니다."
+        android:textColor="#000000"
+        android:textSize="18sp"
         android:layout_marginTop="24dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="• 언제든 앱 설정에서 알림 수신 여부를 변경할 수 있어요."
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:layout_marginTop="15dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"/>
 

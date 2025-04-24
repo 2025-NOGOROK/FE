@@ -84,11 +84,12 @@ class RegisterInputBirthGenderActivity : AppCompatActivity() {
             val year = etYear.text.toString()
             val month = etMonth.text.toString().padStart(2, '0')
             val day = etDay.text.toString().padStart(2, '0')
-            val intent = Intent(this, RegisterInputPasswordActivity::class.java)
+            val intent = Intent(this, RegisterInputEmailActivity::class.java)
             intent.putExtra("birth", "$year-$month-$day")
             intent.putExtra("gender", selectedGender)
             startActivity(intent)
         }
+
 
         updateButtonState()
     }

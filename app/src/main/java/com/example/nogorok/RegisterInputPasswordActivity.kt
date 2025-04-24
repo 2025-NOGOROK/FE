@@ -14,7 +14,6 @@ import com.google.android.material.button.MaterialButton
 
 class RegisterInputPasswordActivity : AppCompatActivity() {
 
-    // 뷰 변수 선언
     private lateinit var edtPassword: EditText
     private lateinit var edtPasswordConfirm: EditText
     private lateinit var btnNext: MaterialButton
@@ -30,7 +29,6 @@ class RegisterInputPasswordActivity : AppCompatActivity() {
         edtPasswordConfirm = findViewById(R.id.edtPasswordConfirm)
         btnNext = findViewById(R.id.btnNext)
 
-        // 입력값 감지해서 버튼 활성화
         val watcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) { updateButtonState() }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -39,7 +37,6 @@ class RegisterInputPasswordActivity : AppCompatActivity() {
         edtPassword.addTextChangedListener(watcher)
         edtPasswordConfirm.addTextChangedListener(watcher)
 
-        // 처음 진입 시 버튼 비활성화
         updateButtonState()
 
         // 다음 버튼 클릭 시 비밀번호 일치 체크
@@ -47,21 +44,21 @@ class RegisterInputPasswordActivity : AppCompatActivity() {
             val pw = edtPassword.text.toString()
             val pw2 = edtPasswordConfirm.text.toString()
             if (pw != pw2) {
-                // 불일치 다이얼로그
                 AlertDialog.Builder(this)
                     .setMessage("비밀번호가 일치하지 않습니다.")
                     .setPositiveButton("확인", null)
                     .show()
             } else {
-                // 다음 단계(이메일 입력)로 이동
-                val intent = Intent(this, RegisterInputEmailActivity::class.java)
+                // 다음 단계(알림 동의)로 이동
+                val intent = Intent(this, RegisterInputNotificationActivity::class.java)
                 intent.putExtra("password", pw)
+                // 이전 화면에서 받은 데이터도 함께 전달
+                intent.putExtras(intentFromPrevious())
                 startActivity(intent)
             }
         }
     }
 
-    // 반드시 onCreate 바깥(클래스 내부)에 선언!
     private fun isValid(): Boolean {
         val pw = edtPassword.text.toString()
         val pw2 = edtPasswordConfirm.text.toString()
@@ -80,5 +77,10 @@ class RegisterInputPasswordActivity : AppCompatActivity() {
             btnNext.setTextColor(Color.parseColor("#8073605A"))
             btnNext.strokeColor = ColorStateList.valueOf(Color.parseColor("#804D403C"))
         }
+    }
+
+    // 이전 화면에서 받은 데이터도 함께 전달 (이메일, 생년월일, 성별 등)
+    private fun intentFromPrevious(): Bundle {
+        return intent.extras ?: Bundle()
     }
 }
