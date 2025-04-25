@@ -3,8 +3,6 @@ package com.example.nogorok
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.widget.ImageButton
@@ -22,9 +20,6 @@ class RegisterInputNotificationActivity : AppCompatActivity() {
     ) { isGranted: Boolean ->
         // 팝업에서 허용/거부 누르면 버튼 활성화
         btnNext.isEnabled = true
-        btnNext.setBackgroundColor(Color.parseColor("#73605A"))
-        btnNext.setTextColor(Color.parseColor("#F4EED4"))
-        btnNext.strokeColor = ColorStateList.valueOf(Color.parseColor("#FF4D403C"))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,15 +30,9 @@ class RegisterInputNotificationActivity : AppCompatActivity() {
         btnBack.setOnClickListener { finish() }
 
         btnNext = findViewById(R.id.btnNext)
-
-        // 버튼 비활성화로 시작
         btnNext.isEnabled = false
-        btnNext.setBackgroundColor(Color.parseColor("#F4EED4"))
-        btnNext.setTextColor(Color.parseColor("#8073605A"))
-        btnNext.strokeColor = ColorStateList.valueOf(Color.parseColor("#804D403C"))
 
         btnNext.setOnClickListener {
-            // 다음 단계(가입 완료 화면)로 이동
             val intent = Intent(this, RegisterInputCompleteActivity::class.java)
             startActivity(intent)
         }
@@ -54,9 +43,6 @@ class RegisterInputNotificationActivity : AppCompatActivity() {
         } else {
             // Android 12 이하에서는 바로 버튼 활성화
             btnNext.isEnabled = true
-            btnNext.setBackgroundColor(Color.parseColor("#73605A"))
-            btnNext.setTextColor(Color.parseColor("#F4EED4"))
-            btnNext.strokeColor = ColorStateList.valueOf(Color.parseColor("#FF4D403C"))
         }
     }
 }
