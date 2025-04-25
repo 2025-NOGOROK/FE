@@ -12,7 +12,7 @@ class RegisterInputCompleteActivity : AppCompatActivity() {
 
         val btnSurvey = findViewById<MaterialButton>(R.id.btnSurvey)
         btnSurvey.setOnClickListener {
-            // 설문화면(또는 메인화면)으로 이동
+            // 설문화면(또는 메인화면)으로 이동 추후에 설문화면 만들고 바꿔야하는 코드!!!
             // 예시: MainActivity로 이동
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
