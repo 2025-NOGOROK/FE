@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Copyright (C) 2024 Samsung Electronics Co., Ltd. All rights reserved -->
-<layout>
-    <data class=".HeartRateActivityBinding">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data class=".SleepActivityBinding">
         <variable
             name="viewModel"
-            type="com.example.nogorok.viewmodel.HeartRateViewModel" />
+            type="com.example.nogorok.viewmodel.SleepViewModel" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".activity.HeartRateActivity">
+        tools:context=".activity.SleepActivity">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,15 +23,15 @@
             <ImageView
                 android:layout_width="@dimen/image_layout_width"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_heart_rate"
+                android:src="@drawable/ic_sleep"
                 android:scaleType="centerCrop"/>
 
             <TextView
-                android:id="@+id/heart_rate_title"
+                android:id="@+id/sleep_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/layout_margin_start"
-                android:text="@string/heart_rate_heading"
+                android:text="@string/sleep"
                 android:textSize="@dimen/text_size"
                 android:textStyle="bold" />
 
@@ -52,7 +52,7 @@
                 android:src="@drawable/ic_move_back" />
 
             <TextView
-                android:id="@id/date_picker"
+                android:id="@+id/date_picker"
                 android:layout_width="@dimen/date_tv_width"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -72,13 +72,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="@dimen/layout_margin"
-            android:baselineAligned="true"
             android:orientation="vertical">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/heart_rate_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/sleep_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
         </LinearLayout>
     </LinearLayout>
 </layout>

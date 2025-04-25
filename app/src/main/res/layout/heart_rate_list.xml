@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
+<!-- Copyright (C) 2024 Samsung Electronics Co., Ltd. All rights reserved -->
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -11,30 +11,29 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <!-- 시간 -->
-            <LinearLayout
-                android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/card_view_margin"
+            android:layout_marginStart="@dimen/layout_margin_start"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/card_view_margin"
-                android:layout_marginStart="@dimen/layout_margin_start"
-                android:orientation="horizontal">
+                android:text="@string/time" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/time" />
+            <TextView
+                android:id="@+id/heart_rate_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_start" />
 
-                <TextView
-                    android:id="@+id/heart_rate_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_start" />
-            </LinearLayout>
+        </LinearLayout>
 
-            <!-- 평균/최소/최대 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -43,7 +42,6 @@
                 android:layout_marginEnd="@dimen/layout_margin_end"
                 android:orientation="horizontal">
 
-                <!-- 평균 -->
                 <TextView
                     android:id="@+id/heart_rate_value"
                     android:layout_width="wrap_content"
@@ -59,9 +57,8 @@
                     android:layout_marginStart="@dimen/list_margin_start"
                     android:textSize="@dimen/list_text_size"
                     android:text="@string/heart_rate_unit"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
 
-                <!-- 최대/최소 -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -77,14 +74,15 @@
                             android:id="@+id/min_heart_rate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/min_heart_rate" />
+                            android:text="@string/min_heart_rate"/>
 
                         <TextView
                             android:id="@+id/min_heart_rate_value"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginStart="@dimen/list_margin_start"
                             android:text="@string/no_data" />
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -104,8 +102,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/list_margin_start"
                             android:text="@string/no_data" />
+
                     </LinearLayout>
-                </LinearLayout>
+            </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

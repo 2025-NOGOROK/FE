@@ -1,0 +1,613 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2024 Samsung Electronics Co., Ltd. All rights reserved -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/list_layout_margin"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_margin_start"
+            android:layout_marginEnd="@dimen/layout_margin_end" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/protein"
+                android:textSize="@dimen/list_text_size"/>
+
+            <TextView
+                android:id="@+id/protein_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/protein_unit"
+                android:textSize="@dimen/list_text_size"/>
+
+            <TextView
+                android:id="@+id/protein_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/gram"
+                android:layout_marginStart="@dimen/list_margin_start"
+                android:layout_alignParentEnd="true"
+                android:textSize="@dimen/list_text_size"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/separator_height"
+            android:layout_marginTop="@dimen/separator_margin_top"
+            android:layout_marginStart="@dimen/layout_margin_start"
+            android:layout_marginEnd="@dimen/layout_margin_end"
+            android:background="@color/blue_mid" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_margin_start"
+            android:layout_marginEnd="@dimen/layout_margin_end" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/total_fat"
+                android:textSize="@dimen/list_text_size"/>
+
+            <TextView
+                android:id="@+id/total_fat_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/total_fat_unit"
+                android:textSize="@dimen/list_text_size"/>
+
+            <TextView
+                android:id="@+id/total_fat_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/gram"
+                android:layout_marginStart="@dimen/list_margin_start"
+                android:layout_alignParentEnd="true"
+                android:textSize="@dimen/list_text_size"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/separator_height"
+            android:layout_marginTop="@dimen/separator_margin_top"
+            android:layout_marginStart="@dimen/layout_margin_start"
+            android:layout_marginEnd="@dimen/layout_margin_end"
+            android:background="@color/blue_mid" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_margin_start"
+            android:layout_marginEnd="@dimen/layout_margin_end" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/saturated_fat"
+                android:textSize="@dimen/list_text_size"/>
+
+            <TextView
+                android:id="@+id/saturated_fat_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/saturated_fat_unit"
+                android:textSize="@dimen/list_text_size"/>
+
+            <TextView
+                android:id="@+id/saturated_fat_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/gram"
+                android:layout_marginStart="@dimen/list_margin_start"
+                android:layout_alignParentEnd="true"
+                android:textSize="@dimen/list_text_size"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/separator_height"
+            android:layout_marginTop="@dimen/separator_margin_top"
+            android:layout_marginStart="@dimen/layout_margin_start"
+            android:layout_marginEnd="@dimen/layout_margin_end"
+            android:background="@color/blue_mid" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_margin_start"
+            android:layout_marginEnd="@dimen/layout_margin_end" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/poly_saturated_fat"
+                android:textSize="@dimen/list_text_size"/>
+
+            <TextView
+                android:id="@+id/poly_saturated_fat_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/poly_saturated_fat_unit"
+                android:textSize="@dimen/list_text_size"/>
+
+            <TextView
+                android:id="@+id/poly_saturated_fat_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/gram"
+                android:layout_marginStart="@dimen/list_margin_start"
+                android:layout_alignParentEnd="true"
+                android:textSize="@dimen/list_text_size"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/separator_height"
+            android:layout_marginTop="@dimen/separator_margin_top"
+            android:layout_marginStart="@dimen/layout_margin_start"
+            android:layout_marginEnd="@dimen/layout_margin_end"
+            android:background="@color/blue_mid" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_margin_start"
+            android:layout_marginEnd="@dimen/layout_margin_end" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/mono_saturated_fat"
+                android:textSize="@dimen/list_text_size"/>
+
+            <TextView
+                android:id="@+id/mono_saturated_fat_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/mono_saturated_fat_unit"
+                android:textSize="@dimen/list_text_size"/>
+
+            <TextView
+                android:id="@+id/mono_saturated_fat_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/gram"
+                android:layout_marginStart="@dimen/list_margin_start"
+                android:layout_alignParentEnd="true"
+                android:textSize="@dimen/list_text_size"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/separator_height"
+            android:layout_marginTop="@dimen/separator_margin_top"
+            android:layout_marginStart="@dimen/layout_margin_start"
+            android:layout_marginEnd="@dimen/layout_margin_end"
+            android:background="@color/blue_mid" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_margin_start"
+            android:layout_marginEnd="@dimen/layout_margin_end" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/trans_fat"
+                android:textSize="@dimen/list_text_size"/>
+
+            <TextView
+                android:id="@+id/trans_fat_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/trans_fat_unit"
+                android:textSize="@dimen/list_text_size"/>
+
+            <TextView
+                android:id="@+id/trans_fat_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/gram"
+                android:layout_marginStart="@dimen/list_margin_start"
+                android:layout_alignParentEnd="true"
+                android:textSize="@dimen/list_text_size"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/separator_height"
+            android:layout_marginTop="@dimen/separator_margin_top"
+            android:layout_marginStart="@dimen/layout_margin_start"
+            android:layout_marginEnd="@dimen/layout_margin_end"
+            android:background="@color/blue_mid" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_margin_start"
+            android:layout_marginEnd="@dimen/layout_margin_end" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/carbohydrate"
+                android:textSize="@dimen/list_text_size"/>
+
+            <TextView
+                android:id="@+id/carbohydrate_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/carbohydrate_unit"
+                android:textSize="@dimen/list_text_size"/>
+
+            <TextView
+                android:id="@+id/carbohydrate_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/gram"
+                android:layout_marginStart="@dimen/list_margin_start"
+                android:layout_alignParentEnd="true"
+                android:textSize="@dimen/list_text_size"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/separator_height"
+            android:layout_marginTop="@dimen/separator_margin_top"
+            android:layout_marginStart="@dimen/layout_margin_start"
+            android:layout_marginEnd="@dimen/layout_margin_end"
+            android:background="@color/blue_mid" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_margin_start"
+            android:layout_marginEnd="@dimen/layout_margin_end" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dietary_fiber"
+                android:textSize="@dimen/list_text_size"/>
+
+            <TextView
+                android:id="@+id/dietary_fiber_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/dietary_fiber_unit"
+                android:textSize="@dimen/list_text_size"/>
+
+            <TextView
+                android:id="@+id/dietary_fiber_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/gram"
+                android:layout_marginStart="@dimen/list_margin_start"
+                android:layout_alignParentEnd="true"
+                android:textSize="@dimen/list_text_size"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/separator_height"
+            android:layout_marginTop="@dimen/separator_margin_top"
+            android:layout_marginStart="@dimen/layout_margin_start"
+            android:layout_marginEnd="@dimen/layout_margin_end"
+            android:background="@color/blue_mid" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_margin_start"
+            android:layout_marginEnd="@dimen/layout_margin_end" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sugar"
+                android:textSize="@dimen/list_text_size"/>
+
+            <TextView
+                android:id="@+id/sugar_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/sugar_unit"
+                android:textSize="@dimen/list_text_size"/>
+
+            <TextView
+                android:id="@+id/sugar_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/gram"
+                android:layout_marginStart="@dimen/list_margin_start"
+                android:layout_alignParentEnd="true"
+                android:textSize="@dimen/list_text_size"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/separator_height"
+            android:layout_marginTop="@dimen/separator_margin_top"
+            android:layout_marginStart="@dimen/layout_margin_start"
+            android:layout_marginEnd="@dimen/layout_margin_end"
+            android:background="@color/blue_mid" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_margin_start"
+            android:layout_marginEnd="@dimen/layout_margin_end" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cholesterol"
+                android:textSize="@dimen/list_text_size"/>
+
+            <TextView
+                android:id="@+id/cholesterol_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/cholesterol_unit"
+                android:textSize="@dimen/list_text_size"/>
+
+            <TextView
+                android:id="@+id/cholesterol_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/milli_gram"
+                android:layout_marginStart="@dimen/list_margin_start"
+                android:layout_alignParentEnd="true"
+                android:textSize="@dimen/list_text_size"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/separator_height"
+            android:layout_marginTop="@dimen/separator_margin_top"
+            android:layout_marginStart="@dimen/layout_margin_start"
+            android:layout_marginEnd="@dimen/layout_margin_end"
+            android:background="@color/blue_mid" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_margin_start"
+            android:layout_marginEnd="@dimen/layout_margin_end" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sodium"
+                android:textSize="@dimen/list_text_size"/>
+
+            <TextView
+                android:id="@+id/sodium_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/sodium_unit"
+                android:textSize="@dimen/list_text_size"/>
+
+            <TextView
+                android:id="@+id/sodium_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/milli_gram"
+                android:layout_marginStart="@dimen/list_margin_start"
+                android:layout_alignParentEnd="true"
+                android:textSize="@dimen/list_text_size"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/separator_height"
+            android:layout_marginTop="@dimen/separator_margin_top"
+            android:layout_marginStart="@dimen/layout_margin_start"
+            android:layout_marginEnd="@dimen/layout_margin_end"
+            android:background="@color/blue_mid" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_margin_start"
+            android:layout_marginEnd="@dimen/layout_margin_end" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/potassium"
+                android:textSize="@dimen/list_text_size"/>
+
+            <TextView
+                android:id="@+id/potassium_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/potassium_unit"
+                android:textSize="@dimen/list_text_size"/>
+
+            <TextView
+                android:id="@+id/potassium_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/milli_gram"
+                android:layout_marginStart="@dimen/list_margin_start"
+                android:layout_alignParentEnd="true"
+                android:textSize="@dimen/list_text_size"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/separator_height"
+            android:layout_marginTop="@dimen/separator_margin_top"
+            android:layout_marginStart="@dimen/layout_margin_start"
+            android:layout_marginEnd="@dimen/layout_margin_end"
+            android:background="@color/blue_mid" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_margin_start"
+            android:layout_marginEnd="@dimen/layout_margin_end" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/vitamin_a"
+                android:textSize="@dimen/list_text_size"/>
+
+            <TextView
+                android:id="@+id/vitamin_a_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/vitamin_a_unit"
+                android:textSize="@dimen/list_text_size"/>
+
+            <TextView
+                android:id="@+id/vitamin_a_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/micro_gram"
+                android:layout_marginStart="@dimen/list_margin_start"
+                android:layout_alignParentEnd="true"
+                android:textSize="@dimen/list_text_size"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/separator_height"
+            android:layout_marginTop="@dimen/separator_margin_top"
+            android:layout_marginStart="@dimen/layout_margin_start"
+            android:layout_marginEnd="@dimen/layout_margin_end"
+            android:background="@color/blue_mid" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_margin_start"
+            android:layout_marginEnd="@dimen/layout_margin_end" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/vitamin_c"
+                android:textSize="@dimen/list_text_size"/>
+
+            <TextView
+                android:id="@+id/vitamin_c_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/vitamin_c_unit"
+                android:textSize="@dimen/list_text_size"/>
+
+            <TextView
+                android:id="@+id/vitamin_c_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/milli_gram"
+                android:layout_marginStart="@dimen/list_margin_start"
+                android:layout_alignParentEnd="true"
+                android:textSize="@dimen/list_text_size"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/separator_height"
+            android:layout_marginTop="@dimen/separator_margin_top"
+            android:layout_marginStart="@dimen/layout_margin_start"
+            android:layout_marginEnd="@dimen/layout_margin_end"
+            android:background="@color/blue_mid" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_margin_start"
+            android:layout_marginEnd="@dimen/layout_margin_end" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/calcium"
+                android:textSize="@dimen/list_text_size"/>
+
+            <TextView
+                android:id="@+id/calcium_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/calcium_unit"
+                android:textSize="@dimen/list_text_size"/>
+
+            <TextView
+                android:id="@+id/calcium_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/milli_gram"
+                android:layout_marginStart="@dimen/list_margin_start"
+                android:layout_alignParentEnd="true"
+                android:textSize="@dimen/list_text_size"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/separator_height"
+            android:layout_marginTop="@dimen/separator_margin_top"
+            android:layout_marginStart="@dimen/layout_margin_start"
+            android:layout_marginEnd="@dimen/layout_margin_end"
+            android:background="@color/blue_mid" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_margin_start"
+            android:layout_marginEnd="@dimen/layout_margin_end" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/iron"
+                android:textSize="@dimen/list_text_size"/>
+
+            <TextView
+                android:id="@+id/iron_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/iron_unit"
+                android:textSize="@dimen/list_text_size"/>
+
+            <TextView
+                android:id="@+id/iron_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/milli_gram"
+                android:layout_marginStart="@dimen/list_margin_start"
+                android:layout_alignParentEnd="true"
+                android:textSize="@dimen/list_text_size"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</layout>

@@ -27,15 +27,27 @@
             android:value="com.samsung.health.heart_rate"
             />
 
-
+        <activity android:name=".activity.StepActivity" />
+        <activity android:name=".activity.HeartRateActivity" />
+        <activity android:name=".activity.NutritionActivity" />
+        <activity android:name=".activity.SleepActivity" />
+        <activity android:name=".activity.ChooseFoodActivity" />
+        <activity android:name=".activity.UpdateFoodActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".SplashActivity" android:exported="true" >
+        <activity
+            android:name=".activity.HealthMainActivity"
+            android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+<!--        <activity android:name=".SplashActivity" android:exported="true" >-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN"/>-->
+<!--                <category android:name="android.intent.category.LAUNCHER"/>-->
+<!--            </intent-filter>-->
         </activity>
     </application>
 

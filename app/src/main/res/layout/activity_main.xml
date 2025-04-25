@@ -8,46 +8,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <!-- SDK Version TextView -->
-    <TextView
-        android:id="@+id/sdkVersion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SDK Version"
-        android:textSize="14sp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="16dp" />
-
-    <!-- Heart Rate 버튼 -->
-    <LinearLayout
-        android:id="@+id/cvHeartRate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:background="@drawable/bottom_nav_background"
-        android:elevation="4dp"
-        app:layout_constraintTop_toBottomOf="@id/sdkVersion"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_tabbar_plus"
-            android:contentDescription="@string/heart_rate_icon" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Heart Rate 측정 시작"
-            android:layout_marginStart="8dp"
-            android:textSize="16sp" />
-    </LinearLayout>
-
-    <!-- FragmentContainerView (기존 유지) -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
@@ -55,23 +15,36 @@
         android:layout_height="0dp"
         app:defaultNavHost="true"
         app:navGraph="@navigation/nav_graph"
-        app:layout_constraintTop_toBottomOf="@id/cvHeartRate"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/navigation_main"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- 하나의 BottomNavigationView만 유지 -->
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigation_main_menu"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:menu="@menu/navigation_main_menu"
+        android:background="@drawable/bottom_nav_background"
+        android:elevation="6dp"
+        app:itemIconTint="@null"
+        app:itemTextColor="@drawable/ic_text_selector"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation_main"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/bottom_nav_background"
-        android:elevation="6dp"
-        app:menu="@menu/navigation_main_menu"
-        app:itemIconTint="@null"
-        app:itemTextColor="@drawable/ic_text_selector"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:menu="@menu/navigation_main_menu"
+        app:itemTextColor="@drawable/ic_text_selector"
+        android:elevation="6dp"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

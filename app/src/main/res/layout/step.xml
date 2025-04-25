@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Copyright (C) 2024 Samsung Electronics Co., Ltd. All rights reserved -->
-<layout>
-    <data class=".HeartRateActivityBinding">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data class=".StepActivityBinding">
         <variable
             name="viewModel"
-            type="com.example.nogorok.viewmodel.HeartRateViewModel" />
+            type="com.example.nogorok.viewmodel.StepViewModel" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".activity.HeartRateActivity">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,18 +21,18 @@
             <ImageView
                 android:layout_width="@dimen/image_layout_width"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_heart_rate"
+                android:src="@drawable/ic_steps"
                 android:scaleType="centerCrop"/>
 
             <TextView
-                android:id="@+id/heart_rate_title"
+                android:id="@+id/step_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_marginStart="@dimen/layout_margin_start"
-                android:text="@string/heart_rate_heading"
+                android:text="@string/steps"
                 android:textSize="@dimen/text_size"
                 android:textStyle="bold" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -52,7 +50,7 @@
                 android:src="@drawable/ic_move_back" />
 
             <TextView
-                android:id="@id/date_picker"
+                android:id="@+id/date_picker"
                 android:layout_width="@dimen/date_tv_width"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -71,14 +69,49 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/layout_margin"
+            android:layout_marginTop="@dimen/card_view_margin_top"
             android:baselineAligned="true"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/total_layout_height"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/total_steps_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_start"
+                    android:text="@{viewModel.totalStepCount}"
+                    android:textColor="@color/black_text"
+                    android:textSize="@dimen/text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/total_steps"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_start"
+                    android:text="@string/steps"
+                    android:textColor="@color/black_text"
+                    android:textSize="@dimen/text_size"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/layout_margin"
+                android:orientation="vertical">
+
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/heart_rate_list"
+                    android:id="@+id/steps_list"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </layout>

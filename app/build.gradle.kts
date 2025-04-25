@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("androidx.navigation.safeargs")
     id("org.jetbrains.kotlin.plugin.compose") version "2.0.0" // Compose 플러그인
+    id ("kotlin-parcelize")
 }
 
 android {
@@ -38,11 +39,11 @@ android {
         jvmTarget = "17"
     }
 
-    // 💡 ViewBinding + Compose 모두 활성화
+
     buildFeatures {
         viewBinding = true
-        dataBinding = true // ✅ ViewBinding 추가
-        compose = true           // ✅ Compose 유지
+        dataBinding = true
+        compose = true
     }
 }
 
@@ -53,6 +54,7 @@ kotlin {
 dependencies {
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
+
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
