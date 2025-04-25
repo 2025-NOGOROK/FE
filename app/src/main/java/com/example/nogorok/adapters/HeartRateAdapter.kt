@@ -28,9 +28,12 @@ class HeartRateAdapter : RecyclerView.Adapter<HeartRateAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val heartRate = heartRateList[position]
         val heartRateTime = "${heartRate.startTime} - ${heartRate.endTime}"
+        val stressValue = "${heartRate.stress.toInt()}%"
+
         holder.binding.run {
             this.heartRateTime.text = heartRateTime
             this.heartRateValue.text = formatString(heartRate.avg)
+            this.stressValue.text = stressValue
         }
         if (heartRate.max != 0f) {
             val maxHeartRate =

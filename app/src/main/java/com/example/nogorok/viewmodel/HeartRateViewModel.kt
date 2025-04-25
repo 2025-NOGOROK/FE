@@ -50,28 +50,37 @@ class HeartRateViewModel(private val healthDataStore: HealthDataStore, activity:
 
     private fun processReadDataResponse(heartRateList: List<HealthDataPoint>) {
         hrResultList.clear()
-        val hrOfFirstQuarter = HeartRate(1000f, 0f, 0f, "00:00", "06:00", 0)
-        val hrOfSecondQuarter = HeartRate(1000f, 0f, 0f, "06:00", "12:00", 0)
-        val hrOfThirdQuarter = HeartRate(1000f, 0f, 0f, "12:00", "18:00", 0)
-        val hrOfFourthQuarter = HeartRate(1000f, 0f, 0f, "18:00", "24:00", 0)
+
+        // 00:00 ~ 23:30 까지 총 48개 구간 초기화
+        val intervals = mutableListOf<HeartRate>()
+        for (i in 0 until 48) {
+            val startHour = i / 2
+            val startMin = if (i % 2 == 0) "00" else "30"
+            val endHour = if (i % 2 == 0) startHour else startHour + 1
+            val endMin = if (i % 2 == 0) "30" else "00"
+            val startTime = String.format("%02d:%s", startHour, startMin)
+            val endTime = String.format("%02d:%s", endHour, endMin)
+            intervals.add(HeartRate(1000f, 0f, 0f, startTime, endTime, 0))
+        }
 
         heartRateList.forEach { heartRateData ->
             val time = LocalDateTime.ofInstant(heartRateData.startTime, heartRateData.zoneOffset)
-            when {
-                time.isBetween(0, 5) -> processHeartRateData(heartRateData, hrOfFirstQuarter)
-                time.isBetween(6, 11) -> processHeartRateData(heartRateData, hrOfSecondQuarter)
-                time.isBetween(12, 17) -> processHeartRateData(heartRateData, hrOfThirdQuarter)
-                time.isBetween(18, 23) -> processHeartRateData(heartRateData, hrOfFourthQuarter)
+            val index = (time.hour * 2) + if (time.minute < 30) 0 else 1
+            if (index in 0 until 48) {
+                processHeartRateData(heartRateData, intervals[index])
             }
         }
 
-        processAvgData(hrOfFirstQuarter)
-        processAvgData(hrOfSecondQuarter)
-        processAvgData(hrOfThirdQuarter)
-        processAvgData(hrOfFourthQuarter)
+        // 평균 처리
+        intervals.forEach { quarter ->
+            if (quarter.count > 0) {
+                processAvgData(quarter)
+            }
+        }
 
         _dailyHeartRate.postValue(hrResultList)
     }
+
 
     data class HeartRate(
         var min: Float,
@@ -79,8 +88,20 @@ class HeartRateViewModel(private val healthDataStore: HealthDataStore, activity:
         var avg: Float,
         var startTime: String,
         var endTime: String,
-        var count: Int
+        var count: Int,
+        var stress: Float = 0f
     )
+
+    private fun calculateStressIndex(avg: Float): Float {
+        return when {
+            avg <= 60 -> 10f
+            avg in 61f..70f -> 30f
+            avg in 71f..80f -> 50f
+            avg in 81f..90f -> 70f
+            else -> 90f
+        }
+    }
+
 
     private fun processHeartRateData(heartRateData: HealthDataPoint, hrQuarter: HeartRate) {
         hrQuarter.apply {
@@ -100,13 +121,13 @@ class HeartRateViewModel(private val healthDataStore: HealthDataStore, activity:
     }
 
     private fun processAvgData(hrQuarter: HeartRate) {
-        hrQuarter.apply {
-            if (hrQuarter.count != 0) {
-                hrQuarter.avg /= hrQuarter.count
-                hrResultList.add(hrQuarter)
-            }
+        if (hrQuarter.count != 0) {
+            hrQuarter.avg /= hrQuarter.count
+            hrQuarter.stress = calculateStressIndex(hrQuarter.avg) // 스트레스 계산 추가
+            hrResultList.add(hrQuarter)
         }
     }
+
 
     private fun LocalDateTime.isBetween(fromHour: Int, toHour: Int) =
         this >= this.withHour(fromHour).withMinute(0).withSecond(0) &&

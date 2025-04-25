@@ -103,6 +103,18 @@
                             android:layout_marginStart="@dimen/list_margin_start"
                             android:text="@string/no_data" />
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="스트레스 지수" />
+
+                        <TextView
+                            android:id="@+id/stress_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/list_margin_start"
+                            android:text="0%" />
+
                     </LinearLayout>
             </LinearLayout>
             </LinearLayout>
