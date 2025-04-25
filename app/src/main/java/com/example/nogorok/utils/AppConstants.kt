@@ -26,5 +26,5 @@ object AppConstants {
     const val CHOOSE_FOOD_ACTIVITY = 4
     const val UPDATE_FOOD_ACTIVITY = 5
     const val NO_WRITE_PERMISSION = -1
-    const val APP_ID = "com.samsung.android.health.sdk.sample.healthdiary"
+    const val APP_ID = "com.example.nogorok"
 }
