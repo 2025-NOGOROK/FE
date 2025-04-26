@@ -103,6 +103,12 @@
                             android:layout_marginStart="@dimen/list_margin_start"
                             android:text="@string/no_data" />
 
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -116,6 +122,8 @@
                             android:text="0%" />
 
                     </LinearLayout>
+
+
             </LinearLayout>
             </LinearLayout>
         </LinearLayout>

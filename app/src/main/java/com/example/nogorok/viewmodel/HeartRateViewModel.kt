@@ -53,20 +53,24 @@ class HeartRateViewModel(private val healthDataStore: HealthDataStore, activity:
 
         // 00:00 ~ 23:30 까지 총 48개 구간 초기화
         val intervals = mutableListOf<HeartRate>()
-        for (i in 0 until 48) {
-            val startHour = i / 2
-            val startMin = if (i % 2 == 0) "00" else "30"
-            val endHour = if (i % 2 == 0) startHour else startHour + 1
-            val endMin = if (i % 2 == 0) "30" else "00"
-            val startTime = String.format("%02d:%s", startHour, startMin)
-            val endTime = String.format("%02d:%s", endHour, endMin)
+        for (i in 0 until 24) {
+            val startHour = i
+            val endHour = (i + 1) % 24
+            val startTime = String.format("%02d:00", startHour)
+            val endTime = String.format("%02d:00", endHour)
             intervals.add(HeartRate(1000f, 0f, 0f, startTime, endTime, 0))
         }
 
         heartRateList.forEach { heartRateData ->
             val time = LocalDateTime.ofInstant(heartRateData.startTime, heartRateData.zoneOffset)
-            val index = (time.hour * 2) + if (time.minute < 30) 0 else 1
-            if (index in 0 until 48) {
+            val hour = time.hour
+
+            var index = hour
+            if (index >= 24) {
+                index = 23
+            }
+
+            if (index in 0 until 24) {
                 processHeartRateData(heartRateData, intervals[index])
             }
         }
