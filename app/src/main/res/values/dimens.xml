@@ -1,0 +1,5 @@
+<resources>
+    <dimen name="survey_option_height">48dp</dimen>
+    <dimen name="survey_option_margin_bottom">16dp</dimen>
+    <dimen name="survey_option_radius">8dp</dimen>
+</resources>

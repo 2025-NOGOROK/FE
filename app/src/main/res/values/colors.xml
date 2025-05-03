@@ -15,4 +15,6 @@
         <color name="login_text">#8B7C6E</color>
     <color name="on_primary">#F4EED4</color>
 
+    <color name="selected_option_text">#7C6558</color>
+    <color name="unselected_option_text">#FFF6E3C5</color>
 </resources>
