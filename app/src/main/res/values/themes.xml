@@ -1,9 +1,11 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
-    <style name="Base.Theme.NOGOROK" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <style name="Theme.NOGOROK" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- 커스텀 컬러 지정 -->
+        <item name="colorPrimary">#F4EED4</item>
+        <item name="colorPrimaryVariant">#73605A</item>
+        <item name="colorSecondary">#73605A</item>
+        <!-- 필요하면 colorAccent도 추가 -->
+        <item name="colorAccent">#73605A</item>
     </style>
-
-    <style name="Theme.NOGOROK" parent="Base.Theme.NOGOROK" />
 </resources>

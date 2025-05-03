@@ -21,7 +21,6 @@
             android:layout_gravity="start|center_vertical"
             android:contentDescription="뒤로가기"
             android:layout_marginStart="4dp"/>
-
     </FrameLayout>
 
     <!-- 쉼표(,) 로고 -->
@@ -76,7 +75,8 @@
                 android:id="@+id/chkAll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:button="@drawable/selector_circle_checkbox"/>
+                android:button="@drawable/selector_circle_checkbox"
+                android:textColor="@color/checkbox_text_selector"/>
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -114,7 +114,8 @@
                     android:id="@+id/chkService"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:button="@drawable/selector_circle_checkbox"/>
+                    android:button="@drawable/selector_circle_checkbox"
+                    android:textColor="@color/checkbox_text_selector"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -144,7 +145,8 @@
                     android:id="@+id/chkPrivacy"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:button="@drawable/selector_circle_checkbox"/>
+                    android:button="@drawable/selector_circle_checkbox"
+                    android:textColor="@color/checkbox_text_selector"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -174,7 +176,8 @@
                     android:id="@+id/chkHealth"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:button="@drawable/selector_circle_checkbox"/>
+                    android:button="@drawable/selector_circle_checkbox"
+                    android:textColor="@color/checkbox_text_selector"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -204,7 +207,8 @@
                     android:id="@+id/chkLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:button="@drawable/selector_circle_checkbox"/>
+                    android:button="@drawable/selector_circle_checkbox"
+                    android:textColor="@color/checkbox_text_selector"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -227,13 +231,14 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnNext"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="60dp"
             android:layout_marginTop="32dp"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="24dp"
             android:text="다음"
-            android:textColor="#F4EED4"
+            android:textColor="@color/btn_next_text_selector"
+            app:backgroundTint="@color/btn_next_bg_selector"
             android:textSize="18sp"
             app:cornerRadius="16dp"
             app:strokeWidth="0dp"
