@@ -16,30 +16,35 @@
         android:theme="@style/Theme.NOGOROK"
         tools:targetApi="31">
 
-        <activity android:name=".SurveyFinalActivity" />
-        <activity android:name=".SurveyStep7Activity" />
-        <activity android:name=".SurveyStep6Activity" />
-        <activity android:name=".SurveyStep5Activity" />
-        <activity android:name=".SurveyStep4Activity" />
-        <activity android:name=".SurveyStep3Activity" />
-        <activity android:name=".SurveyStep2Activity" />
-        <activity android:name=".SurveyStep1Activity" />
-        <activity android:name=".RegisterInputNameActivity"
-            android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".RegisterInputBirthGenderActivity"/>
-        <activity android:name=".RegisterInputPasswordActivity"/>
-        <activity android:name=".RegisterInputEmailActivity"/>
-        <activity android:name=".RegisterInputNotificationActivity"/>
-        <activity android:name=".RegisterInputCompleteActivity"/>
+        <!-- 뒤로가기 페이지 내용 -->
+        <activity android:name=".MainActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".RegisterActivity" />
         <activity android:name=".ServiceTermsActivity"/>
         <activity android:name=".PrivacyTermsActivity"/>
         <activity android:name=".HealthTermsActivity"/>
         <activity android:name=".LocationTermsActivity"/>
         <activity android:name=".RegisterTermsActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".RegisterInputNameActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".RegisterInputBirthGenderActivity"/>
+        <activity android:name=".RegisterInputEmailActivity"/>
+        <activity android:name=".RegisterInputPasswordActivity"/>
+        <activity android:name=".RegisterInputNotificationActivity"/>
+        <activity android:name=".RegisterInputCompleteActivity"/>
+        <!-- 설문조사 뒤로가기 페이지 내용 -->
+        <activity android:name=".SurveyStep1Activity" />
+        <activity android:name=".SurveyStep2Activity" />
+        <activity android:name=".SurveyStep3Activity" />
+        <activity android:name=".SurveyStep4Activity" />
+        <activity android:name=".SurveyStep5Activity" />
+        <activity android:name=".SurveyStep6Activity" />
+        <activity android:name=".SurveyStep7Activity" />
+        <activity android:name=".SurveyFinalActivity" />
+
+
         <activity android:name=".SplashActivity" android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

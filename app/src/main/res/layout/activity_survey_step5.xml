@@ -10,14 +10,14 @@
         android:id="@+id/btnBack"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@drawable/ic_arrow_back"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="12dp"
-        app:tint="#F4EED4"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="뒤로가기"
+        app:tint="#F4EED4"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"/>
 
     <!-- heart1 아이콘: toolbar 아래, marginTop 줄임 -->
     <ImageView
@@ -36,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="38dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="38dp"
         android:gravity="center"
         android:text="스트레스를 받으면\n어떤 반응을 보이나요?"
@@ -55,7 +55,7 @@
         android:layout_height="56dp"
         android:layout_marginStart="36dp"
         android:layout_marginEnd="36dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="50dp"
         android:background="@drawable/btn_survey_option_bg"
         android:text="무기력해지고 아무것도 하기 싫어져요"
         android:textColor="@color/btn_survey_option_text"
@@ -141,7 +141,7 @@
         android:layout_height="60dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="72dp"
         android:enabled="false"
         android:text="다음"
         android:textColor="@color/btn_next_survey1_text_selector"

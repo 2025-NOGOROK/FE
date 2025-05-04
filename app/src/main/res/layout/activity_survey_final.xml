@@ -11,14 +11,14 @@
         android:id="@+id/btnBack"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@drawable/ic_arrow_back"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="12dp"
-        app:tint="#F4EED4"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="뒤로가기"
+        app:tint="#F4EED4"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"/>
 
     <!-- 중앙 안내문구 -->
     <TextView
@@ -45,7 +45,7 @@
         android:layout_height="60dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="72dp"
         android:text="다음"
         android:textSize="18sp"
         android:textColor="@color/btn_next_survey1_text_selector"
