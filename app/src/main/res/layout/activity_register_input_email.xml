@@ -14,17 +14,18 @@
         android:src="@drawable/ic_arrow_back"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="뒤로가기"
+        app:tint="#73605A"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="0dp"/>
+        android:layout_marginTop="4dp"/>
 
-    <!-- 진행 쉼표 이미지(4단계) -->
+    <!-- 진행 쉼표 이미지(3단계) -->
     <ImageView
         android:id="@+id/imgComma"
         android:layout_width="159dp"
         android:layout_height="32dp"
-        android:src="@drawable/register_comma_4"
+        android:src="@drawable/register_comma_3"
         android:contentDescription="진행 표시"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +39,7 @@
         android:layout_height="wrap_content"
         android:text="이메일을 입력해주세요."
         android:textColor="#73605A"
-        android:textSize="20sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/imgComma"
@@ -75,7 +76,7 @@
         android:layout_height="60dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="72dp"
         android:backgroundTint="#F4EED4"
         android:text="다음"
         android:textColor="#8073605A"

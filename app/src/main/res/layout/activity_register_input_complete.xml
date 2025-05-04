@@ -6,6 +6,20 @@
     android:layout_height="match_parent"
     android:background="#F4EED4">
 
+    <!-- 상단 툴바: 뒤로가기 -->
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/ic_arrow_back"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="뒤로가기"
+        app:tint="#73605A"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"/>
+
     <!-- 세로 중앙 Guideline -->
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/centerGuide"
@@ -27,7 +41,7 @@
         app:layout_constraintBottom_toTopOf="@id/imgCatPerson"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="17dp"
+        android:layout_marginBottom="60dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"/>
 
@@ -55,7 +69,7 @@
         app:layout_constraintTop_toBottomOf="@id/imgCatPerson"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="24dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"/>
 
@@ -66,7 +80,7 @@
         android:layout_height="60dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="72dp"
         android:backgroundTint="@color/button_bg_selector"
         android:text="설문하러 가기"
         android:textColor="@color/button_text_selector"
