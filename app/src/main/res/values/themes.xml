@@ -1,9 +1,14 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.NOGOROK" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+<resources>
+    <style name="Theme.NOGOROK.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#F4EED4</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/nogorok_logo_splash_round</item>
+        <item name="postSplashScreenTheme">@style/Theme.NOGOROK</item>
     </style>
 
-    <style name="Theme.NOGOROK" parent="Base.Theme.NOGOROK" />
+    <style name="Theme.NOGOROK" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- 앱 전체에 적용할 기본 속성들 -->
+        <item name="colorPrimary">#73605A</item>
+        <item name="android:windowBackground">#F4EED4</item>
+        <!-- 필요에 따라 추가 -->
+    </style>
 </resources>

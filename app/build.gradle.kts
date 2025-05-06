@@ -57,6 +57,8 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
     //implementation(files("libs/samsung-health-data-1.5.1.aar"))
 
+    //스플래시 화면 관련 코드 한줄 추가
+    implementation ("androidx.core:core-splashscreen:1.0.1")
     // Jetpack Compose BOM(버전 통합 관리)
     implementation(platform("androidx.compose:compose-bom:2023.10.01"))
     implementation("androidx.compose.ui:ui")
