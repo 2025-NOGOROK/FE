@@ -75,6 +75,7 @@
         android:layout_marginBottom="72dp"
         android:backgroundTint="#F4EED4"
         android:text="다음"
+        android:textStyle="bold"
         android:textColor="#8073605A"
         android:textSize="18sp"
         app:cornerRadius="16dp"

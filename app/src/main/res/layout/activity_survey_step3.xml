@@ -94,6 +94,7 @@
         android:layout_marginBottom="72dp"
         android:enabled="false"
         android:text="다음"
+        android:textStyle="bold"
         android:textColor="@color/btn_next_survey1_text_selector"
         android:textSize="18sp"
         app:backgroundTint="@color/btn_next_survey1_bg_selector"

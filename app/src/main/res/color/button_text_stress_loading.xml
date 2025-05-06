@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 비활성화(팝업창 뜨기 전, 50% 투명 브라운) -->
+    <item android:state_enabled="false" android:color="#8073605A"/>
+    <!-- 활성화(팝업창 뜬 후, 100% 브라운) -->
+    <item android:state_enabled="true" android:color="#73605A"/>
+</selector>

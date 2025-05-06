@@ -105,6 +105,7 @@
         android:backgroundTint="@color/button_bg_selector"
         android:textColor="@color/button_text_selector"
         android:text="다음"
+        android:textStyle="bold"
         android:textSize="18sp"
         app:cornerRadius="16dp"
         app:strokeWidth="2dp"

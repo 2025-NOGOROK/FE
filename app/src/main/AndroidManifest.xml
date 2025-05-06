@@ -41,7 +41,14 @@
         <activity android:name=".SurveyStep6Activity" />
         <activity android:name=".SurveyStep7Activity" />
         <activity android:name=".SurveyFinalActivity" />
+        <activity android:name=".StressLoadingActivity" />
 
+        <!--연동 페이지-->
+        <activity android:name=".CalendarConnectActivity" />
+        <!--<activity android:name=".GoogleSignInBottomSheet" />-->
+        <activity android:name=".CalendarSyncingActivity" />
+        <activity android:name=".CalendarConnectSuccessActivity" />
+        <activity android:name=".CalendarCompleteActivity" />
 
         <activity android:name=".SplashActivity" android:exported="true">
 
