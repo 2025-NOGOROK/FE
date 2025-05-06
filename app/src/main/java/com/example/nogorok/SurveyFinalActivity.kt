@@ -1,6 +1,7 @@
 // 파일 위치: app/src/main/java/com/example/nogorok/SurveyFinalActivity.kt
 package com.example.nogorok
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
 import com.google.android.material.button.MaterialButton
@@ -22,8 +23,10 @@ class SurveyFinalActivity : AppCompatActivity() {
 
         // 다음 버튼: 원하는 페이지로 이동(아직 연결할 페이지 없으면 TODO)
         btnNext.setOnClickListener {
-            // TODO: 다음 단계로 이동
-            // 예시: startActivity(Intent(this, NextActivity::class.java))
+
+            val intent = Intent(this, StressLoadingActivity::class.java)
+            startActivity(intent)
+
         }
     }
 }

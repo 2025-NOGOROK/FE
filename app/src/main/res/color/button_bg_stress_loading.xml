@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 활성화 -->
+    <item android:state_enabled="true" android:color="#F4EED4"/>
+    <!-- 비활성화(투명 브라운) -->
+    <item android:color="#F4EED4"/>
+</selector>

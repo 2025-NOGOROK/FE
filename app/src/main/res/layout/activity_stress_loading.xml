@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F4EED4">
+    android:background="#FFFFFF">
 
     <!-- 상단 툴바: 뒤로가기 -->
     <ImageButton
@@ -14,7 +14,7 @@
         android:src="@drawable/ic_arrow_back"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="뒤로가기"
-        app:tint="#73605A"
+        app:tint="@color/main_brown"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="4dp"
@@ -28,69 +28,70 @@
         app:layout_constraintGuide_percent="0.5"
         android:orientation="horizontal"/>
 
-    <!-- 대제목 -->
+    <!-- 메인 타이틀 -->
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="가입을 축하드려요!\n당신의 편안한 하루가 시작됩니다."
-        android:textColor="#73605A"
+        android:text="당신의 스트레스 지수를\n불러올게요."
+        android:textColor="@color/main_brown"
         android:textSize="24sp"
         android:textStyle="bold"
         android:gravity="center"
-        app:layout_constraintBottom_toTopOf="@id/imgCatPerson"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="60dp"
+        android:layout_marginTop="188dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"/>
 
-    <!-- 고양이+사람 이미지: 중심이 화면 중앙에 오도록 -->
+    <!-- 갤럭시 워치 이미지: 세로 중앙에 정렬 -->
     <ImageView
-        android:id="@+id/imgCatPerson"
-        android:layout_width="253dp"
-        android:layout_height="253dp"
-        android:src="@drawable/register_cat_person"
-        android:contentDescription="고양이와 하이파이브"
+        android:id="@+id/galaxy_Watch"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:src="@drawable/galaxy_watch"
+        android:contentDescription="갤럭시 워치"
         app:layout_constraintTop_toTopOf="@id/centerGuide"
         app:layout_constraintBottom_toBottomOf="@id/centerGuide"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- 안내문구 -->
+    <!-- 설명 텍스트: 이미지 아래 -->
     <TextView
         android:id="@+id/tvDesc"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="당신만의 스트레스 해소 방법을 알려주세요.\n당신을 위한 루틴을 만들어드릴게요."
-        android:textColor="#000000"
-        android:textSize="18sp"
+        android:text="사용자의 갤럭시 워치에서 건강 데이터를\n가져와 스트레스 지수를 분석할게요."
+        android:textColor="@color/main_brown"
+        android:textSize="16sp"
         android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/imgCatPerson"
+        app:layout_constraintTop_toBottomOf="@id/galaxy_Watch"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="24dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"/>
 
-    <!-- 설문하러 가기 버튼: 하단 고정, 다른 페이지와 동일 -->
+    <!-- 다음 버튼: 하단 고정, 상태별 색상 적용 -->
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnSurvey"
+        android:id="@+id/btnNext"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="72dp"
-        android:backgroundTint="@color/button_bg_selector"
-        android:text="설문하러 가기"
+        android:backgroundTint="@color/button_bg_stress_loading"
+        android:textColor="@color/button_text_stress_loading"
+        android:text="다음"
         android:textStyle="bold"
-        android:textColor="@color/button_text_selector"
         android:textSize="18sp"
         app:cornerRadius="16dp"
         app:strokeWidth="2dp"
-        app:strokeColor="#804D403C"
+        app:strokeColor="@color/button_stroke_stress_loading"
         android:enabled="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

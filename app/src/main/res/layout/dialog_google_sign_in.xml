@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="400dp"
+    android:background="#FFFFFF">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="구글 계정 선택/권한 모달 (여기엔 Google 라이브러리 화면이 실제로 뜸)"
+        android:textColor="#222"
+        android:gravity="center"
+        android:layout_gravity="center"/>
+</FrameLayout>

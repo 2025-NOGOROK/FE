@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F4EED4">
+    android:background="#FFFFFF">
 
     <!-- 상단 툴바: 뒤로가기 -->
     <ImageButton
@@ -28,68 +28,65 @@
         app:layout_constraintGuide_percent="0.5"
         android:orientation="horizontal"/>
 
-    <!-- 대제목 -->
+    <!-- 타이틀 -->
     <TextView
         android:id="@+id/tvTitle"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="가입을 축하드려요!\n당신의 편안한 하루가 시작됩니다."
+        android:text="구글 캘린더와 연동하기"
         android:textColor="#73605A"
         android:textSize="24sp"
         android:textStyle="bold"
         android:gravity="center"
-        app:layout_constraintBottom_toTopOf="@id/imgCatPerson"
+        app:layout_constraintBottom_toTopOf="@id/imgWatchGoogle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="60dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"/>
+        android:layout_marginBottom="24dp"/>
 
-    <!-- 고양이+사람 이미지: 중심이 화면 중앙에 오도록 -->
+    <!-- 중앙 이미지 (노고록 <-> 구글캘린더) -->
     <ImageView
-        android:id="@+id/imgCatPerson"
-        android:layout_width="253dp"
-        android:layout_height="253dp"
-        android:src="@drawable/register_cat_person"
-        android:contentDescription="고양이와 하이파이브"
-        app:layout_constraintTop_toTopOf="@id/centerGuide"
-        app:layout_constraintBottom_toBottomOf="@id/centerGuide"
+        android:id="@+id/imgWatchGoogle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/watch_google"
+        android:contentDescription="노고록-구글캘린더 연동"
+        app:layout_constraintBottom_toTopOf="@id/tvDesc"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="24dp"/>
 
-    <!-- 안내문구 -->
+    <!-- 안내 텍스트 -->
     <TextView
         android:id="@+id/tvDesc"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="당신만의 스트레스 해소 방법을 알려주세요.\n당신을 위한 루틴을 만들어드릴게요."
-        android:textColor="#000000"
-        android:textSize="18sp"
+        android:text="Google 캘린더의 일정을 모두 불러왔어요!"
+        android:textColor="#73605A"
+        android:textSize="16sp"
         android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/imgCatPerson"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"/>
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- 설문하러 가기 버튼: 하단 고정, 다른 페이지와 동일 -->
+
+    <!-- 다음 버튼 -->
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnSurvey"
+        android:id="@+id/btnNext"
         android:layout_width="0dp"
         android:layout_height="60dp"
+        android:text="다음"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:textColor="#73605A"
+        app:backgroundTint="#F4EED4"
+        app:cornerRadius="16dp"
+        app:strokeWidth="2dp"
+        app:strokeColor="#4D403C"
+        android:enabled="true"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="72dp"
-        android:backgroundTint="@color/button_bg_selector"
-        android:text="설문하러 가기"
-        android:textStyle="bold"
-        android:textColor="@color/button_text_selector"
-        android:textSize="18sp"
-        app:cornerRadius="16dp"
-        app:strokeWidth="2dp"
-        app:strokeColor="#804D403C"
-        android:enabled="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
