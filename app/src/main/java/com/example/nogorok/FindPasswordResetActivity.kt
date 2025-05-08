@@ -1,5 +1,6 @@
 package com.example.nogorok
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
@@ -96,6 +97,16 @@ class FindPasswordResetActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
+
+        // 확인 버튼 클릭 시 로그인 화면으로 이동
+        btnConfirm.setOnClickListener {
+            // 실제 비밀번호 변경 처리(서버 통신 등) 후에 로그인 화면으로 이동
+            val intent = Intent(this, LoginActivity::class.java)
+            // 스택에 남아있는 이전 화면 다 지우고(LoginActivity만 남게)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+            finish()
+        }
     }
 
     // 비밀번호 일치/불일치 메시지 처리

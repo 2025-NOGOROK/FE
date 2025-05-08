@@ -65,7 +65,7 @@ class LoginActivity : AppCompatActivity() {
         edtEmail.addTextChangedListener(emailWatcher)
         edtPassword.addTextChangedListener(passwordWatcher)
 
-        // 로그인 버튼 클릭 시 유효성 체크
+        // 로그인 버튼 클릭 시 유효성 체크 및 메인페이지 이동
         btnLogin.setOnClickListener {
             isValidationActivated = true
 
@@ -91,6 +91,11 @@ class LoginActivity : AppCompatActivity() {
             if (isValid) {
                 // 로그인 처리
                 Toast.makeText(this, "로그인 시도: $email", Toast.LENGTH_SHORT).show()
+
+                // 로그인 성공 시 메인페이지로 이동
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
             }
         }
     }
