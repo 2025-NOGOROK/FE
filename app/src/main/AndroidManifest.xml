@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    package="com.example.nogorok">
 
     <application
         android:allowBackup="true"
@@ -10,35 +10,49 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.NOGOROK"
-        tools:targetApi="31">
+        android:theme="@style/Theme.NOGOROK">
 
-        <!-- 회원가입/로그인 선택 화면 액티비티 -->
+        <!-- 1. 스플래시(로고) 화면: 앱 최초 실행 시 가장 먼저 뜨는 화면 -->
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Nogorok.Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <!-- 2. 온보딩 화면(프래그먼트로 1,2,3 관리) -->
+        <activity
+            android:name=".OnboardingActivity"
+            android:exported="false"
+            android:theme="@style/Theme.NOGOROK" />
+
+        <!-- 3. 회원가입/로그인 선택 화면 -->
         <activity
             android:name=".SignupLoginActivity"
             android:exported="false"
             android:label="@string/title_activity_signup_login"
             android:theme="@style/Theme.NOGOROK" />
 
-        <!-- 회원가입 화면 액티비티 (필요시 사용) -->
-        <activity android:name=".RegisterActivity" />
-
-        <!-- 로그인 화면 액티비티 (필요시 사용) -->
-        <activity android:name=".LoginActivity" />
-
-        <!-- 메인 화면 액티비티 (Splash에서 이동할 곳) -->
-        <activity android:name=".MainActivity" />
-
-        <!-- 스플래시 액티비티: 앱 최초 실행 시 가장 먼저 뜨는 화면 -->
+        <!-- 4. 회원가입 화면 -->
         <activity
-            android:name=".SplashActivity"
-            android:exported="true"> <!-- Android 12 이상 필수 -->
-            <intent-filter>
-                <!-- 이 액티비티를 앱의 런처(첫 화면)로 지정 -->
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-    </application>
+            android:name=".RegisterActivity"
+            android:exported="false"
+            android:theme="@style/Theme.NOGOROK" />
 
+        <!-- 5. 로그인 화면 -->
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false"
+            android:theme="@style/Theme.NOGOROK" />
+
+        <!-- 6. 메인 화면(필요하다면) -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:theme="@style/Theme.NOGOROK" />
+
+    </application>
 </manifest>

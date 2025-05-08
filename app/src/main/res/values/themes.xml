@@ -1,2 +1,6 @@
 <resources>
+    <style name="Theme.Nogorok" parent="Theme.MaterialComponents.DayNight.NoActionBar" />
+    <style name="Theme.Nogorok.Splash" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowBackground">@color/splash_bg</item>
+    </style>
 </resources>
