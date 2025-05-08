@@ -1,0 +1,13 @@
+<resources>
+    <!-- Splash 전용 테마 (AppCompat/MaterialComponents 계열로) -->
+    <style name="Theme.NOGOROK.Splash" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowBackground">#F4EED4</item>
+    </style>
+
+    <!-- 앱 전체 테마 -->
+    <style name="Theme.NOGOROK" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#73605A</item>
+        <item name="android:windowBackground">#F4EED4</item>
+        <!-- 필요에 따라 추가 -->
+    </style>
+</resources>

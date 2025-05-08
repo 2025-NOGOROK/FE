@@ -1,0 +1,14 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#F4EED4"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="248dp"
+        android:layout_height="248dp"
+        android:src="@drawable/nogorok_logo"
+        android:contentDescription="노고록 로고" />
+
+</LinearLayout>

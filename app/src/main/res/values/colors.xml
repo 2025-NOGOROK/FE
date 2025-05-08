@@ -4,4 +4,15 @@
     <color name="white">#FFFFFFFF</color>
     <color name="blue">#2D99FF</color>
     <color name="gray">#B0B0B0</color>
+
+        <color name="splash_bg">#F4EED4</color>
+        <color name="primary">#73605A</color>
+        <color name="primary_variant">#5C4B41</color>
+        <color name="brown_text">#7E6F5A</color>
+        <color name="button_brown">#73605A</color>
+        <color name="button_text">#FFFFFF</color>
+        <color name="button_border">#804D403C</color>
+        <color name="login_text">#8B7C6E</color>
+    <color name="on_primary">#F4EED4</color>
+
 </resources>
