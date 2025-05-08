@@ -9,7 +9,7 @@
         android:id="@+id/img_comma"
         android:layout_width="98dp"
         android:layout_height="32dp"
-        android:src="@drawable/comma_one"
+        android:src="@drawable/commatwo"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
