@@ -18,7 +18,7 @@
             android:layout_width="248dp"
             android:layout_height="248dp"
             android:contentDescription="노고록 로고"
-            android:src="@drawable/nogorok_logo" />
+            android:src="@drawable/nogorok_logo_splash" />
 
     </LinearLayout>
 
