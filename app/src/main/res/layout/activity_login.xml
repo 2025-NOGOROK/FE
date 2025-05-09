@@ -65,11 +65,11 @@
             android:layout_height="wrap_content"
             android:minHeight="48dp"
             android:hint="이메일 입력"
-            android:textColor="#8073605A"
-            android:textColorHint="#8073605A"
-            android:inputType="textEmailAddress"
-            android:background="@null"
-            android:paddingBottom="8dp"/>
+            android:textColor="#000000"
+        android:textColorHint="#8073605A"
+        android:inputType="textEmailAddress"
+        android:background="@null"
+        android:paddingBottom="8dp"/>
 
         <!-- 하단 선 -->
         <View
@@ -104,11 +104,11 @@
             android:layout_height="wrap_content"
             android:minHeight="48dp"
             android:hint="비밀번호 입력"
-            android:textColor="#8073605A"
-            android:textColorHint="#8073605A"
-            android:inputType="textPassword"
-            android:background="@null"
-            android:paddingBottom="8dp"/>
+            android:textColor="#000000"
+        android:textColorHint="#8073605A"
+        android:inputType="textPassword"
+        android:background="@null"
+        android:paddingBottom="8dp"/>
 
         <!-- 하단 선 -->
         <View

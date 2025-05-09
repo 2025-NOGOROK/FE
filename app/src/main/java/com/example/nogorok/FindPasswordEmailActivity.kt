@@ -24,9 +24,12 @@ class FindPasswordEmailActivity : AppCompatActivity() {
 
         btnBack.setOnClickListener { finish() }
 
-        // 실시간 유효성 체크
+        // 버튼 활성/비활성 실시간 제어
         edtEmail.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
+                // 입력값이 있으면 활성화, 없으면 비활성화
+                btnNext.isEnabled = !s.isNullOrEmpty()
+
                 if (isValidationActivated) {
                     emailError.visibility = if (s.isNullOrEmpty()) TextView.VISIBLE else TextView.GONE
                 }
@@ -34,6 +37,9 @@ class FindPasswordEmailActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
+
+        // 최초 진입 시 버튼 비활성화
+        btnNext.isEnabled = false
 
         btnNext.setOnClickListener {
             isValidationActivated = true

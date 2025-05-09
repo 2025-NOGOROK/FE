@@ -74,6 +74,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:button="@drawable/selector_circle_checkbox"
+                android:buttonTint="@null"
+                app:buttonTint="@null"
+                app:useMaterialThemeColors="false"
                 android:textColor="@color/checkbox_text_selector"/>
             <TextView
                 android:layout_width="0dp"
@@ -113,6 +116,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:button="@drawable/selector_circle_checkbox"
+                    android:buttonTint="@null"
+                    app:buttonTint="@null"
+                    app:useMaterialThemeColors="false"
                     android:textColor="@color/checkbox_text_selector"/>
                 <TextView
                     android:layout_width="0dp"
@@ -144,6 +150,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:button="@drawable/selector_circle_checkbox"
+                    android:buttonTint="@null"
+                    app:buttonTint="@null"
+                    app:useMaterialThemeColors="false"
                     android:textColor="@color/checkbox_text_selector"/>
                 <TextView
                     android:layout_width="0dp"
@@ -175,6 +184,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:button="@drawable/selector_circle_checkbox"
+                    android:buttonTint="@null"
+                    app:buttonTint="@null"
+                    app:useMaterialThemeColors="false"
                     android:textColor="@color/checkbox_text_selector"/>
                 <TextView
                     android:layout_width="0dp"
@@ -206,6 +218,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:button="@drawable/selector_circle_checkbox"
+                    android:buttonTint="@null"
+                    app:buttonTint="@null"
+                    app:useMaterialThemeColors="false"
                     android:textColor="@color/checkbox_text_selector"/>
                 <TextView
                     android:layout_width="0dp"

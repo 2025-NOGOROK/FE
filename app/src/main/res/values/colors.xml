@@ -24,9 +24,7 @@
     <color name="button_text_disabled">#8073605A</color>
     <color name="main_brown_50">#8073605A</color>
     <color name="main_brown_100">#73605A</color>
-    <color name="button_brown">#4D403C</color>
     <color name="button_brown_50">#804D403C</color>
     <color name="button_cream">#F4EED4</color>
-    <color name="splash_bg">#2196F3</color>
 
 </resources>
