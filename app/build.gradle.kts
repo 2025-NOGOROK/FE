@@ -2,8 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("androidx.navigation.safeargs")
-    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0" // Compose 플러그인
-    id ("kotlin-parcelize")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -16,7 +15,6 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -39,7 +37,6 @@ android {
         jvmTarget = "17"
     }
 
-
     buildFeatures {
         viewBinding = true
         dataBinding = true
@@ -54,7 +51,6 @@ kotlin {
 dependencies {
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
-
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
@@ -63,7 +59,7 @@ dependencies {
     // 삼성 헬스 SDK
     implementation(files("libs/samsung-health-data-api-1.0.0-b2.aar"))
 
-    // Jetpack Compose BOM
+    // ✅ Compose BOM (Kotlin 1.9.24 대응)
     implementation(platform("androidx.compose:compose-bom:2023.10.01"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.material3:material3")
@@ -72,7 +68,7 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.8.2")
 
     // 테스트 라이브러리
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }
