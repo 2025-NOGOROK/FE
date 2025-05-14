@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- 앱 전체 테마: MaterialComponents 계열, ActionBar 없음 -->
-
-        <!-- 필요하면 커스텀 색상, 폰트, 위젯 스타일 추가 -->
-        <!-- 예시: -->
-        <!-- <item name="colorPrimary">#73605A</item> -->
-        <!-- <item name="colorPrimaryVariant">#5A4A3F</item> -->
-        <!-- <item name="colorOnPrimary">#F4EED4</item> -->
-
+    <!--
+        Splash 전용 테마: 앱 시작 시 잠깐 보여주는 화면에만 사용
+        아직 Material3에서는 스플래시 전용 테마가 없으니, MaterialComponents로 유지!
+    -->
+    <style name="Theme.NOGOROK.Splash" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- 스플래시 배경색 (연한 베이지) -->
+        <item name="android:windowBackground">#F4EED4</item>
+    </style>
 </resources>

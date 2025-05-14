@@ -6,4 +6,5 @@
     <string name="password_hint">비밀번호</string>
     <string name="go_register">회원가입</string>
     <string name="register">회원가입</string>
+    <string name="title_activity_signup_login">SignupLoginActivity</string>
 </resources>

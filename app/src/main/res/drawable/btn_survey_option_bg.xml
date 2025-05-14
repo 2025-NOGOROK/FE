@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- 선택됨 -->
+    <!--  선택됨  -->
     <item android:state_selected="true">
         <shape android:shape="rectangle">
             <solid android:color="#F4EED4"/>
@@ -8,7 +7,7 @@
             <corners android:radius="0dp"/>
         </shape>
     </item>
-    <!-- 미선택 -->
+    <!--  미선택  -->
     <item>
         <shape android:shape="rectangle">
             <solid android:color="#80F4EED4"/>

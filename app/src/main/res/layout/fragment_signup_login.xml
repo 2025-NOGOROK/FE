@@ -1,17 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="16dp">
-
-    <TextView
-        android:id="@+id/textViewSignupLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="로그인 또는 회원가입 화면"
-        android:textSize="18sp"
-        android:textColor="@android:color/black" />
-
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:orientation="vertical" android:background="#FFFBE4">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="로그인/회원가입 화면입니다." android:textSize="20sp" android:textColor="#7E6F5A" android:textStyle="bold"/>
 </LinearLayout>

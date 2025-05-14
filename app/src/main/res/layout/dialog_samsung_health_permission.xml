@@ -1,123 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@drawable/dialog_bg"
-    android:padding="24dp">
-
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="삼성 헬스"
-        android:textColor="#222222"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_gravity="start"
-        android:gravity="start"
-        android:layout_marginBottom="12dp"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:layout_marginBottom="8dp">
-
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/ic_nogorok"
-            android:contentDescription="노고록"/>
-
-        <ImageView
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:src="@drawable/ic_curve_arrow"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:contentDescription="곡선 화살표"/>
-
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/ic_samsung_health"
-            android:contentDescription="삼성헬스"/>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/dialog_bg" android:padding="24dp">
+    <TextView android:id="@+id/tvTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="삼성 헬스" android:textColor="#222222" android:textSize="20sp" android:textStyle="bold" android:layout_gravity="start" android:gravity="start" android:layout_marginBottom="12dp"/>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:orientation="horizontal" android:layout_marginBottom="8dp">
+        <ImageView android:layout_width="48dp" android:layout_height="48dp" android:src="@drawable/ic_nogorok" android:contentDescription="노고록"/>
+        <ImageView android:layout_width="36dp" android:layout_height="36dp" android:src="@drawable/ic_curve_arrow" android:layout_marginStart="8dp" android:layout_marginEnd="8dp" android:contentDescription="곡선 화살표"/>
+        <ImageView android:layout_width="48dp" android:layout_height="48dp" android:src="@drawable/ic_samsung_health" android:contentDescription="삼성헬스"/>
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/tvDesc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="앱에서 삼성 헬스 데이터를 읽고 쓸 수 있도록 허용합니다.\n삼성에서는 타사가 제공하는 서비스에 대해 책임지지 않습니다."
-        android:textColor="#222222"
-        android:textSize="16sp"
-        android:gravity="start"
-        android:layout_marginBottom="20dp"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/toggle_bg"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:padding="16dp"
-        android:layout_marginBottom="16dp">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="모든 권한"
-            android:textColor="#222222"
-            android:textSize="17sp"/>
-        <Switch
-            android:id="@+id/switchAllPermission"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minWidth="48dp"
-            android:minHeight="48dp"/>
+    <TextView android:id="@+id/tvDesc" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="앱에서 삼성 헬스 데이터를 읽고 쓸 수 있도록 허용합니다.\n삼성에서는 타사가 제공하는 서비스에 대해 책임지지 않습니다." android:textColor="#222222" android:textSize="16sp" android:gravity="start" android:layout_marginBottom="20dp"/>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/toggle_bg" android:orientation="horizontal" android:gravity="center_vertical" android:padding="16dp" android:layout_marginBottom="16dp">
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="모든 권한" android:textColor="#222222" android:textSize="17sp"/>
+        <Switch android:id="@+id/switchAllPermission" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="48dp" android:minHeight="48dp"/>
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/tvBottomDesc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="데이터 권한을 변경하려면 삼성 헬스의 [설정 > 데이터 권한]으로 이동하세요. 아래 데이터와 함께 디바이스 ID가 타사 서비스에 공유됩니다."
-        android:textColor="#666666"
-        android:textSize="15sp"
-        android:gravity="start"
-        android:layout_marginBottom="16dp"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginTop="8dp">
-
-        <Button
-            android:id="@+id/btnCancel"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="1"
-            android:text="취소"
-            android:textColor="#222222"
-            android:background="@android:color/transparent"
-            android:textSize="16sp"
-            android:layout_marginEnd="8dp"/>
-
-        <Button
-            android:id="@+id/btnOk"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="1"
-            android:text="완료"
-            android:textColor="#222222"
-            android:background="@android:color/transparent"
-            android:textSize="16sp"
-            android:layout_marginStart="8dp"/>
+    <TextView android:id="@+id/tvBottomDesc" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="데이터 권한을 변경하려면 삼성 헬스의 [설정 > 데이터 권한]으로 이동하세요. 아래 데이터와 함께 디바이스 ID가 타사 서비스에 공유됩니다." android:textColor="#666666" android:textSize="15sp" android:gravity="start" android:layout_marginBottom="16dp"/>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center" android:layout_marginTop="8dp">
+        <Button android:id="@+id/btnCancel" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="취소" android:textColor="#222222" android:background="@android:color/transparent" android:textSize="16sp" android:layout_marginEnd="8dp"/>
+        <Button android:id="@+id/btnOk" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="완료" android:textColor="#222222" android:background="@android:color/transparent" android:textSize="16sp" android:layout_marginStart="8dp"/>
     </LinearLayout>
 </LinearLayout>

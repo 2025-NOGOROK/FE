@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- 활성화(다음 버튼 클릭 가능) -->
+    <!--  활성화(다음 버튼 클릭 가능)  -->
     <item android:state_enabled="true" android:color="#FF73605A"/>
-    <!-- 비활성화(다음 버튼 클릭 불가) -->
+    <!--  비활성화(다음 버튼 클릭 불가)  -->
     <item android:color="#8073605A"/>
 </selector>

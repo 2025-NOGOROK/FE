@@ -1,7 +1,6 @@
 package com.example.nogorok
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.widget.CheckBox
 import android.widget.ImageButton
@@ -19,7 +18,7 @@ class RegisterTermsActivity : AppCompatActivity() {
         val btnHealthDetail = findViewById<ImageButton>(R.id.btnHealthDetail)
         val btnLocationDetail = findViewById<ImageButton>(R.id.btnLocationDetail)
 
-// 상세 > 버튼 클릭 시 각 약관 Activity로 이동
+        // 상세 > 버튼 클릭 시 각 약관 Activity로 이동
         btnServiceDetail.setOnClickListener {
             startActivity(Intent(this, ServiceTermsActivity::class.java))
         }
@@ -32,7 +31,6 @@ class RegisterTermsActivity : AppCompatActivity() {
         btnLocationDetail.setOnClickListener {
             startActivity(Intent(this, LocationTermsActivity::class.java))
         }
-
 
         val btnBack = findViewById<ImageButton>(R.id.btnBack)
         btnBack.setOnClickListener { finish() }
@@ -68,6 +66,7 @@ class RegisterTermsActivity : AppCompatActivity() {
         // 초기 버튼 상태
         updateButtonState(btnNext, allChecks)
 
+        // 다음 버튼 클릭 시
         btnNext.setOnClickListener {
             val intent = Intent(this, RegisterInputNameActivity::class.java)
             startActivity(intent)
@@ -96,14 +95,10 @@ class RegisterTermsActivity : AppCompatActivity() {
         updateButtonState(btnNext, allChecks)
     }
 
-    // 버튼 활성화/비활성화 및 색상
+    // 버튼 활성화/비활성화 (색상은 selector에서 자동)
     private fun updateButtonState(button: MaterialButton, checks: List<CheckBox>) {
         val allChecked = checks.all { it.isChecked }
         button.isEnabled = allChecked
-        if (allChecked) {
-            button.setBackgroundColor(Color.parseColor("#73605A"))
-        } else {
-            button.setBackgroundColor(Color.parseColor("#B373605A"))
-        }
+        // 색상/텍스트 컬러는 selector에서 자동 적용!
     }
 }

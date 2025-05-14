@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_enabled="false" android:color="#8073605A"/> <!-- 50% -->
-    <item android:state_enabled="true" android:color="#FF73605A"/>  <!-- 100% -->
+    <item android:state_enabled="false" android:color="#8073605A"/>
+    <!--  50%  -->
+    <item android:state_enabled="true" android:color="#FF73605A"/>
+    <!--  100%  -->
 </selector>

@@ -1,130 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#73605A">
-
-    <!-- 상단 백버튼 -->
-    <ImageButton
-        android:id="@+id/btnBack"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:src="@drawable/ic_arrow_back"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="뒤로가기"
-        app:tint="#F4EED4"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"/>
-
-    <!-- heart1 아이콘: toolbar 아래, marginTop 줄임 -->
-    <ImageView
-        android:id="@+id/imgHeart"
-        android:layout_width="120dp"
-        android:layout_height="15dp"
-        android:src="@drawable/heart6"
-        android:contentDescription="하트"
-        app:layout_constraintTop_toBottomOf="@+id/btnBack"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="80dp" />
-
-    <!-- 질문 텍스트: heart7 바로 아래, marginTop 24dp -->
-    <TextView
-        android:id="@+id/tvQuestion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="어떤 방법인가요?\n세 가지만 알려주세요."
-        android:textSize="24sp"
-        android:textColor="#F4EED4"
-        android:textStyle="bold"
-        android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/imgHeart"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="80dp"
-        android:layout_marginStart="38dp"
-        android:layout_marginEnd="38dp"/>
-
-    <!-- 첫 번째 방법 입력 -->
-    <EditText
-        android:id="@+id/edtMethod1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="38dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="38dp"
-        android:background="@android:color/transparent"
-        android:gravity="center"
-        android:hint="첫 번째 방법"
-        android:minHeight="48dp"
-        android:textColor="#F4EED4"
-        android:textColorHint="#80F4EED4"
-        android:textSize="28sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvQuestion" />
-
-    <!-- 두 번째 방법 입력 -->
-    <EditText
-        android:id="@+id/edtMethod2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="38dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="38dp"
-        android:background="@android:color/transparent"
-        android:gravity="center"
-        android:hint="두 번째 방법"
-        android:minHeight="48dp"
-        android:textColor="#F4EED4"
-        android:textColorHint="#80F4EED4"
-        android:textSize="28sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edtMethod1" />
-
-    <!-- 세 번째 방법 입력 -->
-    <EditText
-        android:id="@+id/edtMethod3"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="38dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="38dp"
-        android:background="@android:color/transparent"
-        android:gravity="center"
-        android:hint="세 번째 방법"
-        android:minHeight="48dp"
-        android:textColor="#F4EED4"
-        android:textColorHint="#80F4EED4"
-        android:textSize="28sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edtMethod2" />
-
-    <!-- 다음 버튼: 하단 고정, 이전과 동일 -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnNext"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="72dp"
-        android:text="다음"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:textColor="@color/btn_next_survey1_text_selector"
-        app:backgroundTint="@color/btn_next_survey1_bg_selector"
-        app:cornerRadius="16dp"
-        app:strokeWidth="2dp"
-        app:strokeColor="#804D403C"
-        android:enabled="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:background="#73605A">
+    <!--  상단 백버튼  -->
+    <ImageButton android:id="@+id/btnBack" android:layout_width="48dp" android:layout_height="48dp" android:src="@drawable/ic_arrow_back" android:background="?attr/selectableItemBackgroundBorderless" android:contentDescription="뒤로가기" app:tint="#F4EED4" app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="4dp" android:layout_marginTop="4dp"/>
+    <!--  heart1 아이콘: toolbar 아래, marginTop 줄임  -->
+    <ImageView android:id="@+id/imgHeart" android:layout_width="120dp" android:layout_height="15dp" android:src="@drawable/heart6" android:contentDescription="하트" app:layout_constraintTop_toBottomOf="@+id/btnBack" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="80dp"/>
+    <!--  질문 텍스트: heart7 바로 아래, marginTop 24dp  -->
+    <TextView android:id="@+id/tvQuestion" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="어떤 방법인가요?\n세 가지만 알려주세요." android:textSize="24sp" android:textColor="#F4EED4" android:textStyle="bold" android:gravity="center" app:layout_constraintTop_toBottomOf="@id/imgHeart" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="80dp" android:layout_marginStart="38dp" android:layout_marginEnd="38dp"/>
+    <!--  첫 번째 방법 입력  -->
+    <EditText android:id="@+id/edtMethod1" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="38dp" android:layout_marginTop="40dp" android:layout_marginEnd="38dp" android:background="@android:color/transparent" android:gravity="center" android:hint="첫 번째 방법" android:minHeight="48dp" android:textColor="#F4EED4" android:textColorHint="#80F4EED4" android:textSize="28sp" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/tvQuestion"/>
+    <!--  두 번째 방법 입력  -->
+    <EditText android:id="@+id/edtMethod2" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="38dp" android:layout_marginTop="16dp" android:layout_marginEnd="38dp" android:background="@android:color/transparent" android:gravity="center" android:hint="두 번째 방법" android:minHeight="48dp" android:textColor="#F4EED4" android:textColorHint="#80F4EED4" android:textSize="28sp" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/edtMethod1"/>
+    <!--  세 번째 방법 입력  -->
+    <EditText android:id="@+id/edtMethod3" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="38dp" android:layout_marginTop="16dp" android:layout_marginEnd="38dp" android:background="@android:color/transparent" android:gravity="center" android:hint="세 번째 방법" android:minHeight="48dp" android:textColor="#F4EED4" android:textColorHint="#80F4EED4" android:textSize="28sp" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/edtMethod2"/>
+    <!--  다음 버튼: 하단 고정, 이전과 동일  -->
+    <com.google.android.material.button.MaterialButton android:id="@+id/btnNext" android:layout_width="0dp" android:layout_height="60dp" android:layout_marginStart="24dp" android:layout_marginEnd="24dp" android:layout_marginBottom="72dp" android:text="다음" android:textStyle="bold" android:textSize="18sp" android:textColor="@color/btn_next_survey1_text_selector" app:backgroundTint="@color/btn_next_survey1_bg_selector" app:cornerRadius="16dp" app:strokeWidth="2dp" app:strokeColor="#804D403C" android:enabled="false" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

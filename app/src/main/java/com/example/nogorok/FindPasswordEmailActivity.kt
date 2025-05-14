@@ -2,11 +2,13 @@ package com.example.nogorok
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.google.android.material.button.MaterialButton
 
 class FindPasswordEmailActivity : AppCompatActivity() {
@@ -24,12 +26,22 @@ class FindPasswordEmailActivity : AppCompatActivity() {
 
         btnBack.setOnClickListener { finish() }
 
-        // 버튼 활성/비활성 실시간 제어
+        // 색상 리소스 불러오기
+        val colorFull = ContextCompat.getColor(this, R.color.primary)      // #73605A
+        val color70 = ContextCompat.getColor(this, R.color.primary_70)     // #B373605A
+
+        // 처음엔 입력란이 비어있으니 70% 투명도 적용
+        btnNext.backgroundTintList = ColorStateList.valueOf(color70)
+
+        // 이메일 입력란에 텍스트가 바뀔 때마다 버튼 배경색 변경
         edtEmail.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                // 입력값이 있으면 활성화, 없으면 비활성화
-                btnNext.isEnabled = !s.isNullOrEmpty()
-
+                // 입력값이 있으면 진한색, 없으면 연한색
+                val isNotEmpty = !s.isNullOrEmpty()
+                btnNext.backgroundTintList = ColorStateList.valueOf(
+                    if (isNotEmpty) colorFull else color70
+                )
+                // 기존 유효성 에러 표시 로직은 그대로 둬
                 if (isValidationActivated) {
                     emailError.visibility = if (s.isNullOrEmpty()) TextView.VISIBLE else TextView.GONE
                 }
@@ -38,9 +50,6 @@ class FindPasswordEmailActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
 
-        // 최초 진입 시 버튼 비활성화
-        btnNext.isEnabled = false
-
         btnNext.setOnClickListener {
             isValidationActivated = true
             val email = edtEmail.text?.toString()?.trim() ?: ""
@@ -48,7 +57,7 @@ class FindPasswordEmailActivity : AppCompatActivity() {
                 emailError.visibility = TextView.VISIBLE
             } else {
                 emailError.visibility = TextView.GONE
-                // 여기서 실제 회원정보 체크(임시로 이메일이 "nogorok@gmail.com"만 성공)
+                // 임시: 이메일이 "nogorok@gmail.com"일 때만 성공
                 if (email == "nogorok@gmail.com") {
                     val intent = Intent(this, FindPasswordResetActivity::class.java)
                     intent.putExtra("email", email)
