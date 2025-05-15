@@ -15,4 +15,36 @@
     <color name="white_bar">#00000000</color>
     <color name="black_text">#000000</color>
     <color name="blue_mid">#4A7EBB</color>
+    <!--splash color-->
+    <color name="splash_bg">#F4EED4</color>
+    <color name="primary">#73605A</color>
+    <color name="primary_variant">#5C4B41</color>
+    <color name="brown_text">#7E6F5A</color>
+   <!-- <color name="button_brown">#73605A</color>-->
+    <color name="button_text">#FFFFFF</color>
+    <color name="button_border">#804D403C</color>
+    <color name="login_text">#8B7C6E</color>
+    <color name="on_primary">#F4EED4</color>
+    <color name="primary_70">#B373605A</color> <!-- 70% 투명도 갈색 (B3 = 70% alpha) -->
+
+
+
+    <!--register color-->
+    <color name="selected_option_text">#7C6558</color>
+    <color name="unselected_option_text">#FFF6E3C5</color>
+    <color name="main_brown">#73605A</color>
+    <color name="button_enabled">#4D403C</color>
+    <color name="button_disabled">#8073605A</color>
+    <color name="checkbox_checked">#73605A</color> <!-- 진한 갈색 -->
+    <color name="checkbox_unchecked">#E0E0E0</color> <!-- 연회색(비활성화용) -->
+
+    <!--  비활성화용 예시  -->
+     <color name="button_text_enabled">#F4EED4</color>
+    <color name="button_text_disabled">#8073605A</color>
+    <color name="main_brown_50">#8073605A</color>
+    <color name="main_brown_100">#73605A</color>
+    <color name="button_brown_50">#804D403C</color>
+    <color name="button_cream">#F4EED4</color>
+    <!--<color name="button_brown">#4D403C</color>-->
+
 </resources>

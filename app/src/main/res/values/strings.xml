@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">NOGOROK</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="login">로그인</string>
     <string name="email_hint">이메일</string>
@@ -12,21 +11,6 @@
     <string name="date_picker_title">Select Date</string>
     <string name="date_picker_confirm_button">Confirm</string>
     <string name="ok">OK</string>
-
-    <string name="steps">Steps</string>
-
-    <string name="gram">g</string>
-    <string name="milli_gram">mg</string>
-    <string name="micro_gram">mcg</string>
-    <string name="nutrition">Nutrition</string>
-    <string name="total">Total</string>
-    <string name="breakfast">Breakfast</string>
-    <string name="lunch">Lunch</string>
-    <string name="dinner">Dinner</string>
-    <string name="morning_snack">Morning Snack</string>
-    <string name="afternoon_snack">Afternoon Snack</string>
-    <string name="evening_snack">Evening Snack</string>
-    <string name="cals">Cal</string>
 
     <string name="sleep">Sleep</string>
     <string name="sleep_stages">Stages:</string>
@@ -46,28 +30,6 @@
     <string name="max_heart_rate">Max. HR:</string>
     <string name="heart_rate_unit">bpm</string>
 
-    <string name="nutrition_info">Nutrition Info</string>
-    <string name="protein">Protein</string>
-    <string name="poly_saturated_fat">Poly Saturated Fat</string>
-    <string name="mono_saturated_fat">Mono Saturated Fat</string>
-    <string name="trans_fat">Trans Fat</string>
-    <string name="carbohydrate">Carbohydrate</string>
-    <string name="dietary_fiber">Dietary Fiber</string>
-    <string name="sugar">Sugar</string>
-    <string name="cholesterol">Cholesterol</string>
-    <string name="sodium">Sodium</string>
-    <string name="potassium">Potassium</string>
-    <string name="vitamin_a">Vitamin A</string>
-    <string name="vitamin_c">Vitamin C</string>
-    <string name="calcium">Calcium</string>
-    <string name="iron">Iron</string>
-    <string name="total_fat">Total Fat</string>
-    <string name="saturated_fat">Saturated Fat</string>
-    <string name="food_info">Food Info</string>
-    <string name="msg_dialog_add_meal">%1$s : %2$.1f cal/amount</string>
-    <string name="enter_amount_hint">Enter Amount(eg. 1.0…)</string>
-    <string name="last_update_time">Last Updated Time: </string>
-    <string name="food_amount">Amount: </string>
     <string name="update_no_data">No data to update</string>
     <string name="data_source">"Data Source:</string>
     <string name="data_source_other">"Other Client</string>

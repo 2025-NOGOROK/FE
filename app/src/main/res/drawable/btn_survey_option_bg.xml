@@ -1,0 +1,17 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--  선택됨  -->
+    <item android:state_selected="true">
+        <shape android:shape="rectangle">
+            <solid android:color="#F4EED4"/>
+            <stroke android:width="2dp" android:color="#804D403C"/>
+            <corners android:radius="0dp"/>
+        </shape>
+    </item>
+    <!--  미선택  -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#80F4EED4"/>
+            <corners android:radius="0dp"/>
+        </shape>
+    </item>
+</selector>

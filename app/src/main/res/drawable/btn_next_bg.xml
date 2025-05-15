@@ -1,0 +1,18 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--  활성화(다음 버튼 클릭 가능)  -->
+    <item android:state_enabled="true">
+        <shape android:shape="rectangle">
+            <solid android:color="#F4EED4"/>
+            <stroke android:width="2dp" android:color="#804D403C"/>
+            <corners android:radius="12dp"/>
+        </shape>
+    </item>
+    <!--  비활성화(다음 버튼 클릭 불가)  -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#F4EED4"/>
+            <stroke android:width="2dp" android:color="#804D403C"/>
+            <corners android:radius="12dp"/>
+        </shape>
+    </item>
+</selector>

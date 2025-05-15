@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="survey_option_height">48dp</dimen>
+    <dimen name="survey_option_margin_bottom">16dp</dimen>
+    <dimen name="survey_option_radius">8dp</dimen>
     <dimen name="list_layout_margin">8dp</dimen>
     <dimen name="card_view_radius">12dp</dimen>
     <dimen name="card_view_margin">8dp</dimen>

@@ -1,9 +1,27 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <!--
+        Base Theme: Material3 기반, 다크/라이트 자동 지원, ActionBar 없음
+        이 테마를 상속해서 실제 앱 테마를 만듦
+    -->
     <style name="Base.Theme.NOGOROK" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- 메인 컬러(연베이지) -->
+        <item name="colorPrimary">#F4EED4</item>
+        <!-- 메인 진한색(브라운) -->
+        <item name="colorPrimaryVariant">#73605A</item>
+        <!-- 서브 컬러(브라운) -->
+        <item name="colorSecondary">#73605A</item>
+        <!-- 강조 컬러(브라운) -->
+        <item name="colorAccent">#73605A</item>
+        <!-- 필요하면 다른 컬러, 폰트, 위젯 스타일도 추가 가능 -->
+        <item name="colorControlActivated">#73605A</item>
+        <item name="android:colorControlActivated">#73605A</item>
+        <item name="colorOnSurfaceVariant">#73605A</item>
+
     </style>
 
-    <style name="Theme.NOGOROK" parent="Base.Theme.NOGOROK" />
+    <!--
+        실제 앱에서 사용하는 테마. Base.Theme.NOGOROK을 상속함.
+        앱 전체에 적용할 때 이걸 사용!
+    -->
+    <style name="Theme.NOGOROK" parent="Base.Theme.NOGOROK"/>
 </resources>

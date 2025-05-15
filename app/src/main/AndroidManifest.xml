@@ -5,10 +5,12 @@
     tools:overrideLibrary="com.samsung.android.sdk.healthdata">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <queries>
         <package android:name="com.sec.android.app.shealth" />
     </queries>
+
 
     <application
         android:allowBackup="true"
@@ -27,28 +29,89 @@
             android:value="com.samsung.health.heart_rate"
             />
 
-        <activity android:name=".activity.StepActivity" />
         <activity android:name=".activity.HeartRateActivity" />
-        <activity android:name=".activity.NutritionActivity" />
         <activity android:name=".activity.SleepActivity" />
-        <activity android:name=".activity.ChooseFoodActivity" />
-        <activity android:name=".activity.UpdateFoodActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity" />
         <activity
             android:name=".activity.HealthMainActivity"
             android:exported="true">
+
+        <!-- 1. 앱 실행 시 제일 먼저 뜨는 SplashActivity(런처) -->
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.NOGOROK.Splash">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-<!--        <activity android:name=".SplashActivity" android:exported="true" >-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN"/>-->
-<!--                <category android:name="android.intent.category.LAUNCHER"/>-->
-<!--            </intent-filter>-->
         </activity>
+
+        <!-- 온보딩 액티비티 (필요하면 추가) -->
+        <activity
+            android:name=".OnboardingActivity"
+            android:exported="false"
+            android:theme="@style/Theme.NOGOROK" />
+
+        <!-- 회원가입/로그인 선택 화면 -->
+        <activity
+            android:name=".SignupLoginActivity"
+            android:exported="false"
+            android:theme="@style/Theme.NOGOROK" />
+
+        <!-- 로그인 화면 -->
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false"
+            android:theme="@style/Theme.NOGOROK" />
+
+        <!-- 비밀번호 찾기 관련 액티비티 -->
+        <activity android:name=".FindPasswordEmailActivity" android:exported="false" />
+        <activity android:name=".FindPasswordResetActivity" android:exported="false" />
+
+        <!-- 회원가입 플로우 전체 액티비티 등록 -->
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="false"
+            android:theme="@style/Theme.NOGOROK" />
+        <activity android:name=".ServiceTermsActivity"/>
+        <activity android:name=".PrivacyTermsActivity"/>
+        <activity android:name=".HealthTermsActivity"/>
+        <activity android:name=".LocationTermsActivity"/>
+        <activity android:name=".RegisterTermsActivity" />
+        <activity android:name=".RegisterInputNameActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".RegisterInputBirthGenderActivity"/>
+        <activity android:name=".RegisterInputEmailActivity"/>
+        <activity android:name=".RegisterInputPasswordActivity"/>
+        <activity android:name=".RegisterInputNotificationActivity"/>
+        <activity android:name=".RegisterInputCompleteActivity"/>
+
+        <!-- 메인(홈) 화면 -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:theme="@style/Theme.NOGOROK" />
+
+        <!-- 설문조사 액티비티 -->
+        <activity android:name=".SurveyStep1Activity" />
+        <activity android:name=".SurveyStep2Activity" />
+        <activity android:name=".SurveyStep3Activity" />
+        <activity android:name=".SurveyStep4Activity" />
+        <activity android:name=".SurveyStep5Activity" />
+        <activity android:name=".SurveyStep6Activity" />
+        <activity android:name=".SurveyStep7Activity" />
+        <activity android:name=".SurveyFinalActivity" />
+        <activity android:name=".StressLoadingActivity" />
+
+        <!-- 캘린더 연동 관련 액티비티 -->
+        <activity android:name=".CalendarConnectActivity" />
+        <activity android:name=".CalendarSyncingActivity" />
+        <activity android:name=".CalendarConnectSuccessActivity" />
+        <activity android:name=".CalendarCompleteActivity" />
+
     </application>
 
 </manifest>

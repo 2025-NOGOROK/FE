@@ -39,7 +39,7 @@ android {
         jvmTarget = "17"
     }
 
-
+    // ★ Compose 활성화
     buildFeatures {
         viewBinding = true
         dataBinding = true
@@ -54,11 +54,18 @@ kotlin {
 dependencies {
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
-
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
+
+
+
+    //스플래시 화면 관련 코드 한줄 추가
+    implementation ("androidx.core:core-splashscreen:1.0.1")
+    implementation ("androidx.viewpager2:viewpager2:1.1.0")
+    implementation ("com.google.android.material:material:1.11.0")
+
 
     // 삼성 헬스 SDK
     implementation(files("libs/samsung-health-data-api-1.0.0-b2.aar"))
@@ -71,7 +78,6 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     implementation("androidx.activity:activity-compose:1.8.2")
 
-    // 테스트 라이브러리
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

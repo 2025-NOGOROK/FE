@@ -1,0 +1,10 @@
+<resources>
+    <!--
+        Splash 전용 테마: 앱 시작 시 잠깐 보여주는 화면에만 사용
+        아직 Material3에서는 스플래시 전용 테마가 없으니, MaterialComponents로 유지!
+    -->
+    <style name="Theme.NOGOROK.Splash" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- 스플래시 배경색 (연한 베이지) -->
+        <item name="android:windowBackground">#F4EED4</item>
+    </style>
+</resources>
