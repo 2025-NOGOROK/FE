@@ -41,8 +41,6 @@ class HealthMainActivity : AppCompatActivity(), View.OnClickListener {
         DataBindingUtil
             .setContentView<HealthMainBinding>(this, R.layout.health_main)
             .run {
-                cvNutrition.setOnClickListener(this@HealthMainActivity)
-                cvStep.setOnClickListener(this@HealthMainActivity)
                 cvHeartRate.setOnClickListener(this@HealthMainActivity)
                 cvSleep.setOnClickListener(this@HealthMainActivity)
                 versionValue.text = SdkVersion.getVersionName()
@@ -72,23 +70,6 @@ class HealthMainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(view: View?) {
         when (view?.id) {
-            R.id.cv_nutrition -> {
-                val permSet = mutableSetOf(
-                    Permission.of(DataTypes.NUTRITION, AccessType.READ)
-                )
-                healthMainViewModel.checkForPermission(
-                    this,
-                    permSet,
-                    AppConstants.NUTRITION_ACTIVITY
-                )
-            }
-
-            R.id.cv_step -> {
-                val permSet = mutableSetOf(
-                    Permission.of(DataTypes.STEPS, AccessType.READ)
-                )
-                healthMainViewModel.checkForPermission(this, permSet, AppConstants.STEP_ACTIVITY)
-            }
 
             R.id.cv_heart_rate -> {
                 val permSet = mutableSetOf(
@@ -133,8 +114,6 @@ class HealthMainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun launchRespectiveActivity(activityId: Int) {
         val intent = when (activityId) {
-            AppConstants.NUTRITION_ACTIVITY -> Intent(this, NutritionActivity::class.java)
-            AppConstants.STEP_ACTIVITY -> Intent(this, StepActivity::class.java)
             AppConstants.HEART_RATE_ACTIVITY -> Intent(this, HeartRateActivity::class.java)
             AppConstants.SLEEP_ACTIVITY -> Intent(this, SleepActivity::class.java)
             else -> null

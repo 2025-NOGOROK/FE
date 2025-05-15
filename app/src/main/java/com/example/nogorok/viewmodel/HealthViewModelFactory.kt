@@ -15,23 +15,12 @@ class HealthViewModelFactory(private val context: Context) : ViewModelProvider.F
         HealthMainViewModel::class.java ->
             HealthMainViewModel(HealthDataService.getStore(context), context as Activity)
 
-        StepViewModel::class.java ->
-            StepViewModel(HealthDataService.getStore(context), context as Activity)
-
-        NutritionViewModel::class.java ->
-            NutritionViewModel(HealthDataService.getStore(context), context as Activity)
 
         HeartRateViewModel::class.java ->
             HeartRateViewModel(HealthDataService.getStore(context), context as Activity)
 
         SleepViewModel::class.java ->
             SleepViewModel(HealthDataService.getStore(context), context as Activity)
-
-        ChooseFoodViewModel::class.java ->
-            ChooseFoodViewModel(HealthDataService.getStore(context), context as Activity)
-
-        UpdateFoodViewModel::class.java ->
-            UpdateFoodViewModel(HealthDataService.getStore(context), context as Activity)
 
         else -> throw IllegalArgumentException("Unknown ViewModel class")
     } as T

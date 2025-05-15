@@ -16,35 +16,6 @@
             android:padding="@dimen/padding">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cv_step"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="@dimen/card_view_radius">
-
-                <LinearLayout
-                    android:id="@+id/bt_step"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/main_layout_margin"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="@dimen/image_layout_width"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/ic_steps" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/layout_margin_start"
-                        android:text="@string/steps"
-                        android:textSize="@dimen/text_size"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
                 android:id="@+id/cv_sleep"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -58,11 +29,7 @@
                     android:layout_margin="@dimen/main_layout_margin"
                     android:orientation="horizontal">
 
-                    <ImageView
-                        android:layout_width="@dimen/image_layout_width"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/ic_sleep" />
+
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -74,35 +41,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cv_nutrition"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/card_view_margin_top"
-                app:cardCornerRadius="@dimen/card_view_radius">
 
-                <LinearLayout
-                    android:id="@+id/bt_nutrition"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/main_layout_margin"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="@dimen/image_layout_width"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/ic_nutrition" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/layout_margin_start"
-                        android:text="@string/nutrition"
-                        android:textSize="@dimen/text_size"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_heart_rate"
@@ -118,11 +57,6 @@
                     android:layout_margin="@dimen/main_layout_margin"
                     android:orientation="horizontal">
 
-                    <ImageView
-                        android:layout_width="@dimen/image_layout_width"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/ic_heart_rate" />
 
                     <TextView
                         android:layout_width="wrap_content"
