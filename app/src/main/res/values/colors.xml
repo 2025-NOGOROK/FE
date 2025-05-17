@@ -4,6 +4,17 @@
     <color name="white">#FFFFFFFF</color>
     <color name="blue">#2D99FF</color>
     <color name="gray">#B0B0B0</color>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="white_smoke">#f1f1f1</color>
+    <color name="silver">#C0C0C0</color>
+    <color name="grey">#7F7F7F</color>
+    <color name="white_bar">#00000000</color>
+    <color name="black_text">#000000</color>
+    <color name="blue_mid">#4A7EBB</color>
     <!--splash color-->
     <color name="splash_bg">#F4EED4</color>
     <color name="primary">#73605A</color>

@@ -12,7 +12,7 @@
         <!--  서브 메시지  -->
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="노력과 고됨의 기록이\n곧 나를 회복시키는 루틴이 됩니다." android:textAlignment="center" android:textColor="#F4EED4" android:textSize="16sp" android:layout_marginBottom="16dp" android:fontFamily="sans-serif"/>
         <!--  일러스트 이미지  -->
-        <ImageView android:layout_width="180dp" android:layout_height="180dp" android:src="@drawable/splash1_illust" android:contentDescription="사람과 고양이 일러스트" android:layout_gravity="center" android:layout_marginBottom="32dp"/>
+        <ImageView android:layout_width="180dp" android:layout_height="180dp" android:src="@drawable/onboarding_1" android:contentDescription="사람과 고양이 일러스트" android:layout_gravity="center" android:layout_marginBottom="32dp"/>
         <!--  시작하기 버튼: MaterialButton으로 변경 (색상/텍스트 기존 유지)  -->
         <com.google.android.material.button.MaterialButton android:id="@+id/btn_start1" android:layout_width="match_parent" android:layout_height="56dp" android:layout_gravity="center" android:layout_marginStart="32dp" android:layout_marginEnd="32dp" android:layout_marginTop="8dp" android:backgroundTint="#F4EED4" android:elevation="0dp" android:text="시작하기" android:textColor="#8073605A" android:textSize="18sp" android:fontFamily="sans-serif-medium" app:cornerRadius="16dp" app:strokeColor="#804D403C" app:strokeWidth="2dp"/>
     </LinearLayout>
@@ -25,7 +25,7 @@
         <!--  서브 메시지  -->
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="스마트워치와 연동하여 \n스트레스 지수를 분석할게요." android:textAlignment="center" android:textColor="#F4EED4" android:textSize="16sp" android:layout_marginBottom="16dp" android:fontFamily="sans-serif"/>
         <!--  일러스트 이미지(페이지2용)  -->
-        <ImageView android:layout_width="180dp" android:layout_height="180dp" android:src="@drawable/splash2" android:contentDescription="고민하는 사람과 고양이 일러스트" android:layout_gravity="center" android:layout_marginBottom="32dp"/>
+        <ImageView android:layout_width="180dp" android:layout_height="180dp" android:src="@drawable/onboarding_2" android:contentDescription="고민하는 사람과 고양이 일러스트" android:layout_gravity="center" android:layout_marginBottom="32dp"/>
         <!--  시작하기 버튼: MaterialButton으로 변경 (색상/텍스트 기존 유지)  -->
         <com.google.android.material.button.MaterialButton android:id="@+id/btn_start2" android:layout_width="match_parent" android:layout_height="56dp" android:layout_gravity="center" android:layout_marginStart="32dp" android:layout_marginEnd="32dp" android:layout_marginTop="8dp" android:backgroundTint="#F4EED4" android:elevation="0dp" android:text="시작하기" android:textColor="#8073605A" android:textSize="18sp" android:fontFamily="sans-serif-medium" app:cornerRadius="16dp" app:strokeColor="#804D403C" app:strokeWidth="2dp"/>
     </LinearLayout>
@@ -38,7 +38,7 @@
         <!--  서브 메시지  -->
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="하루하루의 감정과 고단함, \n이제 노고록이 함께 기억할게요." android:textAlignment="center" android:textColor="#F4EED4" android:textSize="16sp" android:layout_marginBottom="16dp" android:fontFamily="sans-serif"/>
         <!--  일러스트 이미지(페이지3용)  -->
-        <ImageView android:layout_width="180dp" android:layout_height="180dp" android:src="@drawable/splash3" android:contentDescription="행복한 사람과 고양이 일러스트" android:layout_gravity="center" android:layout_marginBottom="32dp"/>
+        <ImageView android:layout_width="180dp" android:layout_height="180dp" android:src="@drawable/onboarding_3" android:contentDescription="행복한 사람과 고양이 일러스트" android:layout_gravity="center" android:layout_marginBottom="32dp"/>
         <!--  시작하기 버튼: MaterialButton으로 변경 (색상/텍스트 기존 유지)  -->
         <com.google.android.material.button.MaterialButton android:id="@+id/btn_start3" android:layout_width="match_parent" android:layout_height="56dp" android:layout_gravity="center" android:layout_marginStart="32dp" android:layout_marginEnd="32dp" android:layout_marginTop="8dp" android:backgroundTint="#F4EED4" android:elevation="0dp" android:text="시작하기" android:textColor="#73605A" android:textSize="18sp" android:fontFamily="sans-serif-medium" app:cornerRadius="16dp" app:strokeColor="#804D403C" app:strokeWidth="2dp"/>
     </LinearLayout>

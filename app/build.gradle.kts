@@ -1,7 +1,10 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0" // ★ 추가!
+    id("androidx.navigation.safeargs")
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0" // Compose 플러그인
+    id ("kotlin-parcelize")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -10,10 +13,12 @@ android {
 
     defaultConfig {
         applicationId = "com.example.nogorok"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -35,9 +40,16 @@ android {
         jvmTarget = "17"
     }
 
+    // ★ Compose 활성화
     buildFeatures {
+        viewBinding = true
+        dataBinding = true
         compose = true
     }
+}
+
+kotlin {
+    jvmToolchain(17)
 }
 
 dependencies {
@@ -56,11 +68,27 @@ dependencies {
     implementation ("com.google.android.material:material:1.11.0")
 
 
-    // Jetpack Compose BOM(버전 통합 관리)
+    // 삼성 헬스 SDK
+    implementation(files("libs/samsung-health-data-api-1.0.0-b2.aar"))
+
+    // Jetpack Compose BOM
     implementation(platform("androidx.compose:compose-bom:2023.10.01"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")
     implementation("androidx.activity:activity-compose:1.8.2")
+
+    // api 연동
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+
+    // FCM 연동
+    implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
+    implementation("com.google.firebase:firebase-messaging")
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
 }

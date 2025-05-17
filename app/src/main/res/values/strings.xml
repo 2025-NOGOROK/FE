@@ -6,5 +6,36 @@
     <string name="password_hint">비밀번호</string>
     <string name="go_register">회원가입</string>
     <string name="register">회원가입</string>
-    <string name="title_activity_signup_login">SignupLoginActivity</string>
+    <string name="time">Time:</string>
+    <string name="no_data">No Data</string>
+    <string name="date_picker_title">Select Date</string>
+    <string name="date_picker_confirm_button">Confirm</string>
+    <string name="ok">OK</string>
+
+    <string name="sleep">Sleep</string>
+    <string name="sleep_stages">Stages:</string>
+    <string name="associate_data">Associate Data</string>
+    <string name="skin_temp">Skin Temp:</string>
+    <string name="oxygen">Blood Oxygen:</string>
+    <string name="min_max">Min./ Max. :</string>
+    <string name="slash">\u002F</string>
+    <string name="stage_awake">Awake:</string>
+    <string name="stage_light">Light:</string>
+    <string name="stage_rem">REM:</string>
+    <string name="stage_deep">Deep:</string>
+    <string name="time_in_bed">Time in Bed:</string>
+
+    <string name="heart_rate_heading">Heart Rate</string>
+    <string name="min_heart_rate">Min. HR:</string>
+    <string name="max_heart_rate">Max. HR:</string>
+    <string name="heart_rate_unit">bpm</string>
+
+    <string name="update_no_data">No data to update</string>
+    <string name="data_source">"Data Source:</string>
+    <string name="data_source_other">"Other Client</string>
+    <string name="data_source_dairy">"Health Dairy</string>
+    <string name="times">" \u0078 "</string>
+    <string name="connect_to_samsung_health">test</string>
+    <string name="heart_rate_icon">❤️</string>
+    <string name="version">1.0.0</string>
 </resources>
