@@ -37,7 +37,8 @@ class SurveyActivity : AppCompatActivity() {
             "Step3" -> SurveyStep4Fragment()
             "Step4" -> SurveyStep5Fragment()
             "Step5" -> SurveyStep6Fragment()
-            "Step6" -> SurveyStep7Fragment()
+            "Step6_YES" -> SurveyStep7Fragment()
+            "Step6_NO" -> SurveyFinalFragment()
             "Step7" -> SurveyFinalFragment()
             else -> null
         }
@@ -49,4 +50,5 @@ class SurveyActivity : AppCompatActivity() {
             }
         }
     }
+
 }

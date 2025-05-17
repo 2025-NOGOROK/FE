@@ -1,8 +1,11 @@
 package com.example.nogorok.network
 
 import com.example.nogorok.network.api.AuthApi
-import com.example.nogorok.network.api.SurveyApi
+import com.example.nogorok.network.api.FcmApi
 import com.example.nogorok.network.api.HealthApi
+import com.example.nogorok.network.api.SurveyApi
+import com.example.nogorok.utils.TokenManager
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -10,24 +13,34 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
 
-    // 실제 백엔드 API 주소
     private const val BASE_URL = "http://3.35.81.229:8080/"
 
-    // 로깅 인터셉터 설정
+    // 로그 출력용 인터셉터
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
-        level = HttpLoggingInterceptor.Level.BODY // 요청 및 응답 body 모두 로그에 출력
+        level = HttpLoggingInterceptor.Level.BODY
     }
 
-    // OkHttpClient에 인터셉터 추가
+    // Authorization 헤더 자동 추가 인터셉터
+    private val authInterceptor = Interceptor { chain ->
+        val token = TokenManager.getAccessToken()
+        val requestBuilder = chain.request().newBuilder()
+        if (!token.isNullOrEmpty()) {
+            requestBuilder.addHeader("Authorization", "Bearer $token")
+        }
+        chain.proceed(requestBuilder.build())
+    }
+
+    // OkHttpClient 설정
     private val okHttpClient = OkHttpClient.Builder()
-        .addInterceptor(loggingInterceptor)
+        .addInterceptor(authInterceptor)        // accessToken 자동 추가
+        .addInterceptor(loggingInterceptor)     // 로그 출력
         .build()
 
-    // Retrofit 생성
+    // Retrofit 인스턴스
     private val retrofit: Retrofit by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .client(okHttpClient) // ← 여기에 OkHttpClient 주입
+            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
@@ -42,5 +55,9 @@ object RetrofitClient {
 
     val healthApi: HealthApi by lazy {
         retrofit.create(HealthApi::class.java)
+    }
+
+    val fcmApi: FcmApi by lazy {
+        retrofit.create(FcmApi::class.java)
     }
 }
