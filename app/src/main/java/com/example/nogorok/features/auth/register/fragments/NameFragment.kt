@@ -42,7 +42,7 @@ class NameFragment : Fragment() {
         btnBack = view.findViewById(R.id.btnBack)
 
         btnBack.setOnClickListener {
-            parentFragmentManager.popBackStack()
+            requireActivity().finish()  // 🔥 현재 RegisterActivity 종료 → RegisterTermsActivity로 자동 복귀
         }
 
         edtName.addTextChangedListener(object : TextWatcher {

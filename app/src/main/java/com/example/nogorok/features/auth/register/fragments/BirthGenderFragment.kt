@@ -71,24 +71,31 @@ class BirthGenderFragment : Fragment() {
         val genderViews = listOf(tvMale, tvFemale, tvNone)
         genderViews.forEach { tv ->
             tv.setOnClickListener {
-                if (selectedGender == tv.text.toString()) {
-                    genderViews.forEach {
-                        it.setBackgroundResource(R.drawable.bg_gender_unselected)
-                        it.setTextColor(Color.parseColor("#73605A"))
-                    }
-                    selectedGender = null
-                } else {
-                    genderViews.forEach {
-                        it.setBackgroundResource(R.drawable.bg_gender_unselected)
-                        it.setTextColor(Color.parseColor("#73605A"))
-                    }
+                // 클릭한 뷰에 따라 selectedGender 설정
+                selectedGender = when (tv.id) {
+                    R.id.tvMale -> "M"
+                    R.id.tvFemale -> "F"
+                    R.id.tvNone -> null
+                    else -> null
+                }
+
+                // 모든 성별 버튼 초기화
+                genderViews.forEach {
+                    it.setBackgroundResource(R.drawable.bg_gender_unselected)
+                    it.setTextColor(Color.parseColor("#73605A"))
+                }
+
+                // 선택한 경우만 스타일 적용
+                selectedGender?.let {
                     tv.setBackgroundResource(R.drawable.bg_gender_selected)
                     tv.setTextColor(Color.parseColor("#F4EED4"))
-                    selectedGender = tv.text.toString()
                 }
+
                 updateButtonState()
             }
         }
+
+
 
         btnNext.setOnClickListener {
             val year = etYear.text.toString()
