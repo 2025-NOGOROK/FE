@@ -5,14 +5,14 @@
     <data class=".SleepActivityBinding">
         <variable
             name="viewModel"
-            type="com.example.nogorok.viewmodel.SleepViewModel" />
+            type="com.example.nogorok.features.connect.health.viewmodel.SleepViewModel" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".activity.SleepActivity">
+        tools:context=".features.health.activity.SleepActivity">
 
         <LinearLayout
             android:layout_width="match_parent"

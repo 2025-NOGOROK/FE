@@ -1,0 +1,81 @@
+package com.example.nogorok.features.auth.survey.fragments
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import com.example.nogorok.databinding.FragmentSurveyStep6Binding
+import com.example.nogorok.features.auth.survey.SurveyActivity
+import com.example.nogorok.features.auth.survey.SurveyViewModel
+
+class SurveyStep6Fragment : Fragment() {
+
+    private var _binding: FragmentSurveyStep6Binding? = null
+    private val binding get() = _binding!!
+
+    private val viewModel: SurveyViewModel by activityViewModels()
+
+    private var selectedOption: Int = 0
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentSurveyStep6Binding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.btnBack.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+
+        binding.btnLoose.setOnClickListener {
+            if (selectedOption == 1) {
+                selectedOption = 0
+                binding.btnLoose.isSelected = false
+                binding.btnTight.isSelected = false
+            } else {
+                selectedOption = 1
+                binding.btnLoose.isSelected = true
+                binding.btnTight.isSelected = false
+            }
+            updateNextButtonState()
+        }
+
+        binding.btnTight.setOnClickListener {
+            if (selectedOption == 2) {
+                selectedOption = 0
+                binding.btnLoose.isSelected = false
+                binding.btnTight.isSelected = false
+            } else {
+                selectedOption = 2
+                binding.btnLoose.isSelected = false
+                binding.btnTight.isSelected = true
+            }
+            updateNextButtonState()
+        }
+
+        binding.btnNext.setOnClickListener {
+            if (selectedOption == 1) {
+                viewModel.hasStressRelief.value = true
+                (activity as? SurveyActivity)?.navigateToNext("Step6_YES")
+            } else if (selectedOption == 2) {
+                viewModel.hasStressRelief.value = false
+                (activity as? SurveyActivity)?.navigateToNext("Step6_NO")
+            }
+        }
+    }
+
+    private fun updateNextButtonState() {
+        binding.btnNext.isEnabled = (selectedOption == 1 || selectedOption == 2)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+}
