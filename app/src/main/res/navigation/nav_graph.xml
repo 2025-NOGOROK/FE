@@ -1,8 +1,27 @@
-<navigation xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools" android:id="@+id/nav_graph" app:startDestination="@id/homeFragment">
-    <fragment android:id="@+id/homeFragment" android:name="com.example.nogorok.fragment.HomeFragment" android:label="홈" tools:layout="@layout/fragment_home">
-        <action android:id="@+id/action_homeFragment_to_mypageFragment" app:destination="@id/mypageFragment"/>
-    </fragment>
-    <fragment android:id="@+id/mypageFragment" android:name="com.example.nogorok.fragment.MypageFragment" android:label="마이페이지" tools:layout="@layout/fragment_mypage">
-        <action android:id="@+id/action_mypageFragment_to_homeFragment" app:destination="@id/homeFragment"/>
-    </fragment>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <!-- 1. 나의 일정 -->
+    <fragment
+        android:id="@+id/scheduleFragment"
+        android:name="com.example.nogorok.features.schedule.ScheduleFragment"
+        android:label="나의 일정"
+        tools:layout="@layout/fragment_schedule" />
+
+    <!-- 2. 홈 -->
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.nogorok.features.home.HomeFragment"
+        android:label="홈"
+        tools:layout="@layout/fragment_home" />
+
+    <!-- 3. 마이페이지 -->
+    <fragment
+        android:id="@+id/mypageFragment"
+        android:name="com.example.nogorok.features.mypage.MypageFragment"
+        android:label="마이페이지"
+        tools:layout="@layout/fragment_mypage" />
 </navigation>

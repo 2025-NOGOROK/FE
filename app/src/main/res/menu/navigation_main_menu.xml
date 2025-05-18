@@ -1,5 +1,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/homeFragment" android:icon="@drawable/ic_schedule_selector" android:title="일정"/>
-    <item android:id="@+id/empty" android:enabled="false" android:icon="@null" android:title=""/>
-    <item android:id="@+id/mypageFragment" android:icon="@drawable/ic_person_selector" android:title="마이페이지"/>
+    <!-- 왼쪽: 나의 일정 -->
+    <item
+        android:id="@+id/scheduleFragment"
+        android:icon="@drawable/ic_calendar_today"
+        android:title="나의 일정" />
+    <!-- 가운데: 홈 -->
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/ic_home"
+        android:title="홈" />
+    <!-- 오른쪽: 마이페이지 -->
+    <item
+        android:id="@+id/mypageFragment"
+        android:icon="@drawable/ic_account_circle"
+        android:title="마이페이지" />
 </menu>
