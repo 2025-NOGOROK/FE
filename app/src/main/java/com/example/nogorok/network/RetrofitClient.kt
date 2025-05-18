@@ -4,6 +4,7 @@ import com.example.nogorok.network.api.AuthApi
 import com.example.nogorok.network.api.FcmApi
 import com.example.nogorok.network.api.HealthApi
 import com.example.nogorok.network.api.SurveyApi
+import com.example.nogorok.network.api.GoogleApi
 import com.example.nogorok.utils.TokenManager
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -60,4 +61,9 @@ object RetrofitClient {
     val fcmApi: FcmApi by lazy {
         retrofit.create(FcmApi::class.java)
     }
+
+    val googleApi: GoogleApi by lazy {
+        retrofit.create(GoogleApi::class.java)
+    }
+
 }
