@@ -1,6 +1,103 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent"
-    android:gravity="center" android:background="#FFFFFF">
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <!-- 캘린더 헤더: 최상단, ConstraintLayout으로 정렬 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_calendar_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_top_rounded_20"
+        android:paddingTop="24dp"
+        android:paddingBottom="24dp"
+        android:elevation="2dp">
+
+        <!-- 캘린더 아이콘: 왼쪽 상단 -->
+        <ImageButton
+            android:id="@+id/btn_calendar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_calendar_month"
+            android:contentDescription="캘린더"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/layout_days"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="0dp"/>
+
+        <!-- 왼쪽 화살표 -->
+        <ImageButton
+            android:id="@+id/btn_prev_week"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_full_arrow_left"
+            android:contentDescription="이전 주"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_year_month"
+            android:layout_marginEnd="8dp"/>
+
+        <!-- 연/월 텍스트: 최상단 정중앙 (화살표 사이) -->
+        <TextView
+            android:id="@+id/tv_year_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2025년 3월"
+            android:textColor="#73605A"
+            android:textSize="18sp"
+            android:fontFamily="@font/pretendard_regular"
+            app:layout_constraintStart_toEndOf="@+id/btn_prev_week"
+            app:layout_constraintEnd_toStartOf="@+id/btn_next_week"
+            app:layout_constraintTop_toTopOf="parent"
+            android:gravity="center"/>
+
+        <!-- 오른쪽 화살표 -->
+        <ImageButton
+            android:id="@+id/btn_next_week"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_full_arrow_right"
+            android:contentDescription="다음 주"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_year_month"
+            android:layout_marginStart="8dp"/>
+
+        <!-- 요일 라인 (일~토) -->
+        <LinearLayout
+            android:id="@+id/layout_days"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@+id/tv_year_month"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingHorizontal="36dp"
+            android:layout_marginTop="12dp"/>
+
+        <!-- 날짜 라인 (16~22 등) -->
+        <LinearLayout
+            android:id="@+id/layout_dates"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@+id/layout_days"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingHorizontal="24dp"
+            android:layout_marginTop="12dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
