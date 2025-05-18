@@ -20,21 +20,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/navigation_main_menu"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:menu="@menu/navigation_main_menu"
-        android:background="@drawable/bottom_nav_background"
-        android:elevation="6dp"
-        app:itemIconTint="@null"
-        app:itemTextColor="@drawable/ic_text_selector"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation_main"
         android:layout_width="0dp"
@@ -43,8 +28,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:menu="@menu/navigation_main_menu"
-        app:itemTextColor="@drawable/ic_text_selector"
-        android:elevation="6dp"
-        />
+        app:itemActiveIndicatorStyle="@style/NoActiveIndicator"
+        android:background="@drawable/bg_bottom_nav"
+        app:itemIconTint="@color/bottom_nav_selector"
+        app:itemTextColor="@color/bottom_nav_selector"
+        app:itemTextAppearanceActive="@style/BottomNavText"
+        app:itemTextAppearanceInactive="@style/BottomNavText"
+        android:elevation="6dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
