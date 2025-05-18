@@ -1,16 +1,153 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:background="#FFFFFF">
-    <!--  상단 툴바: 뒤로가기  -->
-    <ImageButton android:id="@+id/btnBack" android:layout_width="48dp" android:layout_height="48dp" android:src="@drawable/ic_arrow_back" android:background="?attr/selectableItemBackgroundBorderless" android:contentDescription="뒤로가기" app:tint="#73605A" app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="4dp" android:layout_marginTop="4dp"/>
-    <!--  세로 중앙 Guideline  -->
-    <androidx.constraintlayout.widget.Guideline android:id="@+id/centerGuide" android:layout_width="wrap_content" android:layout_height="wrap_content" app:layout_constraintGuide_percent="0.5" android:orientation="horizontal"/>
-    <!--  타이틀  -->
-    <TextView android:id="@+id/tvTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="구글 캘린더와 연동하기" android:textColor="#73605A" android:textSize="24sp" android:textStyle="bold" android:gravity="center" app:layout_constraintBottom_toTopOf="@id/imgWatchGoogle" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent" android:layout_marginBottom="24dp"/>
-    <!--  중앙 이미지 (노고록 <-> 구글캘린더)  -->
-    <ImageView android:id="@+id/imgWatchGoogle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/watch_google" android:contentDescription="노고록-구글캘린더 연동" app:layout_constraintBottom_toTopOf="@id/tvDesc" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent" android:layout_marginBottom="24dp"/>
-    <!--  안내 텍스트  -->
-    <TextView android:id="@+id/tvDesc" android:layout_width="0dp" android:layout_height="wrap_content" android:text="Google 캘린더에서\n기존 일정을 가져와 연동할까요?" android:textColor="#73605A" android:textSize="16sp" android:gravity="center" app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"/>
-    <!--  네, 연동할래요 버튼  -->
-    <com.google.android.material.button.MaterialButton android:id="@+id/btnConnect" android:layout_width="0dp" android:layout_height="60dp" android:text="네, 연동할래요." android:textStyle="bold" android:textSize="18sp" android:textColor="#73605A" app:backgroundTint="#F4EED4" app:cornerRadius="16dp" app:strokeWidth="2dp" app:strokeColor="#4D403C" android:enabled="true" android:layout_marginStart="24dp" android:layout_marginEnd="24dp" android:layout_marginBottom="142dp" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"/>
-    <!--  아니요, 새롭게 일정 시작할래요 버튼  -->
-    <com.google.android.material.button.MaterialButton android:id="@+id/btnNew" android:layout_width="0dp" android:layout_height="60dp" android:text="아니요, 새롭게 일정을 시작할래요." android:textStyle="bold" android:textSize="18sp" android:textColor="#73605A" app:backgroundTint="#F4EED4" app:cornerRadius="16dp" app:strokeWidth="2dp" app:strokeColor="#4D403C" android:enabled="true" android:layout_marginStart="24dp" android:layout_marginEnd="24dp" android:layout_marginBottom="72dp" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"/>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <!-- 상단 툴바: 뒤로가기 -->
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/ic_arrow_back"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="뒤로가기"
+        app:tint="#73605A"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp" />
+
+    <!-- 세로 중앙 Guideline -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/centerGuide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <!-- 🌟 상태 1: 연동 여부 묻기 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutConnectPrompt"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="구글 캘린더와 연동하기"
+            android:textColor="#73605A"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            app:layout_constraintBottom_toTopOf="@id/imgWatchGoogle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="24dp" />
+
+        <ImageView
+            android:id="@+id/imgWatchGoogle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/watch_google"
+            android:contentDescription="노고록-구글캘린더 연동"
+            app:layout_constraintBottom_toTopOf="@id/tvDesc"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="24dp" />
+
+        <TextView
+            android:id="@+id/tvDesc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Google 캘린더에서\n기존 일정을 가져와 연동할까요?"
+            android:textColor="#73605A"
+            android:textSize="16sp"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnConnect"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:text="네, 연동할래요."
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="#73605A"
+            app:backgroundTint="#F4EED4"
+            app:cornerRadius="16dp"
+            app:strokeWidth="2dp"
+            app:strokeColor="#4D403C"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="142dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnNew"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:text="아니요, 새롭게 일정을 시작할래요."
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="#73605A"
+            app:backgroundTint="#F4EED4"
+            app:cornerRadius="16dp"
+            app:strokeWidth="2dp"
+            app:strokeColor="#4D403C"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="72dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- 🌟 상태 2: 연동 완료 후 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutConnectDone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvDoneDesc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Google 캘린더의 일정을 모두 불러왔어요!"
+            android:textColor="#73605A"
+            android:textSize="16sp"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnNext"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:text="다음"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="#73605A"
+            app:backgroundTint="#F4EED4"
+            app:cornerRadius="16dp"
+            app:strokeWidth="2dp"
+            app:strokeColor="#4D403C"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="72dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
