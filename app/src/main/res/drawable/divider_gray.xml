@@ -1,0 +1,4 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <size android:height="1dp"/>
+    <solid android:color="#66AAAAAA"/> <!-- 40% 투명: 0.4*255 ≒ 102 = 0x66 -->
+</shape>

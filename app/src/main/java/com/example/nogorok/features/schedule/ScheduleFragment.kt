@@ -11,6 +11,8 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.example.nogorok.R
 import com.example.nogorok.databinding.FragmentScheduleBinding
 import java.util.*
@@ -25,6 +27,8 @@ class ScheduleFragment : Fragment() {
 
     private var baseCalendar = Calendar.getInstance()
     private var selectedDate: Calendar = Calendar.getInstance()
+
+    private val viewModel: ScheduleViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,20 +52,27 @@ class ScheduleFragment : Fragment() {
             baseCalendar.add(Calendar.WEEK_OF_YEAR, 1)
             updateCalendarHeader()
         }
-        // 캘린더 버튼은 기능 나중에 구현
+
+        // 일정 추가하기 버튼 클릭
+        binding.btnAddSchedule.setOnClickListener {
+            viewModel.editingSchedule = null // 새 일정 추가
+            findNavController().navigate(R.id.action_scheduleFragment_to_addScheduleFragment)
+        }
+
+        // 일정 리스트 관찰
+        viewModel.scheduleList.observe(viewLifecycleOwner) { list ->
+            drawScheduleList(list)
+        }
     }
 
     private fun updateCalendarHeader() {
-        // 연/월 표시
         val year = baseCalendar.get(Calendar.YEAR)
         val month = baseCalendar.get(Calendar.MONTH) + 1
         binding.tvYearMonth.text = "${year}년 ${month}월"
 
-        // 주의 시작(일요일)
         val weekStart = baseCalendar.clone() as Calendar
         weekStart.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
 
-        // 요일 표시
         val daysOfWeek = listOf("일", "월", "화", "수", "목", "금", "토")
         binding.layoutDays.removeAllViews()
         for (i in 0..6) {
@@ -82,9 +93,8 @@ class ScheduleFragment : Fragment() {
             binding.layoutDays.addView(tv)
         }
 
-        // 날짜 표시 (정확한 원형 + 선택된 날짜 스타일)
         binding.layoutDates.removeAllViews()
-        val dateSize = resources.getDimensionPixelSize(R.dimen.calendar_date_size) // 예: 36dp
+        val dateSize = resources.getDimensionPixelSize(R.dimen.calendar_date_size)
         for (i in 0..6) {
             val dayCal = weekStart.clone() as Calendar
             dayCal.add(Calendar.DAY_OF_MONTH, i)
@@ -108,6 +118,22 @@ class ScheduleFragment : Fragment() {
                 }
             }
             binding.layoutDates.addView(tv)
+        }
+    }
+
+    private fun drawScheduleList(list: List<Schedule>) {
+        val layout = binding.layoutScheduleList
+        layout.removeAllViews()
+        for (schedule in list) {
+            val item = LayoutInflater.from(requireContext()).inflate(R.layout.item_schedule, layout, false)
+            item.findViewById<TextView>(R.id.tvTitle).text = schedule.title
+            item.findViewById<TextView>(R.id.tvTime).text = "${schedule.startTime}~${schedule.endTime}"
+            // 클릭 시 수정모드로 이동
+            item.setOnClickListener {
+                viewModel.editingSchedule = schedule
+                findNavController().navigate(R.id.action_scheduleFragment_to_addScheduleFragment)
+            }
+            layout.addView(item)
         }
     }
 

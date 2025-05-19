@@ -9,16 +9,27 @@
         android:id="@+id/scheduleFragment"
         android:name="com.example.nogorok.features.schedule.ScheduleFragment"
         android:label="나의 일정"
-        tools:layout="@layout/fragment_schedule" />
+        tools:layout="@layout/fragment_schedule">
+        <action
+            android:id="@+id/action_scheduleFragment_to_addScheduleFragment"
+            app:destination="@id/addScheduleFragment" />
+    </fragment>
 
-    <!-- 2. 홈 -->
+    <!-- 2. 일정 추가 (두 번째 이미지) -->
+    <fragment
+        android:id="@+id/addScheduleFragment"
+        android:name="com.example.nogorok.features.schedule.AddScheduleFragment"
+        android:label="일정 추가하기"
+        tools:layout="@layout/fragment_add_schedule" />
+
+    <!-- 3. 홈 -->
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.nogorok.features.home.HomeFragment"
         android:label="홈"
         tools:layout="@layout/fragment_home" />
 
-    <!-- 3. 마이페이지 -->
+    <!-- 4. 마이페이지 -->
     <fragment
         android:id="@+id/mypageFragment"
         android:name="com.example.nogorok.features.mypage.MypageFragment"

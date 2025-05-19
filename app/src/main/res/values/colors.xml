@@ -47,4 +47,7 @@
     <color name="button_cream">#F4EED4</color>
     <!--<color name="button_brown">#4D403C</color>-->
 
+    <color name="calendar_input_bg">#FFFAE3</color>
+
+
 </resources>

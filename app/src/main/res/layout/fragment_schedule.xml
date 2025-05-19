@@ -98,8 +98,23 @@
             android:layout_marginTop="12dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/btn_add_schedule"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="+ 일정 추가하기"
+        android:textSize="16sp"
+        android:textColor="#73605A"
+        android:background="@drawable/bg_add_schedule_btn"
+        android:layout_margin="24dp"
+        android:layout_gravity="center_horizontal"/>
+
+    <LinearLayout
+        android:id="@+id/layoutScheduleList"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="나의 일정 화면" />
+        android:orientation="vertical"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"/>
+
 </LinearLayout>
