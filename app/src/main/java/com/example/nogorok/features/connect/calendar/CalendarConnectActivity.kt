@@ -30,12 +30,12 @@ class CalendarConnectActivity : AppCompatActivity() {
         binding.btnConnect.setOnClickListener {
             val googleAuthUrl = Uri.parse(
                 "https://accounts.google.com/o/oauth2/v2/auth?" +
-                        "client_id=884352206745-907bgce315k7mc4n44om1537tvro6t0f.apps.googleusercontent.com&" +
-                        "redirect_uri=http://localhost:8080/auth/google/callback&" + // 앱에서 처리하는 딥링크 스킴
-                        "response_type=code&" +
-                        "scope=https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/userinfo.email&" +
-                        "access_type=offline&" +
-                        "prompt=consent"
+                "client_id=884352206745-907bgce315k7mc4n44om1537tvro6t0f.apps.googleusercontent.com&" +
+            "redirect_uri=your.app://auth/google/callback&" +
+            "response_type=code&"  +
+            "scope=https://www.googleapis.com/auth/calendar%20https://www.googleapis.com/auth/userinfo.email&" +
+            "access_type=offline&" +
+            "prompt=consent"
             )
             startActivity(Intent(Intent.ACTION_VIEW, googleAuthUrl))
         }

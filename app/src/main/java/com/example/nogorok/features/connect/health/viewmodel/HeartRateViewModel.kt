@@ -117,28 +117,8 @@ class HeartRateViewModel(private val healthDataStore: HealthDataStore, activity:
             hrQuarter.avg /= hrQuarter.count
             hrQuarter.stress = calculateStressIndex(hrQuarter.avg)
             hrResultList.add(hrQuarter)
-            sendToServer(hrQuarter) // 서버 전송
         }
     }
 
-    private fun sendToServer(hr: HeartRate) {
-        viewModelScope.launch(AppConstants.SCOPE_IO_DISPATCHERS + exceptionHandler) {
-            try {
-                val response = RetrofitClient.healthApi.uploadHeartRate(
-                    HeartRateUploadRequest(
-                        timestamp = hr.startTime,
-                        min = hr.min,
-                        max = hr.max,
-                        avg = hr.avg,
-                        stress = hr.stress
-                    )
-                )
-                if (!response.isSuccessful) {
-                    _exceptionResponse.postValue("서버 전송 실패: ${response.code()}")
-                }
-            } catch (e: Exception) {
-                _exceptionResponse.postValue("예외 발생: ${e.message}")
-            }
-        }
-    }
+
 }

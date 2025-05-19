@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -46,7 +47,9 @@ class OnboardingFragment : Fragment() {
         view.findViewById<TextView>(R.id.tvSubtitle).text = subtitle
         view.findViewById<ImageView>(R.id.ivImage).setImageResource(imageResId)
 
-        val btnNext = view.findViewById<View>(R.id.btnNext)
+        val btnNext = view.findViewById<Button>(R.id.btnNext)
+        btnNext.text = if (isLastPage) "시작하기" else "다음"
+
         btnNext.setOnClickListener {
             if (isLastPage) {
                 startActivity(Intent(requireContext(), SignupLoginActivity::class.java))
