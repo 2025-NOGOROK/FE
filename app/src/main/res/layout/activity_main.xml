@@ -8,6 +8,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <!-- 네비게이션 호스트 -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
@@ -20,6 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- 하단 바 -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation_main"
         android:layout_width="0dp"
@@ -36,4 +38,112 @@
         app:itemTextAppearanceInactive="@style/BottomNavText"
         android:elevation="6dp" />
 
+    <!-- 커스텀 펼쳐지는 FAB 메뉴 박스 -->
+    <LinearLayout
+        android:id="@+id/fabMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="100dp"
+        android:padding="16dp"
+        android:background="@drawable/fab_menu_box_bg"
+        android:elevation="6dp"
+        app:layout_constraintBottom_toTopOf="@id/navigation_main"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:clipToPadding="false"
+        android:gravity="center">
+
+        <!-- 아이템 1: 짧은 쉼표 -->
+        <LinearLayout
+            android:id="@+id/fabShort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingVertical="8dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_shortquote"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="@string/short_rest_icon"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/short_rest"
+                android:textColor="#73605A"
+                android:textSize="18sp"
+                android:fontFamily="@font/pretendard_semibold"/>
+        </LinearLayout>
+
+        <!-- 아이템 2: 긴 쉼표 -->
+        <LinearLayout
+            android:id="@+id/fabLong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingVertical="8dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_longquote"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="@string/long_rest_icon"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/long_rest"
+                android:textColor="#73605A"
+                android:textSize="18sp"
+                android:fontFamily="@font/pretendard_semibold"/>
+        </LinearLayout>
+
+        <!-- 아이템 3: 하루일기 -->
+        <LinearLayout
+            android:id="@+id/fabDiary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingVertical="8dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_smile"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="@string/diary_icon"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/diary"
+                android:textColor="#73605A"
+                android:textSize="18sp"
+                android:fontFamily="@font/pretendard_semibold"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 메인 플로팅 버튼 (이미지로 교체) -->
+    <ImageButton
+        android:id="@+id/fabMain"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:src="@drawable/ic_add"
+        android:background="@null"
+        android:scaleType="centerInside"
+        android:contentDescription="@string/fab_main_icon"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="24dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toTopOf="@id/navigation_main"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
