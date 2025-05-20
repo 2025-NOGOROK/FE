@@ -49,5 +49,7 @@
 
     <color name="calendar_input_bg">#FFFAE3</color>
 
+    <color name="light_yellow">#FFFAE3</color>
+
 
 </resources>

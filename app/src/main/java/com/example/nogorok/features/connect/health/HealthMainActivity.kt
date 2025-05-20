@@ -70,6 +70,10 @@ class HealthMainActivity : AppCompatActivity() {
                 launch {
                     healthMainViewModel.permissionResponse.collect { result ->
                         if (result.first == AppConstants.SUCCESS) {
+                            // ✅ WorkManager 등록
+                            com.example.nogorok.features.connect.health.service.HeartRateScheduler.scheduleHourlyUpload(this@HealthMainActivity)
+
+                            // 다음 화면으로 이동
                             val intent = Intent(this@HealthMainActivity, CalendarConnectActivity::class.java)
                             startActivity(intent)
                             finish()

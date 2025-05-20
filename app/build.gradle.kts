@@ -83,6 +83,8 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    implementation ("androidx.work:work-runtime-ktx:2.9.0")
+    implementation ("com.google.code.gson:gson:2.10.1")
 
     // FCM 연동
     implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
