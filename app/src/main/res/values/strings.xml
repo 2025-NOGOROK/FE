@@ -40,4 +40,14 @@
     <string name="version">1.0.0</string>
     <string name="smile"></string>
     <string name="sample"></string>
+
+    <string name="short_rest">짧은 쉼표</string>
+    <string name="long_rest">긴 쉼표</string>
+    <string name="diary">하루일기</string>
+
+    <string name="short_rest_icon">짧은 쉼표 아이콘</string>
+    <string name="long_rest_icon">긴 쉼표 아이콘</string>
+    <string name="diary_icon">하루일기 아이콘</string>
+    <string name="fab_main_icon">메인 플로팅 버튼</string>
+
 </resources>
