@@ -14,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
 
-    private const val BASE_URL = "http://3.35.81.229:8080/"
+    private const val BASE_URL = "https://recommend.ai.kr/"
 
     // 로그 출력용 인터셉터
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
@@ -23,11 +23,24 @@ object RetrofitClient {
 
     // Authorization 헤더 자동 추가 인터셉터
     private val authInterceptor = Interceptor { chain ->
+        val request = chain.request()
+        val url = request.url.encodedPath // 경로만 추출 (ex: /auth/signUp)
+
+        // 인증 제외할 API 경로 (회원가입, 로그인, Google OAuth callback 등)
+        val excludedPaths = listOf(
+            "/auth/signUp",
+            "/auth/signIn",
+            "/auth/google/callback"
+        )
+
+        val requestBuilder = request.newBuilder()
         val token = TokenManager.getAccessToken()
-        val requestBuilder = chain.request().newBuilder()
-        if (!token.isNullOrEmpty()) {
+
+        // 제외된 경로가 아닐 때만 Authorization 헤더 추가
+        if (!excludedPaths.contains(url) && !token.isNullOrEmpty()) {
             requestBuilder.addHeader("Authorization", "Bearer $token")
         }
+
         chain.proceed(requestBuilder.build())
     }
 

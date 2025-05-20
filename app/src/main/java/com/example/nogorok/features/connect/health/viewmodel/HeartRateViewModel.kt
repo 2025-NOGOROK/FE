@@ -1,5 +1,7 @@
 package com.example.nogorok.features.connect.health.viewmodel
 
+import android.content.Context
+import com.google.gson.Gson
 import android.app.Activity
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
@@ -9,8 +11,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.nogorok.features.connect.health.utils.AppConstants
 import com.example.nogorok.features.connect.health.utils.dateFormat
 import com.example.nogorok.features.connect.health.utils.getExceptionHandler
-import com.example.nogorok.network.RetrofitClient
-import com.example.nogorok.network.dto.HeartRateUploadRequest
+import android.util.Log
 import com.samsung.android.sdk.health.data.HealthDataStore
 import com.samsung.android.sdk.health.data.data.HealthDataPoint
 import com.samsung.android.sdk.health.data.request.DataType
@@ -73,6 +74,7 @@ class HeartRateViewModel(private val healthDataStore: HealthDataStore, activity:
         }
 
         _dailyHeartRate.postValue(hrResultList)
+
     }
 
     data class HeartRate(
@@ -94,6 +96,8 @@ class HeartRateViewModel(private val healthDataStore: HealthDataStore, activity:
             else -> 90f
         }
     }
+
+
 
     private fun processHeartRateData(heartRateData: HealthDataPoint, hrQuarter: HeartRate) {
         hrQuarter.apply {
@@ -120,5 +124,23 @@ class HeartRateViewModel(private val healthDataStore: HealthDataStore, activity:
         }
     }
 
+    fun getLatestStoredStress(context: Context): Float? {
+        val prefs = context.getSharedPreferences("HeartRateStorage", Context.MODE_PRIVATE)
+        val json = prefs.getString("unsentHeartRates", null) ?: return null
+
+        val type = object : com.google.gson.reflect.TypeToken<List<HeartRate>>() {}.type
+        val list: List<HeartRate> = Gson().fromJson(json, type)
+
+        return list.maxByOrNull { it.startTime }?.stress
+    }
+
+
+    private fun saveToLocalStorage(context: Context, heartRateList: List<HeartRate>) {
+        val prefs = context.getSharedPreferences("HeartRateStorage", Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+        val json = Gson().toJson(heartRateList)
+        editor.putString("unsentHeartRates", json)
+        editor.apply()
+    }
 
 }

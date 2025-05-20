@@ -38,4 +38,6 @@
     <string name="connect_to_samsung_health">test</string>
     <string name="heart_rate_icon">❤️</string>
     <string name="version">1.0.0</string>
+    <string name="smile"></string>
+    <string name="sample"></string>
 </resources>
