@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 선택된 상태: 바깥 원 + 안쪽에 채워진 원 -->
+    <item android:state_checked="true">
+        <layer-list>
+            <!-- 바깥 원 (테두리만) -->
+            <item>
+                <shape android:shape="oval">
+                    <solid android:color="@android:color/transparent"/>
+                    <stroke android:width="2dp" android:color="#73605A"/>
+                    <size android:width="24dp" android:height="24dp"/>
+                </shape>
+            </item>
+            <!-- 안쪽 채워진 원 -->
+            <item android:top="6dp" android:bottom="6dp" android:left="6dp" android:right="6dp">
+                <shape android:shape="oval">
+                    <solid android:color="#73605A"/>
+                    <size android:width="12dp" android:height="12dp"/>
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+
+    <!-- 선택 안 된 상태: 바깥 원만(테두리만) -->
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@android:color/transparent"/>
+            <stroke android:width="2dp" android:color="#73605A"/>
+            <size android:width="24dp" android:height="24dp"/>
+        </shape>
+    </item>
+</selector>
