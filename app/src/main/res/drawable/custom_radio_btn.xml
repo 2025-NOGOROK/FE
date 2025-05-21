@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-
     <!-- 선택된 상태: 바깥 원 + 안쪽에 채워진 원 -->
     <item android:state_checked="true">
         <layer-list>
@@ -21,7 +20,6 @@
             </item>
         </layer-list>
     </item>
-
     <!-- 선택 안 된 상태: 바깥 원만(테두리만) -->
     <item>
         <shape android:shape="oval">

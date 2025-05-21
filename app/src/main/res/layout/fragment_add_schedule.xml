@@ -329,14 +329,15 @@
                     android:textSize="15sp"
                     android:fontFamily="@font/pretendard_regular"/>
 
-                <RadioButton
-                    android:id="@+id/rbAlarm"
+                <CheckBox
+                    android:id="@+id/cbAlarm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:button="@drawable/custom_radio_btn"
-                    android:clickable="true"
+                    android:background="@android:color/transparent"
                     android:focusable="true"
-                    android:enabled="true"/>
+                    android:clickable="true"/>
+
             </LinearLayout>
         </LinearLayout>
 

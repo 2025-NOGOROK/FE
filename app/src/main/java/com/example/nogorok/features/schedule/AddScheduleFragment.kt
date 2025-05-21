@@ -74,15 +74,9 @@ class AddScheduleFragment : Fragment() {
             showAlarmMinutePicker()
         }
 
-        // 이동 전 알림받기: 토글로 동작 (RadioButton 직접 토글)
-        binding.rbAlarm.apply {
-            isClickable = true
-            isFocusable = true
-            isEnabled = true
-            setOnClickListener {
-                isChecked = !isChecked
-                moveAlarm = isChecked
-            }
+        // 이동 전 알림받기 체크박스: 체크/해제 모두 가능, 값 동기화
+        binding.cbAlarm.setOnCheckedChangeListener { _, isChecked ->
+            moveAlarm = isChecked
         }
 
         // 추가 버튼
@@ -103,6 +97,8 @@ class AddScheduleFragment : Fragment() {
         updateDateTimeViews()
         updateAlarmMinuteView()
         checkButtonEnable()
+        // 체크박스 초기 상태와 moveAlarm 값 동기화
+        binding.cbAlarm.isChecked = moveAlarm
     }
 
     private fun checkButtonEnable() {
