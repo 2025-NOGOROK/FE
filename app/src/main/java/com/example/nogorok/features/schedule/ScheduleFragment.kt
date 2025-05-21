@@ -29,7 +29,6 @@ class ScheduleFragment : Fragment() {
     private var baseCalendar = Calendar.getInstance()
     private var selectedDate: Calendar = Calendar.getInstance()
 
-    // ViewModel은 네가 만든 ScheduleViewModel을 그대로 사용
     private val viewModel: ScheduleViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -126,26 +125,18 @@ class ScheduleFragment : Fragment() {
     private fun drawScheduleList(list: List<Schedule>) {
         val layout = binding.layoutScheduleList
         layout.removeAllViews()
-        // 시간 포맷터 준비 (오전 9:00)
-        val timeFormat = SimpleDateFormat("a h:mm", Locale.getDefault())
-        // 날짜 포맷터 (2025.3.15.)
-        val dateFormat = SimpleDateFormat("yyyy.M.d.", Locale.getDefault())
+        val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
         for (schedule in list) {
             val item = LayoutInflater.from(requireContext()).inflate(R.layout.item_schedule, layout, false)
             item.findViewById<TextView>(R.id.tvTitle).text = schedule.title
-            // startDate, endDate를 날짜+시간 형태로 포맷팅
-            val startDateStr = dateFormat.format(schedule.startDate)
-            val startTimeStr = timeFormat.format(schedule.startDate)
-            val endDateStr = dateFormat.format(schedule.endDate)
-            val endTimeStr = timeFormat.format(schedule.endDate)
-            // 원하는 형식에 맞게 표시 (여기선 날짜와 시간 모두 표시)
-            item.findViewById<TextView>(R.id.tvTime).text = "$startDateStr $startTimeStr ~ $endDateStr $endTimeStr"
-            // 클릭 시 수정모드로 이동
+            item.findViewById<TextView>(R.id.tvTime).text =
+                "${timeFormat.format(schedule.startDate)}~${timeFormat.format(schedule.endDate)}"
             item.setOnClickListener {
                 viewModel.editingSchedule = schedule
                 findNavController().navigate(R.id.action_scheduleFragment_to_addScheduleFragment)
             }
-            layout.addView(item)
+            // 맨 위에 추가!
+            layout.addView(item, 0)
         }
     }
 

@@ -37,6 +37,20 @@ class AddScheduleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // 수정모드라면 기존 데이터로 입력란 채우기
+        val editing = scheduleViewModel.editingSchedule
+        if (editing != null) {
+            binding.etTitle.setText(editing.title)
+            binding.etDesc.setText(editing.description)
+            startCalendar.time = editing.startDate
+            endCalendar.time = editing.endDate
+            alarmMinute = editing.alarmOption.filter { it.isDigit() }.toIntOrNull() ?: 0
+            moveAlarm = editing.moveAlarm
+            binding.cbAlarm.isChecked = moveAlarm
+            updateDateTimeViews()
+            updateAlarmMinuteView()
+        }
+
         // 뒤로가기
         binding.btnBack.setOnClickListener {
             findNavController().popBackStack()
@@ -63,7 +77,7 @@ class AddScheduleFragment : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
 
-        // 날짜/시간 스크롤 피커(커스텀 다이얼로그)
+        // 날짜/시간 피커
         binding.tvStartDate.setOnClickListener { showDatePicker(true) }
         binding.tvStartTime.setOnClickListener { showTimePicker(true) }
         binding.tvEndDate.setOnClickListener { showDatePicker(false) }
@@ -79,9 +93,9 @@ class AddScheduleFragment : Fragment() {
             moveAlarm = isChecked
         }
 
-        // 추가 버튼
+        // 추가/수정 버튼
         binding.btnAdd.setOnClickListener {
-            val schedule = Schedule(
+            val newSchedule = Schedule(
                 title = binding.etTitle.text.toString(),
                 description = binding.etDesc.text.toString(),
                 startDate = startCalendar.time,
@@ -89,7 +103,13 @@ class AddScheduleFragment : Fragment() {
                 alarmOption = if (alarmMinute == 0) "알림 없음" else "${alarmMinute}분 전",
                 moveAlarm = moveAlarm
             )
-            scheduleViewModel.addSchedule(schedule)
+            if (editing != null) {
+                // 수정모드: 기존 일정 덮어쓰기
+                scheduleViewModel.updateSchedule(editing, newSchedule)
+            } else {
+                // 추가모드: 새 일정 추가
+                scheduleViewModel.addSchedule(newSchedule)
+            }
             findNavController().popBackStack()
         }
 
@@ -97,7 +117,6 @@ class AddScheduleFragment : Fragment() {
         updateDateTimeViews()
         updateAlarmMinuteView()
         checkButtonEnable()
-        // 체크박스 초기 상태와 moveAlarm 값 동기화
         binding.cbAlarm.isChecked = moveAlarm
     }
 
