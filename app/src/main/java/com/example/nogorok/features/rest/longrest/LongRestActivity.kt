@@ -2,6 +2,7 @@ package com.example.nogorok.features.rest.longrest
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
@@ -31,6 +32,16 @@ class LongRestActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_long_rest)
+        findViewById<ImageButton>(R.id.btnBack).setOnClickListener {
+            finish()
+        }
+
+        // 오늘 날짜로 안내문구 세팅
+        val today = java.util.Date()
+        val dateFormat = SimpleDateFormat("M월 d일", Locale.KOREAN)
+        val todayStr = dateFormat.format(today)
+        findViewById<TextView>(R.id.tvDesc).text =
+            "${todayStr}의 긴 쉼표를 추천해드릴게요.\n마음에 드는 시나리오를 골라주세요."
 
         // 일정 데이터가 바뀔 때마다 시나리오 3개를 자동 생성해서 보여줌
         scheduleViewModel.scheduleList.observe(this) { scheduleList ->
@@ -91,6 +102,10 @@ class LongRestActivity : AppCompatActivity() {
         if (scenarios.isEmpty()) return
         val scenario = scenarios[currentScenario]
         findViewById<TextView>(R.id.tvScenario).text = scenario.name
+
+        // 시나리오 2(인덱스 1)일 때만 "노고록이 추천해요!" 표시
+        val nogorokRecommend = findViewById<TextView>(R.id.tvNogorokRecommend)
+        nogorokRecommend.visibility = if (currentScenario == 1) View.VISIBLE else View.GONE
 
         val layout = findViewById<LinearLayout>(R.id.layoutScenario)
         layout.removeAllViews()
