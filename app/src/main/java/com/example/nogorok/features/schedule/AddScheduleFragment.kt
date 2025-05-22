@@ -26,6 +26,9 @@ class AddScheduleFragment : Fragment() {
     private var alarmMinute: Int = 0
     private var moveAlarm: Boolean = false
 
+    // 종료시간을 사용자가 직접 수정했는지 여부
+    private var endTimeManuallyChanged: Boolean = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,6 +52,11 @@ class AddScheduleFragment : Fragment() {
             binding.cbAlarm.isChecked = moveAlarm
             updateDateTimeViews()
             updateAlarmMinuteView()
+        } else {
+            // 새 일정 추가일 때: 종료시간을 시작시간 +1시간으로 자동 세팅
+            endCalendar.timeInMillis = startCalendar.timeInMillis
+            endCalendar.add(Calendar.HOUR_OF_DAY, 1)
+            updateDateTimeViews()
         }
 
         // 뒤로가기
@@ -80,8 +88,14 @@ class AddScheduleFragment : Fragment() {
         // 날짜/시간 피커
         binding.tvStartDate.setOnClickListener { showDatePicker(true) }
         binding.tvStartTime.setOnClickListener { showTimePicker(true) }
-        binding.tvEndDate.setOnClickListener { showDatePicker(false) }
-        binding.tvEndTime.setOnClickListener { showTimePicker(false) }
+        binding.tvEndDate.setOnClickListener {
+            endTimeManuallyChanged = true
+            showDatePicker(false)
+        }
+        binding.tvEndTime.setOnClickListener {
+            endTimeManuallyChanged = true
+            showTimePicker(false)
+        }
 
         // 푸쉬 알림 설정: 알림 없음 박스 클릭 시 다이얼로그로 5분 단위 증감
         binding.layoutAlarmControl.setOnClickListener {
@@ -154,6 +168,17 @@ class AddScheduleFragment : Fragment() {
             calendar.set(Calendar.DAY_OF_MONTH, dayPicker.value)
             updateDateTimeViews()
             dialog.dismiss()
+
+            // 시작 날짜를 바꿨고, 종료시간을 직접 수정하지 않았다면, 종료날짜도 맞춰줌
+            if (isStart && !endTimeManuallyChanged) {
+                endCalendar.set(Calendar.YEAR, yearPicker.value)
+                endCalendar.set(Calendar.MONTH, monthPicker.value - 1)
+                endCalendar.set(Calendar.DAY_OF_MONTH, dayPicker.value)
+                // 종료시간도 +1시간 자동 세팅
+                endCalendar.timeInMillis = startCalendar.timeInMillis
+                endCalendar.add(Calendar.HOUR_OF_DAY, 1)
+                updateDateTimeViews()
+            }
         }
         btnCancel.setOnClickListener { dialog.dismiss() }
         dialog.show()
@@ -195,6 +220,13 @@ class AddScheduleFragment : Fragment() {
             calendar.set(Calendar.MINUTE, minutePicker.value)
             updateDateTimeViews()
             dialog.dismiss()
+
+            // 시작 시간을 바꿨고, 종료시간을 직접 수정하지 않았다면, 종료시간도 +1시간 세팅
+            if (isStart && !endTimeManuallyChanged) {
+                endCalendar.timeInMillis = startCalendar.timeInMillis
+                endCalendar.add(Calendar.HOUR_OF_DAY, 1)
+                updateDateTimeViews()
+            }
         }
         btnCancel.setOnClickListener { dialog.dismiss() }
         dialog.show()
@@ -217,7 +249,6 @@ class AddScheduleFragment : Fragment() {
             tvMinute.text = if (minute == 0) "알림 없음" else "$minute 분 전"
         }
         updateView()
-
         btnMinus.setOnClickListener {
             if (minute > 0) {
                 minute -= 5
