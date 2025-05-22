@@ -60,9 +60,9 @@ class ScheduleFragment : Fragment() {
             findNavController().navigate(R.id.action_scheduleFragment_to_addScheduleFragment)
         }
 
-        // 일정 리스트 관찰해서 그리기
+        // 일정 리스트 관찰해서 그리기 (시작시간 순으로 정렬)
         viewModel.scheduleList.observe(viewLifecycleOwner) { list ->
-            drawScheduleList(list)
+            drawScheduleList(list.sortedBy { it.startDate })
         }
     }
 
@@ -135,8 +135,8 @@ class ScheduleFragment : Fragment() {
                 viewModel.editingSchedule = schedule
                 findNavController().navigate(R.id.action_scheduleFragment_to_addScheduleFragment)
             }
-            // 맨 위에 추가!
-            layout.addView(item, 0)
+            // 정렬된 순서대로 아래로 추가!
+            layout.addView(item)
         }
     }
 
