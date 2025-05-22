@@ -39,18 +39,17 @@ class LongRestActivity : AppCompatActivity() {
             showScenario()
         }
 
-        // 이전 시나리오 버튼
+        // 시나리오 순환(무한 루프)
         findViewById<ImageButton>(R.id.btnPrev).setOnClickListener {
-            if (currentScenario > 0) {
-                currentScenario--
+            if (scenarios.isNotEmpty()) {
+                currentScenario = (currentScenario - 1 + scenarios.size) % scenarios.size
                 showScenario()
             }
         }
 
-        // 다음 시나리오 버튼
         findViewById<ImageButton>(R.id.btnNext).setOnClickListener {
-            if (currentScenario < scenarios.size - 1) {
-                currentScenario++
+            if (scenarios.isNotEmpty()) {
+                currentScenario = (currentScenario + 1) % scenarios.size
                 showScenario()
             }
         }
