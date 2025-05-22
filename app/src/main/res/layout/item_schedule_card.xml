@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:background="@drawable/bg_schedule_card"
+    android:gravity="center_vertical"
+    android:layout_marginBottom="8dp"
+    android:padding="8dp">
+
+    <!-- 일정 이모지 -->
+    <TextView
+        android:id="@+id/tvEmoji"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:text="📝"
+        android:textSize="20sp"
+        android:gravity="center"/>
+
+    <!-- 일정 제목 -->
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="교양독일어 발표 준비"
+        android:textColor="#6A4A38"
+        android:textSize="15sp"
+        android:paddingLeft="8dp"
+        android:fontFamily="@font/pretendard_regular"/>
+
+    <!-- 일정 시간 -->
+    <TextView
+        android:id="@+id/tvTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="09:00-10:00"
+        android:textColor="#6A4A38"
+        android:textSize="14sp"
+        android:fontFamily="@font/pretendard_regular"/>
+</LinearLayout>

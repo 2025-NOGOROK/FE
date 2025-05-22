@@ -3,15 +3,78 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    android:padding="0dp">
 
+    <!-- 상단 안내문구 -->
     <TextView
-        android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="@string/long_rest"
-    android:textSize="24sp"
+        android:id="@+id/tvDesc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="3월 17일의 긴 쉼표를 추천해드릴게요.\n마음에 드는 시나리오를 골라주세요."
+        android:textSize="16sp"
         android:textColor="#6A4A38"
         android:fontFamily="@font/pretendard_semibold"
-        android:layout_margin="24dp" />
+        android:gravity="center"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- 시나리오 넘기기 (좌우 화살표 + 시나리오 이름) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginBottom="8dp">
+
+        <ImageButton
+            android:id="@+id/btnPrev"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_full_arrow_left"
+            android:contentDescription="이전 시나리오"/>
+
+        <TextView
+            android:id="@+id/tvScenario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="시나리오 1"
+            android:textColor="#6A4A38"
+            android:textSize="18sp"
+            android:fontFamily="@font/pretendard_semibold"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"/>
+
+        <ImageButton
+            android:id="@+id/btnNext"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_full_arrow_right"
+            android:contentDescription="다음 시나리오"/>
+    </LinearLayout>
+
+    <!-- 시나리오 일정 카드 리스트 -->
+    <LinearLayout
+        android:id="@+id/layoutScenario"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="12dp">
+        <!-- 동적으로 카드가 추가됨 -->
+    </LinearLayout>
+
+    <!-- 선택 버튼 -->
+    <Button
+        android:id="@+id/btnSelect"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:text="선택"
+        android:textColor="#6A4A38"
+        android:background="@drawable/btn_round_light"
+        android:layout_gravity="center"
+        android:layout_marginBottom="32dp"/>
 </LinearLayout>
