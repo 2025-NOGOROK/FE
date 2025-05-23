@@ -38,6 +38,9 @@ class ScheduleFragment : Fragment() {
     // dp 변환 확장 함수
     private val Int.dp: Int get() = (this * resources.displayMetrics.density).toInt()
 
+    // [추가] Date → Calendar 변환 확장 함수
+    private fun Date.toCalendar(): Calendar = Calendar.getInstance().apply { time = this@toCalendar }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -76,8 +79,12 @@ class ScheduleFragment : Fragment() {
             findNavController().navigate(R.id.action_scheduleFragment_to_addScheduleFragment)
         }
 
+        // [수정 포인트] 선택된 날짜에 해당하는 일정만 보여주기!
         viewModel.scheduleList.observe(viewLifecycleOwner) { list ->
-            drawScheduleList(list.sortedBy { it.startDate })
+            val filtered = list.filter { schedule ->
+                isSameDay(schedule.startDate.toCalendar(), selectedDate)
+            }
+            drawScheduleList(filtered.sortedBy { it.startDate })
         }
     }
 
@@ -133,6 +140,13 @@ class ScheduleFragment : Fragment() {
                 setOnClickListener {
                     selectedDate = dayCal.clone() as Calendar
                     updateCalendarHeader()
+                    // [핵심] 날짜를 클릭하면 일정도 바로 새로고침!
+                    viewModel.scheduleList.value?.let { list ->
+                        val filtered = list.filter { schedule ->
+                            isSameDay(schedule.startDate.toCalendar(), selectedDate)
+                        }
+                        drawScheduleList(filtered.sortedBy { it.startDate })
+                    }
                 }
                 if (isSelected) {
                     background = ContextCompat.getDrawable(requireContext(), R.drawable.bg_selected_date)
@@ -242,7 +256,6 @@ class ScheduleFragment : Fragment() {
             layout.addView(row)
         }
     }
-
 
     private fun isSameDay(cal1: Calendar, cal2: Calendar): Boolean {
         return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
