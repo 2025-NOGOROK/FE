@@ -50,6 +50,9 @@
     <color name="calendar_input_bg">#FFFAE3</color>
 
     <color name="light_yellow">#FFFAE3</color>
-
+    <color name="ivory">#FFFAE3</color>
+    <color name="brown">#73605A</color>
+    <color name="yellow">#FFFDBA</color>
+    <color name="brown_70">#B8998C</color>
 
 </resources>

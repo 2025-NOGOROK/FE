@@ -11,12 +11,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.nogorok.features.rest.diary.DiaryActivity
+import com.example.nogorok.features.rest.diary.DiaryDialogFragment
 import com.example.nogorok.features.rest.longrest.LongRestActivity
 import com.example.nogorok.features.rest.shortrest.ShortRestActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.example.nogorok.utils.TokenManager
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        TokenManager.init(applicationContext)
         enableEdgeToEdge()
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContentView(R.layout.activity_main)
@@ -79,7 +81,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         fabDiary.setOnClickListener {
-            startActivity(Intent(this, DiaryActivity::class.java))
+            DiaryDialogFragment().show(supportFragmentManager, "DiaryDialog")
         }
+
     }
 }

@@ -69,7 +69,6 @@
         <activity android:name=".features.auth.onboarding.OnboardingActivity" android:exported="false" android:theme="@style/Theme.NOGOROK" />
 
         <!-- 쉼표 및 일기 -->
-        <activity android:name=".features.rest.diary.DiaryActivity" />
         <activity android:name=".features.rest.longrest.LongRestActivity" />
         <activity android:name=".features.rest.shortrest.ShortRestActivity" />
 

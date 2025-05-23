@@ -1,0 +1,32 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="12dp"
+    android:background="@drawable/bg_item"
+    android:layout_marginBottom="10dp"
+    android:gravity="center_vertical">
+
+    <TextView
+        android:id="@+id/itemIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="🖋"
+        android:textSize="18sp"
+        android:layout_marginEnd="8dp" />
+
+    <TextView
+        android:id="@+id/itemTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="교양독립 발표 준비"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/itemTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="09:00~10:00"
+        android:textSize="14sp" />
+</LinearLayout>

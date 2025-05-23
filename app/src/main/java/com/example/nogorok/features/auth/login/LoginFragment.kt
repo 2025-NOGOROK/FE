@@ -16,6 +16,8 @@ import com.example.nogorok.features.auth.forgotpassword.FindPasswordEmailActivit
 import com.example.nogorok.network.RetrofitClient
 import com.example.nogorok.network.dto.SignInRequest
 import kotlinx.coroutines.launch
+import com.example.nogorok.utils.TokenManager
+import android.util.Log
 
 class LoginFragment : Fragment() {
 
@@ -95,7 +97,8 @@ class LoginFragment : Fragment() {
                             val accessToken = result?.data?.accessToken ?: ""
                             val refreshToken = result?.data?.refreshToken ?: ""
 
-                            // TODO: accessToken, refreshToken 저장 (SharedPreferences 등)
+                            TokenManager.saveAccessToken(response.body()?.data?.accessToken ?: "")
+                            Log.d("ACCESS_TOKEN", TokenManager.getAccessToken() ?: "null")
                             Toast.makeText(requireContext(), "로그인 성공", Toast.LENGTH_SHORT).show()
 
                             val intent = Intent(requireContext(), MainActivity::class.java).apply {
