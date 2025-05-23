@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.TypedValue
 import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
@@ -23,10 +24,9 @@ class AddScheduleFragment : Fragment() {
 
     private var startCalendar: Calendar = Calendar.getInstance()
     private var endCalendar: Calendar = Calendar.getInstance()
-    private var alarmMinute: Int = 0
+    private var alarmMinute: Int = 10 // 기본값 10분
     private var moveAlarm: Boolean = false
 
-    // 종료시간을 사용자가 직접 수정했는지 여부
     private var endTimeManuallyChanged: Boolean = false
 
     override fun onCreateView(
@@ -40,7 +40,6 @@ class AddScheduleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 수정모드라면 기존 데이터로 입력란 채우기
         val editing = scheduleViewModel.editingSchedule
         if (editing != null) {
             binding.etTitle.setText(editing.title)
@@ -53,18 +52,16 @@ class AddScheduleFragment : Fragment() {
             updateDateTimeViews()
             updateAlarmMinuteView()
         } else {
-            // 새 일정 추가일 때: 종료시간을 시작시간 +1시간으로 자동 세팅
             endCalendar.timeInMillis = startCalendar.timeInMillis
             endCalendar.add(Calendar.HOUR_OF_DAY, 1)
             updateDateTimeViews()
+            updateAlarmMinuteView()
         }
 
-        // 뒤로가기
         binding.btnBack.setOnClickListener {
             findNavController().popBackStack()
         }
 
-        // 제목/설명 입력 시 색상 변경 및 추가 버튼 활성화
         binding.etTitle.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 binding.etTitle.setTextColor(
@@ -85,7 +82,7 @@ class AddScheduleFragment : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
 
-        // 날짜/시간 피커
+        // 날짜/시간 피커 (휠)
         binding.tvStartDate.setOnClickListener { showDatePicker(true) }
         binding.tvStartTime.setOnClickListener { showTimePicker(true) }
         binding.tvEndDate.setOnClickListener {
@@ -97,17 +94,23 @@ class AddScheduleFragment : Fragment() {
             showTimePicker(false)
         }
 
-        // 푸쉬 알림 설정: 알림 없음 박스 클릭 시 다이얼로그로 5분 단위 증감
-        binding.layoutAlarmControl.setOnClickListener {
-            showAlarmMinutePicker()
+        // 푸쉬 알림 증감 버튼 한 줄 (팝업X)
+        binding.btnMinus.setOnClickListener {
+            if (alarmMinute > 0) {
+                alarmMinute -= 5 // 5분 단위 증감
+                if (alarmMinute < 0) alarmMinute = 0
+                updateAlarmMinuteView()
+            }
+        }
+        binding.btnPlus.setOnClickListener {
+            alarmMinute += 5 // 5분 단위 증감
+            updateAlarmMinuteView()
         }
 
-        // 이동 전 알림받기 체크박스: 체크/해제 모두 가능, 값 동기화
         binding.cbAlarm.setOnCheckedChangeListener { _, isChecked ->
             moveAlarm = isChecked
         }
 
-        // 추가/수정 버튼
         binding.btnAdd.setOnClickListener {
             val newSchedule = Schedule(
                 title = binding.etTitle.text.toString(),
@@ -118,16 +121,13 @@ class AddScheduleFragment : Fragment() {
                 moveAlarm = moveAlarm
             )
             if (editing != null) {
-                // 수정모드: 기존 일정 덮어쓰기
                 scheduleViewModel.updateSchedule(editing, newSchedule)
             } else {
-                // 추가모드: 새 일정 추가
                 scheduleViewModel.addSchedule(newSchedule)
             }
             findNavController().popBackStack()
         }
 
-        // 초기값 세팅
         updateDateTimeViews()
         updateAlarmMinuteView()
         checkButtonEnable()
@@ -138,7 +138,7 @@ class AddScheduleFragment : Fragment() {
         binding.btnAdd.isEnabled = binding.etTitle.text.isNotEmpty()
     }
 
-    // 날짜 선택: yyyy.mm.dd NumberPicker + 하단 버튼
+    // 날짜 선택: 커스텀 다이얼로그 + NumberPicker (휠)
     private fun showDatePicker(isStart: Boolean) {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -169,12 +169,10 @@ class AddScheduleFragment : Fragment() {
             updateDateTimeViews()
             dialog.dismiss()
 
-            // 시작 날짜를 바꿨고, 종료시간을 직접 수정하지 않았다면, 종료날짜도 맞춰줌
             if (isStart && !endTimeManuallyChanged) {
                 endCalendar.set(Calendar.YEAR, yearPicker.value)
                 endCalendar.set(Calendar.MONTH, monthPicker.value - 1)
                 endCalendar.set(Calendar.DAY_OF_MONTH, dayPicker.value)
-                // 종료시간도 +1시간 자동 세팅
                 endCalendar.timeInMillis = startCalendar.timeInMillis
                 endCalendar.add(Calendar.HOUR_OF_DAY, 1)
                 updateDateTimeViews()
@@ -184,7 +182,7 @@ class AddScheduleFragment : Fragment() {
         dialog.show()
     }
 
-    // 시간 선택: 오전/오후, 시, 분 NumberPicker + 하단 버튼
+    // 시간 선택: 커스텀 다이얼로그 + NumberPicker (휠)
     private fun showTimePicker(isStart: Boolean) {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -221,7 +219,6 @@ class AddScheduleFragment : Fragment() {
             updateDateTimeViews()
             dialog.dismiss()
 
-            // 시작 시간을 바꿨고, 종료시간을 직접 수정하지 않았다면, 종료시간도 +1시간 세팅
             if (isStart && !endTimeManuallyChanged) {
                 endCalendar.timeInMillis = startCalendar.timeInMillis
                 endCalendar.add(Calendar.HOUR_OF_DAY, 1)
@@ -232,46 +229,15 @@ class AddScheduleFragment : Fragment() {
         dialog.show()
     }
 
-    // 푸쉬 알림 설정: 5분 단위 증감 다이얼로그
-    private fun showAlarmMinutePicker() {
-        val dialog = Dialog(requireContext())
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.dialog_alarm_picker)
-
-        val btnMinus = dialog.findViewById<Button>(R.id.btnMinus)
-        val btnPlus = dialog.findViewById<Button>(R.id.btnPlus)
-        val tvMinute = dialog.findViewById<TextView>(R.id.tvMinute)
-        val btnOk = dialog.findViewById<Button>(R.id.btnOk)
-        val btnCancel = dialog.findViewById<Button>(R.id.btnCancel)
-
-        var minute = alarmMinute
-        fun updateView() {
-            tvMinute.text = if (minute == 0) "알림 없음" else "$minute 분 전"
-        }
-        updateView()
-        btnMinus.setOnClickListener {
-            if (minute > 0) {
-                minute -= 5
-                updateView()
-            }
-        }
-        btnPlus.setOnClickListener {
-            minute += 5
-            updateView()
-        }
-        btnOk.setOnClickListener {
-            alarmMinute = minute
-            updateAlarmMinuteView()
-            dialog.dismiss()
-        }
-        btnCancel.setOnClickListener {
-            dialog.dismiss()
-        }
-        dialog.show()
-    }
-
+    // "알림 없음"일 때 12sp, 숫자일 때 14sp로 동적 변경!
     private fun updateAlarmMinuteView() {
-        binding.tvAlarmMinute.text = if (alarmMinute == 0) "알림 없음" else "${alarmMinute}분 전"
+        if (alarmMinute == 0) {
+            binding.tvPushAlarmMinute.text = "알림 없음"
+            binding.tvPushAlarmMinute.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
+        } else {
+            binding.tvPushAlarmMinute.text = "${alarmMinute}"
+            binding.tvPushAlarmMinute.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
+        }
     }
 
     private fun updateDateTimeViews() {
