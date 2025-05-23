@@ -1,6 +1,6 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <!-- #000000 6% 투명도: #F3F3F3 -->
-    <solid android:color="#F3F3F3"/>
+    <solid android:color="#FFF9E2"/>
     <corners android:radius="18dp"/>
+    <stroke android:color="#73605A" android:width="2dp"/>
 </shape>
