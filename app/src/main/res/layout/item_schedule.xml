@@ -1,33 +1,55 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- res/layout/item_schedule.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="56dp"
     android:orientation="horizontal"
     android:gravity="center_vertical"
-    android:background="@drawable/bg_schedule_item_rounded"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp"
-    android:paddingTop="12dp"
-    android:paddingBottom="12dp"
-    android:layout_marginBottom="12dp">
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp">
 
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+    <!-- 아이콘 (핀 or 쉼표) -->
+    <ImageView
+        android:id="@+id/ivType"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="일정 타입"/>
+
+    <!-- 일정 내용 박스 -->
+    <LinearLayout
+        android:id="@+id/layoutScheduleBox"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="24dp"
         android:layout_weight="1"
-        android:text="일정 제목"
-        android:textColor="#73605A"
-        android:textSize="15sp"
-        android:fontFamily="@font/pretendard_medium"/>
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:background="@drawable/bg_schedule_fixed"
+        android:minHeight="56dp">
 
-    <TextView
-        android:id="@+id/tvTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="09:00~10:00"
-        android:textColor="#73605A"
-        android:textSize="15sp"
-        android:fontFamily="@font/pretendard_medium"/>
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="서영이랑 저녁약속"
+            android:textColor="#73605A"
+            android:textSize="18sp"
+            android:fontFamily="@font/pretendard_regular"/>
+
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="18:00~20:00"
+            android:textColor="#73605A"
+            android:textSize="16sp"
+            android:fontFamily="@font/pretendard_regular"/>
+    </LinearLayout>
 </LinearLayout>
