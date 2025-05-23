@@ -26,6 +26,7 @@
     <color name="login_text">#8B7C6E</color>
     <color name="on_primary">#F4EED4</color>
     <color name="primary_70">#B373605A</color> <!-- 70% 투명도 갈색 (B3 = 70% alpha) -->
+    <color name="bg_calendar_header">#FFF9E2</color>
 
 
 
