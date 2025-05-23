@@ -7,92 +7,92 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF">
 
-    <!-- 캘린더 헤더 부분 (생략하지 않고 전체) -->
+    <!-- 캘린더 헤더 -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_calendar_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FDF6DC"
+        android:background="@drawable/bg_calendar_header_rounded"
         android:paddingTop="24dp"
         android:paddingBottom="24dp"
         android:elevation="2dp">
 
+        <!-- 캘린더 버튼: y축 중앙! -->
         <ImageButton
             android:id="@+id/btn_calendar"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:background="@android:color/transparent"
             android:src="@drawable/ic_calendar_month"
+            app:tint="#73605A"
             android:contentDescription="캘린더"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/layout_days"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="0dp"/>
+            app:layout_constraintTop_toTopOf="@+id/layout_center_group"
+            app:layout_constraintBottom_toBottomOf="@+id/layout_center_group"
+            android:layout_marginStart="32dp"/>
 
-        <ImageButton
-            android:id="@+id/btn_prev_week"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_full_arrow_left"
-            android:contentDescription="이전 주"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_year_month"
-            android:layout_marginEnd="8dp"/>
-
-        <TextView
-            android:id="@+id/tv_year_month"
+        <!-- 중앙 그룹: 화살표 + 연월 + 화살표 -->
+        <LinearLayout
+            android:id="@+id/layout_center_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2025년 5월"
-            android:textColor="#73605A"
-            android:textSize="18sp"
-            android:fontFamily="@font/pretendard_regular"
-            app:layout_constraintStart_toEndOf="@+id/btn_prev_week"
-            app:layout_constraintEnd_toStartOf="@+id/btn_next_week"
+            android:orientation="horizontal"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/layout_days_dates"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/btn_prev_week"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_full_arrow_left"
+                app:tint="#73605A"
+                android:contentDescription="이전 주"
+                android:layout_marginEnd="4dp"/>
+
+            <TextView
+                android:id="@+id/tv_year_month"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2025년 3월"
+                android:textColor="#73605A"
+                android:textSize="18sp"
+                android:fontFamily="@font/pretendard_regular"
+                android:gravity="center"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"/>
+
+            <ImageButton
+                android:id="@+id/btn_next_week"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_full_arrow_right"
+                app:tint="#73605A"
+                android:contentDescription="다음 주"
+                android:layout_marginStart="4dp"/>
+        </LinearLayout>
+
+        <!-- 요일+날짜 1:1 세트 -->
+        <LinearLayout
+            android:id="@+id/layout_days_dates"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/layout_center_group"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:layout_marginTop="12dp"
             android:gravity="center"/>
 
-        <ImageButton
-            android:id="@+id/btn_next_week"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_full_arrow_right"
-            android:contentDescription="다음 주"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_year_month"
-            android:layout_marginStart="8dp"/>
-
-        <LinearLayout
-            android:id="@+id/layout_days"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            app:layout_constraintTop_toBottomOf="@+id/tv_year_month"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:paddingHorizontal="36dp"
-            android:layout_marginTop="12dp"/>
-
-        <LinearLayout
-            android:id="@+id/layout_dates"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            app:layout_constraintTop_toBottomOf="@+id/layout_days"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:paddingHorizontal="24dp"
-            android:layout_marginTop="12dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- 일정 리스트: 위에 위치 -->
+    <!-- 일정 리스트 -->
     <LinearLayout
         android:id="@+id/layoutScheduleList"
         android:layout_width="match_parent"
@@ -103,7 +103,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="8dp"/>
 
-    <!-- + 일정 추가하기 버튼: 아래에 고정 -->
+    <!-- 일정 추가하기 버튼 -->
     <Button
         android:id="@+id/btn_add_schedule"
         android:layout_width="match_parent"

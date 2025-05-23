@@ -1,6 +1,7 @@
 package com.example.nogorok.features.schedule
 
 import android.graphics.Typeface
+import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -31,6 +32,9 @@ class ScheduleFragment : Fragment() {
 
     private val viewModel: ScheduleViewModel by activityViewModels()
 
+    // dp 변환 확장 함수
+    private val Int.dp: Int get() = (this * resources.displayMetrics.density).toInt()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -43,6 +47,12 @@ class ScheduleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // 상태바 색상 노란색으로 변경
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            requireActivity().window.statusBarColor =
+                ContextCompat.getColor(requireContext(), R.color.bg_calendar_header)
+        }
+
         updateCalendarHeader()
 
         binding.btnPrevWeek.setOnClickListener {
@@ -54,13 +64,15 @@ class ScheduleFragment : Fragment() {
             updateCalendarHeader()
         }
 
-        // 일정 추가하기 버튼 클릭 시 수정모드 해제
+        binding.btnCalendar.setOnClickListener {
+            // TODO: 캘린더 전체 보기 등 연결
+        }
+
         binding.btnAddSchedule.setOnClickListener {
-            viewModel.editingSchedule = null // 새 일정 추가
+            viewModel.editingSchedule = null
             findNavController().navigate(R.id.action_scheduleFragment_to_addScheduleFragment)
         }
 
-        // 일정 리스트 관찰해서 그리기 (시작시간 순으로 정렬)
         viewModel.scheduleList.observe(viewLifecycleOwner) { list ->
             drawScheduleList(list.sortedBy { it.startDate })
         }
@@ -75,40 +87,50 @@ class ScheduleFragment : Fragment() {
         weekStart.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
 
         val daysOfWeek = listOf("일", "월", "화", "수", "목", "금", "토")
-        binding.layoutDays.removeAllViews()
+        // 요일+날짜 1:1 세트로 배치
+        binding.layoutDaysDates.removeAllViews()
+
         for (i in 0..6) {
-            val tv = TextView(requireContext()).apply {
+            // 세로 LinearLayout: 요일+날짜 한 세트
+            val colLayout = LinearLayout(requireContext()).apply {
+                orientation = LinearLayout.VERTICAL
+                gravity = Gravity.CENTER
+                layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+            }
+
+            // 요일 텍스트
+            val dayTv = TextView(requireContext()).apply {
                 text = daysOfWeek[i]
                 textSize = 14f
                 typeface = fontRegular
                 setTextColor(0xFF666666.toInt())
                 gravity = Gravity.CENTER
-                layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
             }
             val dayCal = weekStart.clone() as Calendar
             dayCal.add(Calendar.DAY_OF_MONTH, i)
             if (isSameDay(dayCal, selectedDate)) {
-                tv.setTypeface(fontBold, Typeface.BOLD)
-                tv.setTextColor(0xFF73605A.toInt())
+                dayTv.setTypeface(fontBold, Typeface.BOLD)
+                dayTv.setTextColor(0xFF73605A.toInt())
             }
-            binding.layoutDays.addView(tv)
-        }
 
-        binding.layoutDates.removeAllViews()
-        val dateSize = resources.getDimensionPixelSize(R.dimen.calendar_date_size)
-        for (i in 0..6) {
-            val dayCal = weekStart.clone() as Calendar
-            dayCal.add(Calendar.DAY_OF_MONTH, i)
+            // 날짜 텍스트
             val dateNum = dayCal.get(Calendar.DAY_OF_MONTH)
             val isSelected = isSameDay(dayCal, selectedDate)
-            val tv = TextView(requireContext()).apply {
+            val dateSize = 36.dp // 36dp 고정
+
+            val dateTv = TextView(requireContext()).apply {
                 text = dateNum.toString()
                 textSize = 14f
                 typeface = if (isSelected) fontBold else fontRegular
                 setTextColor(if (isSelected) 0xFFF4EED4.toInt() else 0xFF666666.toInt())
                 gravity = Gravity.CENTER
                 layoutParams = LinearLayout.LayoutParams(dateSize, dateSize).apply {
-                    weight = 1f
+                    topMargin = 4.dp
+                    gravity = Gravity.CENTER
                 }
                 setOnClickListener {
                     selectedDate = dayCal.clone() as Calendar
@@ -118,7 +140,11 @@ class ScheduleFragment : Fragment() {
                     background = ContextCompat.getDrawable(requireContext(), R.drawable.bg_selected_date)
                 }
             }
-            binding.layoutDates.addView(tv)
+
+
+            colLayout.addView(dayTv)
+            colLayout.addView(dateTv)
+            binding.layoutDaysDates.addView(colLayout)
         }
     }
 
@@ -135,7 +161,6 @@ class ScheduleFragment : Fragment() {
                 viewModel.editingSchedule = schedule
                 findNavController().navigate(R.id.action_scheduleFragment_to_addScheduleFragment)
             }
-            // 정렬된 순서대로 아래로 추가!
             layout.addView(item)
         }
     }
