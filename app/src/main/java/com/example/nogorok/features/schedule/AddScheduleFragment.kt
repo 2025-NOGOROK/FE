@@ -1,6 +1,8 @@
 package com.example.nogorok.features.schedule
 
+import android.app.AlertDialog
 import android.app.Dialog
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -24,7 +26,7 @@ class AddScheduleFragment : Fragment() {
 
     private var startCalendar: Calendar = Calendar.getInstance()
     private var endCalendar: Calendar = Calendar.getInstance()
-    private var alarmMinute: Int = 10 // 기본값 10분
+    private var alarmMinute: Int = 0 // ⭐️ 기본값 "알림 없음"으로!
     private var moveAlarm: Boolean = false
 
     private var endTimeManuallyChanged: Boolean = false
@@ -94,23 +96,17 @@ class AddScheduleFragment : Fragment() {
             showTimePicker(false)
         }
 
-        // 푸쉬 알림 증감 버튼 한 줄 (팝업X)
-        binding.btnMinus.setOnClickListener {
-            if (alarmMinute > 0) {
-                alarmMinute -= 5 // 5분 단위 증감
-                if (alarmMinute < 0) alarmMinute = 0
-                updateAlarmMinuteView()
-            }
-        }
-        binding.btnPlus.setOnClickListener {
-            alarmMinute += 5 // 5분 단위 증감
-            updateAlarmMinuteView()
+        // 🛎️ 푸쉬 알림 시간 박스 클릭 시 리스트 다이얼로그 띄우기
+        binding.tvPushAlarmMinute.setOnClickListener {
+            showPushAlarmOptionDialog()
         }
 
+        // 이동 전 알림 체크박스
         binding.cbAlarm.setOnCheckedChangeListener { _, isChecked ->
             moveAlarm = isChecked
         }
 
+        // 일정 추가 버튼
         binding.btnAdd.setOnClickListener {
             val newSchedule = Schedule(
                 title = binding.etTitle.text.toString(),
@@ -229,14 +225,59 @@ class AddScheduleFragment : Fragment() {
         dialog.show()
     }
 
+    // 🛎️ 푸쉬 알림 옵션 리스트 다이얼로그 함수 (AlertDialog)
+    private fun showPushAlarmOptionDialog() {
+        val options = arrayOf("알림 없음", "10분 전", "30분 전", "1시간 전")
+        val checkedItem = when (alarmMinute) {
+            0 -> 0
+            10 -> 1
+            30 -> 2
+            60 -> 3
+            else -> 0
+        }
+
+        var selectedMinute = alarmMinute // 임시 선택값
+
+        val builder = AlertDialog.Builder(requireContext())
+            .setTitle("푸쉬 알림 시간 선택")
+            .setSingleChoiceItems(options, checkedItem) { _, which ->
+                // 선택 시 임시 저장
+                selectedMinute = when (which) {
+                    0 -> 0
+                    1 -> 10
+                    2 -> 30
+                    3 -> 60
+                    else -> 0
+                }
+            }
+            .setNegativeButton("취소", null)
+            .setPositiveButton("확인") { _, _ ->
+                alarmMinute = selectedMinute
+                updateAlarmMinuteView()
+            }
+
+        val dialog = builder.create()
+        dialog.setOnShowListener {
+            // 버튼 색상 검정(#000000)으로 변경!
+            dialog.getButton(AlertDialog.BUTTON_NEGATIVE)?.setTextColor(Color.parseColor("#000000"))
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.setTextColor(Color.parseColor("#000000"))
+        }
+        dialog.show()
+    }
+
     // "알림 없음"일 때 12sp, 숫자일 때 14sp로 동적 변경!
     private fun updateAlarmMinuteView() {
         if (alarmMinute == 0) {
             binding.tvPushAlarmMinute.text = "알림 없음"
-            binding.tvPushAlarmMinute.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
+            binding.tvPushAlarmMinute.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
         } else {
-            binding.tvPushAlarmMinute.text = "${alarmMinute}"
-            binding.tvPushAlarmMinute.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
+            binding.tvPushAlarmMinute.text = when (alarmMinute) {
+                10 -> "10분 전"
+                30 -> "30분 전"
+                60 -> "1시간 전"
+                else -> "${alarmMinute}분 전"
+            }
+            binding.tvPushAlarmMinute.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
         }
     }
 
