@@ -90,15 +90,19 @@ class CompleteFragment : Fragment() {
                         val accessToken = body?.data?.accessToken
 
                         accessToken?.let {
-                            TokenManager.saveAccessToken(it)
+                            TokenManager.saveAccessToken(requireContext(), it)
                             TokenManager.saveEmail(requireContext(), viewModel.email ?: "")
+
+                            RetrofitClient.setAccessToken(it) // interceptor에 토큰 등록
+
                             registerFcmToken(it, deviceToken ?: "")
                         }
 
                         Toast.makeText(requireContext(), "회원가입이 완료되었습니다", Toast.LENGTH_SHORT).show()
                         startActivity(Intent(requireContext(), SurveyActivity::class.java))
                         requireActivity().finish()
-                    } else {
+                    }
+                    else {
                         Toast.makeText(requireContext(), "회원가입 실패: ${response.code()}", Toast.LENGTH_LONG).show()
                     }
                 }

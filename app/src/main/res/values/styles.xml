@@ -29,8 +29,50 @@
         <item name="android:timePickerMode">spinner</item>
     </style>
 
+    <!-- 다이어리용 태그 버튼 스타일 -->
+    <style name="DiaryTagButton" parent="Widget.Material3.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">6dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:backgroundTint">#B8998C</item> <!-- #73605A with 70% opacity -->
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="shapeAppearanceOverlay">@style/DiaryButtonRounded</item>
+    </style>
 
+    <!-- 선택된 버튼 스타일 -->
+    <style name="DiaryTagButton.Selected">
+        <item name="android:backgroundTint">#73605A</item>
+    </style>
 
+    <!-- 둥근 모서리 적용 -->
+    <style name="DiaryButtonRounded">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">20dp</item>
+    </style>
 
+    <!-- 하루기록 타이틀 스타일 -->
+    <style name="DiaryMainTitle">
+        <item name="android:textColor">@color/brown</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_marginBottom">16dp</item>
+    </style>
 
-</resources>
+    <!-- 섹션 제목 -->
+    <style name="DiarySectionTitle">
+        <item name="android:textColor">@color/brown</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:layout_marginTop">12dp</item>
+    </style>
+
+    </resources>
+

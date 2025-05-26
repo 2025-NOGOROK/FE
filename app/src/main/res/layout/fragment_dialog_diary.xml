@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:background="@drawable/bg_diary_dialog"
+        android:layout_gravity="center"
+        android:elevation="10dp">
+
+        <!-- 타이틀 -->
+        <TextView
+            style="@style/DiaryMainTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="하루 기록"
+            android:layout_gravity="center_horizontal" />
+
+        <!-- 감정 선택 -->
+        <TextView
+            style="@style/DiarySectionTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="감정 선택" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button android:id="@+id/btnJoy"
+                style="@style/DiaryTagButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="😊 기쁨" />
+            <Button android:id="@+id/btnNormal"
+                style="@style/DiaryTagButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="😐 보통" />
+            <Button android:id="@+id/btnSad"
+                style="@style/DiaryTagButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="😔 우울" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnAngry"
+                style="@style/DiaryTagButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="😠 짜증" />
+            <Button
+                android:id="@+id/btnFurious"
+                style="@style/DiaryTagButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🔥 화남" />
+        </LinearLayout>
+
+        <!-- 피곤한 정도 -->
+        <TextView
+            style="@style/DiarySectionTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="피곤한 정도" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnVeryTired"
+                style="@style/DiaryTagButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="😩 매우 피곤" />
+            <Button
+                android:id="@+id/btnFatigueNormal"
+                style="@style/DiaryTagButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🙂 보통" />
+            <Button
+                android:id="@+id/btnEnergetic"
+                style="@style/DiaryTagButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="😄 에너지 넘침" />
+        </LinearLayout>
+
+        <!-- 날씨 기록 -->
+        <TextView
+            style="@style/DiarySectionTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="날씨 기록" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnSunny"
+                style="@style/DiaryTagButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="✨ 맑음" />
+            <Button
+                android:id="@+id/btnCloudy"
+                style="@style/DiaryTagButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="☁️ 흐림" />
+            <Button
+                android:id="@+id/btnRainy"
+                style="@style/DiaryTagButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🌧️ 비" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnSnowy"
+                style="@style/DiaryTagButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="❄️ 눈" />
+        </LinearLayout>
+
+        <!-- 특이 사항 -->
+        <TextView
+            style="@style/DiarySectionTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="특이 사항" />
+
+        <EditText
+            android:id="@+id/editSpecialNote"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@color/ivory"
+            android:gravity="top|start"
+            android:padding="8dp"
+            android:textColor="@color/brown"
+            android:fontFamily="@font/pretendard_medium"
+            android:inputType="textMultiLine|textCapSentences"
+            android:imeOptions="actionDone"
+            android:lines="3"
+            android:hint="" />
+
+        <!-- 확인 버튼 -->
+        <Button
+            android:id="@+id/btnConfirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="확인"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/ivory"
+            android:textColor="@color/brown"
+            android:fontFamily="@font/pretendard_medium" />
+
+    </LinearLayout>
+</ScrollView>

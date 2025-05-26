@@ -15,7 +15,9 @@ import com.example.nogorok.databinding.FragmentLoginBinding
 import com.example.nogorok.features.auth.forgotpassword.FindPasswordEmailActivity
 import com.example.nogorok.network.RetrofitClient
 import com.example.nogorok.network.dto.SignInRequest
+import com.example.nogorok.utils.TokenManager
 import kotlinx.coroutines.launch
+import android.util.Log
 
 class LoginFragment : Fragment() {
 
@@ -42,25 +44,8 @@ class LoginFragment : Fragment() {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
-        binding.edtEmail.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                if (isValidationActivated) {
-                    binding.emailError.visibility = if (s.isNullOrBlank()) View.VISIBLE else View.GONE
-                }
-            }
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
-
-        binding.edtPassword.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                if (isValidationActivated) {
-                    binding.passwordError.visibility = if (s.isNullOrBlank()) View.VISIBLE else View.GONE
-                }
-            }
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
+        binding.edtEmail.addTextChangedListener(createValidationWatcher(binding.emailError))
+        binding.edtPassword.addTextChangedListener(createValidationWatcher(binding.passwordError))
 
         binding.btnLogin.setOnClickListener {
             isValidationActivated = true
@@ -68,21 +53,7 @@ class LoginFragment : Fragment() {
             val email = binding.edtEmail.text?.toString()?.trim() ?: ""
             val password = binding.edtPassword.text?.toString()?.trim() ?: ""
 
-            var isValid = true
-
-            if (email.isEmpty()) {
-                binding.emailError.visibility = View.VISIBLE
-                isValid = false
-            } else {
-                binding.emailError.visibility = View.GONE
-            }
-
-            if (password.isEmpty()) {
-                binding.passwordError.visibility = View.VISIBLE
-                isValid = false
-            } else {
-                binding.passwordError.visibility = View.GONE
-            }
+            val isValid = validateInputs(email, password)
 
             if (isValid) {
                 lifecycleScope.launch {
@@ -95,7 +66,12 @@ class LoginFragment : Fragment() {
                             val accessToken = result?.data?.accessToken ?: ""
                             val refreshToken = result?.data?.refreshToken ?: ""
 
-                            // TODO: accessToken, refreshToken 저장 (SharedPreferences 등)
+                            val appContext = requireContext().applicationContext
+                            TokenManager.saveAccessToken(appContext, accessToken)
+                            RetrofitClient.setAccessToken(accessToken)
+
+                            Log.d("LOGIN", "Token saved: $accessToken / Loaded: ${TokenManager.getAccessToken(appContext)}")
+
                             Toast.makeText(requireContext(), "로그인 성공", Toast.LENGTH_SHORT).show()
 
                             val intent = Intent(requireContext(), MainActivity::class.java).apply {
@@ -103,7 +79,8 @@ class LoginFragment : Fragment() {
                             }
                             startActivity(intent)
                         } else {
-                            Toast.makeText(requireContext(), "로그인 실패: ${response.code()}", Toast.LENGTH_SHORT).show()
+                            val errorMessage = response.errorBody()?.string()
+                            Toast.makeText(requireContext(), "로그인 실패: $errorMessage", Toast.LENGTH_SHORT).show()
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()
@@ -111,6 +88,38 @@ class LoginFragment : Fragment() {
                     }
                 }
             }
+        }
+    }
+
+    private fun validateInputs(email: String, password: String): Boolean {
+        var valid = true
+        if (email.isBlank()) {
+            binding.emailError.visibility = View.VISIBLE
+            valid = false
+        } else {
+            binding.emailError.visibility = View.GONE
+        }
+
+        if (password.isBlank()) {
+            binding.passwordError.visibility = View.VISIBLE
+            valid = false
+        } else {
+            binding.passwordError.visibility = View.GONE
+        }
+
+        return valid
+    }
+
+    private fun createValidationWatcher(target: View): TextWatcher {
+        return object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (isValidationActivated) {
+                    target.visibility = if (s.isNullOrBlank()) View.VISIBLE else View.GONE
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         }
     }
 
