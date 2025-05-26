@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- 둥근 모서리 -->
+    <corners android:radius="30dp" />
+
+    <!-- 테두리 -->
+    <stroke
+        android:width="3dp"
+        android:color="#73605A" />
+
+    <!-- 배경 투명 -->
+    <solid android:color="@android:color/transparent" />
+</shape>
