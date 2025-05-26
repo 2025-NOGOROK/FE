@@ -156,7 +156,7 @@
             android:id="@+id/editSpecialNote"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:background="@color/ivory"
+            android:background="@drawable/bg_edittext_round"
             android:gravity="top|start"
             android:padding="8dp"
             android:textColor="@color/brown"
