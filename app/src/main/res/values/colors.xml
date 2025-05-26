@@ -56,4 +56,7 @@
     <color name="yellow">#FFFDBA</color>
     <color name="brown_70">#B8998C</color>
 
+    <color name="graph_green">#005816</color>
+    <color name="graph_brown">#73605A</color>
+
 </resources>
