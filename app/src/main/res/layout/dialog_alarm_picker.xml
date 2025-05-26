@@ -1,0 +1,77 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:gravity="center">
+
+    <!-- 증감 버튼과 텍스트 -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btnMinus"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:text="-"
+            android:textSize="22sp"
+            android:textColor="#000000"
+            android:background="@android:color/transparent"/>
+
+        <TextView
+            android:id="@+id/tvMinute"
+            android:layout_width="80dp"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:textColor="#73605A"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="알림 없음"/>
+
+        <Button
+            android:id="@+id/btnPlus"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:text="+"
+            android:textSize="22sp"
+            android:textColor="#000000"
+            android:background="@android:color/transparent"/>
+    </LinearLayout>
+
+    <!-- 취소/확인 버튼 -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp">
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="취소"
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:background="@android:color/transparent"/>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/btnOk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="확인"
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:background="@android:color/transparent"/>
+    </LinearLayout>
+</LinearLayout>
