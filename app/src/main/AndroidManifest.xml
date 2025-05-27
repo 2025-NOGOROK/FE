@@ -77,6 +77,7 @@
 
         <!-- 리포트  -->
         <activity android:name=".features.report.WeeklyReportActivity" />
+        <activity android:name=".features.report.MonthlyReportActivity" />
 
         <!-- 캘린더 연동 -->
         <activity
