@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- 헤더 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_top_header_rounded"
+            android:padding="24dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_back"
+                android:contentDescription="뒤로가기" />
+
+            <TextView
+                android:id="@+id/tvHeader"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="주간 리포트"
+                android:textColor="@color/ivory"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:fontFamily="@font/pretendard_semibold" />
+        </LinearLayout>
+
+        <!-- 내용 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- 날짜 정보 -->
+            <TextView
+                android:id="@+id/tvWeekTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2025년 5월 셋째주"
+                android:textSize="14sp"
+                android:fontFamily="@font/pretendard_regular"
+                android:textColor="@color/brown"
+                android:layout_marginTop="16dp" />
+
+            <TextView
+                android:id="@+id/tvDateRange"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5월 12일~5월 18일"
+                android:textSize="16sp"
+                android:textColor="@color/brown"
+                android:fontFamily="@font/pretendard_semibold"
+                android:layout_marginBottom="24dp" />
+
+            <!-- 평균 스트레스 변화 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="평균 스트레스 변화"
+                android:textSize="18sp"
+                android:fontFamily="@font/pretendard_semibold"
+                android:textColor="@color/black"
+                android:background="@drawable/bg_text_highlight"
+                android:paddingBottom="2dp"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="변동 폭이 큽니다. 충분한 휴식이 필요해요."
+                android:textColor="@color/brown"
+                android:textSize="14sp"
+                android:fontFamily="@font/pretendard_regular"
+                android:layout_marginBottom="16dp" />
+
+            <LinearLayout
+                android:id="@+id/barContainer"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:orientation="horizontal"
+                android:gravity="bottom"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:paddingHorizontal="12dp"
+                android:weightSum="7" />
+
+            <!-- 감정 및 피로도 분석 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="감정 및 피로도 분석"
+                android:textSize="18sp"
+                android:fontFamily="@font/pretendard_semibold"
+                android:textColor="@color/black"
+                android:background="@drawable/bg_text_highlight"
+                android:paddingBottom="2dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="사용자가 입력한 하루일기 감정과 피로도를 불러왔어요."
+                android:textColor="@color/brown"
+                android:textSize="14sp"
+                android:fontFamily="@font/pretendard_regular"
+                android:layout_marginBottom="16dp" />
+
+            <FrameLayout
+                android:id="@+id/emotionGraphContainer"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_marginTop="12dp">
+
+                <!-- 실제 이모지 + 텍스트를 감싸는 layout -->
+                <LinearLayout
+                    android:id="@+id/emotionPointLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="bottom"
+                    android:weightSum="7"
+                    android:paddingHorizontal="16dp" />
+
+                <!-- 커스텀 라인 뷰 -->
+                <com.example.nogorok.features.report.EmotionLineView
+                    android:id="@+id/emotionLineView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </FrameLayout>
+
+
+
+
+
+            <!-- 주간 날씨 통계 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="주간 날씨 통계"
+                android:textSize="18sp"
+                android:fontFamily="@font/pretendard_semibold"
+                android:textColor="@color/black"
+                android:background="@drawable/bg_text_highlight"
+                android:paddingBottom="2dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp" />
+
+            <LinearLayout
+                android:id="@+id/weatherContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:weightSum="7"
+                android:paddingHorizontal="24dp"/>
+
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

@@ -67,8 +67,10 @@ class MypageFragment : Fragment() {
 
         // 주간 리포트 예시
         view.findViewById<LinearLayout>(R.id.layout_weekly_report).setOnClickListener {
-            Toast.makeText(requireContext(), "주간 리포트 화면", Toast.LENGTH_SHORT).show()
+            val intent = Intent(requireContext(), com.example.nogorok.features.report.WeeklyReportActivity::class.java)
+            startActivity(intent)
         }
+
 
         // 월간 리포트 예시
         view.findViewById<LinearLayout>(R.id.layout_monthly_report).setOnClickListener {

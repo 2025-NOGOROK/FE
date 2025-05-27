@@ -1,0 +1,4 @@
+package com.example.nogorok.features.report
+
+class MonthlyReportViewModel {
+}
