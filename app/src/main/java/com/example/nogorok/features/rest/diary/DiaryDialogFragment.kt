@@ -71,9 +71,30 @@ class DiaryDialogFragment : DialogFragment() {
         val editText = view.findViewById<EditText>(R.id.editSpecialNote)
 
         view.findViewById<Button>(R.id.btnConfirm).setOnClickListener {
-            val emotion = selectedEmotionButton?.text?.toString()?.trim() ?: ""
-            val fatigue = selectedFatigueButton?.text?.toString()?.trim() ?: ""
-            val weather = selectedWeatherButton?.text?.toString()?.trim() ?: ""
+            val emotion = when (selectedEmotionButton?.id) {
+                R.id.btnJoy -> "JOY"
+                R.id.btnNormal -> "NORMAL"
+                R.id.btnSad -> "DEPRESSED"
+                R.id.btnAngry -> "IRRITATED"
+                R.id.btnFurious -> "ANGRY"
+                else -> ""
+            }
+
+            val fatigue = when (selectedFatigueButton?.id) {
+                R.id.btnVeryTired -> "VERY_TIRED"
+                R.id.btnFatigueNormal -> "NORMAL"
+                R.id.btnEnergetic -> "ENERGETIC"
+                else -> ""
+            }
+
+            val weather = when (selectedWeatherButton?.id) {
+                R.id.btnSunny -> "SUNNY"
+                R.id.btnCloudy -> "CLOUDY"
+                R.id.btnRainy -> "RAIN"
+                R.id.btnSnowy -> "SNOW"
+                else -> ""
+            }
+
             val note = editText.text.toString().trim()
 
             if (emotion.isNotBlank() && fatigue.isNotBlank() && weather.isNotBlank()) {
@@ -86,14 +107,13 @@ class DiaryDialogFragment : DialogFragment() {
                     },
                     onError = {
                         Log.e("DiaryDialog", "서버 요청 실패", it)
-                        // 예: Toast.makeText(requireContext(), "저장 실패", Toast.LENGTH_SHORT).show()
+                        // Toast 메시지 등 추가 가능
                     }
                 )
             } else {
                 Log.w("DiaryDialog", "필수 항목 선택 안 됨")
             }
         }
-
 
         builder.setView(view)
         return builder.create()
