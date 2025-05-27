@@ -74,7 +74,8 @@ class MypageFragment : Fragment() {
 
         // 월간 리포트 예시
         view.findViewById<LinearLayout>(R.id.layout_monthly_report).setOnClickListener {
-            Toast.makeText(requireContext(), "월간 리포트 화면", Toast.LENGTH_SHORT).show()
+            val intent = Intent(requireContext(), com.example.nogorok.features.report.MonthlyReportActivity::class.java)
+            startActivity(intent)
         }
 
         return view
