@@ -119,15 +119,32 @@
                 android:fontFamily="@font/pretendard_regular"
                 android:layout_marginBottom="16dp" />
 
-            <LinearLayout
+            <FrameLayout
                 android:id="@+id/emotionGraphContainer"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:gravity="bottom"
-                android:padding="24dp"
-                android:baselineAligned="false"
-                android:weightSum="7" />
+                android:layout_height="250dp"
+                android:layout_marginTop="12dp">
+
+                <!-- 실제 이모지 + 텍스트를 감싸는 layout -->
+                <LinearLayout
+                    android:id="@+id/emotionPointLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="bottom"
+                    android:weightSum="7"
+                    android:paddingHorizontal="16dp" />
+
+                <!-- 커스텀 라인 뷰 -->
+                <com.example.nogorok.features.report.EmotionLineView
+                    android:id="@+id/emotionLineView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </FrameLayout>
+
+
+
+
 
             <!-- 주간 날씨 통계 -->
             <TextView
@@ -142,7 +159,17 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="8dp" />
 
-            <!-- TODO: 그래프 및 통계 영역 -->
+            <LinearLayout
+                android:id="@+id/weatherContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:weightSum="7"
+                android:paddingHorizontal="24dp"/>
+
 
         </LinearLayout>
     </LinearLayout>
