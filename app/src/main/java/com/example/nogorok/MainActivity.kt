@@ -14,9 +14,11 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.nogorok.features.rest.diary.DiaryDialogFragment
 import com.example.nogorok.features.rest.longrest.LongRestActivity
 import com.example.nogorok.features.rest.shortrest.ShortRestActivity
+import com.example.nogorok.features.schedule.ScheduleFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.example.nogorok.features.schedule.AddScheduleFragment
 
 
 class MainActivity : AppCompatActivity() {
@@ -73,8 +75,12 @@ class MainActivity : AppCompatActivity() {
 
         // 이동 이벤트
         fabShort.setOnClickListener {
-            startActivity(Intent(this, ShortRestActivity::class.java))
+            // 현재 navHostFragment에서 ScheduleFragment를 찾아서 함수 호출
+            val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+            val fragment = navHostFragment?.childFragmentManager?.fragments?.find { it is ScheduleFragment } as? ScheduleFragment
+            fragment?.showShortRestLoadingFragment()
         }
+
 
         fabLong.setOnClickListener {
             startActivity(Intent(this, LongRestActivity::class.java))
