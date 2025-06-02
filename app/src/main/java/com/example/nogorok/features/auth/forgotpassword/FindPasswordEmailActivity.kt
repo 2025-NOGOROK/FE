@@ -10,7 +10,13 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.nogorok.R
+import com.example.nogorok.network.RetrofitClient
+import com.example.nogorok.network.dto.CheckEmailRequest
 import com.google.android.material.button.MaterialButton
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class FindPasswordEmailActivity : AppCompatActivity() {
 
@@ -27,22 +33,17 @@ class FindPasswordEmailActivity : AppCompatActivity() {
 
         btnBack.setOnClickListener { finish() }
 
-        // 색상 리소스 불러오기
-        val colorFull = ContextCompat.getColor(this, R.color.primary)      // #73605A
-        val color70 = ContextCompat.getColor(this, R.color.primary_70)     // #B373605A
+        val colorFull = ContextCompat.getColor(this, R.color.primary)
+        val color70 = ContextCompat.getColor(this, R.color.primary_70)
 
-        // 처음엔 입력란이 비어있으니 70% 투명도 적용
         btnNext.backgroundTintList = ColorStateList.valueOf(color70)
 
-        // 이메일 입력란에 텍스트가 바뀔 때마다 버튼 배경색 변경
         edtEmail.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                // 입력값이 있으면 진한색, 없으면 연한색
                 val isNotEmpty = !s.isNullOrEmpty()
                 btnNext.backgroundTintList = ColorStateList.valueOf(
                     if (isNotEmpty) colorFull else color70
                 )
-                // 기존 유효성 에러 표시 로직은 그대로 둬
                 if (isValidationActivated) {
                     emailError.visibility = if (s.isNullOrEmpty()) TextView.VISIBLE else TextView.GONE
                 }
@@ -58,18 +59,32 @@ class FindPasswordEmailActivity : AppCompatActivity() {
                 emailError.visibility = TextView.VISIBLE
             } else {
                 emailError.visibility = TextView.GONE
-                // 임시: 이메일이 "nogorok@gmail.com"일 때만 성공
-                if (email == "nogorok@gmail.com") {
-                    val intent = Intent(this, FindPasswordResetActivity::class.java)
-                    intent.putExtra("email", email)
-                    startActivity(intent)
-                } else {
-                    AlertDialog.Builder(this)
-                        .setMessage("일치하는 회원정보가 없습니다.")
-                        .setPositiveButton("확인", null)
-                        .show()
+                CoroutineScope(Dispatchers.IO).launch {
+                    try {
+                        val response = RetrofitClient.authApi.checkEmail(CheckEmailRequest(email))
+                        withContext(Dispatchers.Main) {
+                            if (response.isSuccessful) {
+                                val intent = Intent(this@FindPasswordEmailActivity, FindPasswordResetActivity::class.java)
+                                intent.putExtra("email", email)
+                                startActivity(intent)
+                            } else {
+                                showErrorDialog("일치하는 회원정보가 없습니다.")
+                            }
+                        }
+                    } catch (e: Exception) {
+                        withContext(Dispatchers.Main) {
+                            showErrorDialog("서버와 통신 중 오류가 발생했습니다.")
+                        }
+                    }
                 }
             }
         }
+    }
+
+    private fun showErrorDialog(message: String) {
+        AlertDialog.Builder(this)
+            .setMessage(message)
+            .setPositiveButton("확인", null)
+            .show()
     }
 }
