@@ -9,15 +9,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.nogorok.R
 import com.example.nogorok.features.auth.fcm.FCMTokenManager
 import com.example.nogorok.features.auth.register.RegisterActivity
 import com.example.nogorok.features.auth.register.RegisterViewModel
+import com.example.nogorok.network.RetrofitClient
 import com.google.android.material.button.MaterialButton
+import kotlinx.coroutines.launch
 
 class NotificationFragment : Fragment() {
 
@@ -54,9 +58,8 @@ class NotificationFragment : Fragment() {
             (activity as? RegisterActivity)?.navigateToNext("Notification")
         }
 
-        // 권한 요청 + FCM 토큰 요청
         checkAndRequestNotificationPermission()
-        fetchFcmToken()
+        fetchFcmTokenAndRegister()
     }
 
     private fun checkAndRequestNotificationPermission() {
@@ -78,12 +81,23 @@ class NotificationFragment : Fragment() {
         }
     }
 
-    private fun fetchFcmToken() {
+    private fun fetchFcmTokenAndRegister() {
         FCMTokenManager.fetchToken(
             context = requireContext(),
             onTokenReceived = { token ->
                 viewModel.deviceToken = token
                 Log.d("NotificationFragment", "FCM Token 저장 완료: $token")
+
+                // 서버에 전송
+                lifecycleScope.launch {
+                    try {
+                        RetrofitClient.fcmApi.registerFcmToken(token)
+                        Log.d("NotificationFragment", "서버에 FCM 토큰 업로드 성공")
+                    } catch (e: Exception) {
+                        Log.e("NotificationFragment", "서버 업로드 실패: ${e.message}")
+                        Toast.makeText(requireContext(), "FCM 토큰 업로드 실패", Toast.LENGTH_SHORT).show()
+                    }
+                }
             },
             onError = { error ->
                 Log.e("NotificationFragment", "FCM Token 수신 실패: ${error.message}")
