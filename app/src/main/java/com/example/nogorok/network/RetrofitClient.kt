@@ -7,6 +7,8 @@ import com.example.nogorok.network.api.SurveyApi
 import com.example.nogorok.network.api.GoogleApi
 import com.example.nogorok.network.api.DiaryApi
 import com.example.nogorok.network.api.MypageApi
+import com.example.nogorok.network.api.MonthlyApi
+import com.example.nogorok.network.api.WeeklyApi
 import com.example.nogorok.utils.TokenManager
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -69,4 +71,6 @@ object RetrofitClient {
     val googleApi: GoogleApi by lazy { retrofit.create(GoogleApi::class.java) }
     val diaryApi: DiaryApi by lazy { retrofit.create(DiaryApi::class.java) }
     val mypageApi: MypageApi by lazy { retrofit.create(MypageApi::class.java) }
+    val monthlyApi: MonthlyApi by lazy { retrofit.create(MonthlyApi::class.java) }
+    val weeklyApi: WeeklyApi by lazy { retrofit.create(WeeklyApi::class.java) }
 }
