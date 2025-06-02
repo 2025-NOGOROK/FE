@@ -73,7 +73,7 @@ class MonthlyReportActivity : AppCompatActivity() {
             val emoji = ImageView(this).apply {
                 setImageResource(iconRes)
                 layoutParams = LinearLayout.LayoutParams(32.dp, 32.dp).apply {
-                    rightMargin = -(8).dp
+                    rightMargin = 4.dp
                 }
             }
 
@@ -126,37 +126,107 @@ class MonthlyReportActivity : AppCompatActivity() {
             "짜증" to R.drawable.irritated
         )
 
-        val calendarGrid = GridLayout(this).apply {
-            rowCount = 6
-            columnCount = 7
-            layoutParams = FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.MATCH_PARENT
-            )
-        }
-
         val today = LocalDate.now()
         val currentMonth = YearMonth.of(today.year, today.month)
         val daysInMonth = currentMonth.lengthOfMonth()
+        val firstDay = currentMonth.atDay(1)
+        val firstWeekdayIndex = firstDay.dayOfWeek.value % 7  // 일=0, 월=1, ..., 토=6
 
+        val container = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            layoutParams = FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT
+            )
+        }
+
+        // 📅 "2025년 5월"
+        val title = TextView(this).apply {
+            text = "${today.year}년 ${today.monthValue}월"
+            gravity = Gravity.CENTER
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
+            setTextColor(ContextCompat.getColor(this@MonthlyReportActivity, R.color.brown))
+            typeface = ResourcesCompat.getFont(this@MonthlyReportActivity, R.font.pretendard_semibold)
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                bottomMargin = 16.dp
+            }
+        }
+        container.addView(title)
+
+        // 🗓 요일 헤더
+        val daysOfWeek = listOf("일", "월", "화", "수", "목", "금", "토")
+        val dayHeader = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER
+        }
+        for (day in daysOfWeek) {
+            val label = TextView(this).apply {
+                text = day
+                gravity = Gravity.CENTER
+                setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
+                setTextColor(ContextCompat.getColor(this@MonthlyReportActivity, R.color.gray))
+                typeface = ResourcesCompat.getFont(this@MonthlyReportActivity, R.font.pretendard_regular)
+                layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+            }
+            dayHeader.addView(label)
+        }
+        container.addView(dayHeader)
+
+        // 📆 캘린더 그리드
+        val calendarGrid = GridLayout(this).apply {
+            rowCount = 6
+            columnCount = 7
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                topMargin = 12.dp
+            }
+        }
+
+        // 📌 샘플 감정값
         val sampleEmotions = List(daysInMonth) {
             listOf("기쁨", "보통", "화남", "우울", "짜증").random()
         }
 
-        for (emotion in sampleEmotions) {
-            val emojiView = ImageView(this).apply {
-                setImageResource(emojiMap[emotion] ?: R.drawable.smile)
+        // 공백 채우기
+        for (i in 0 until firstWeekdayIndex) {
+            val emptyView = View(this).apply {
                 layoutParams = GridLayout.LayoutParams().apply {
-                    width = 40.dp
-                    height = 40.dp
-                    bottomMargin = 8.dp
+                    width = 23.dp
+                    height = 23.dp
                 }
             }
+            calendarGrid.addView(emptyView)
+        }
+
+        // 날짜별 이모지 추가
+        for (i in 0 until daysInMonth) {
+            val emoji = sampleEmotions[i]
+            val emojiView = ImageView(this).apply {
+                setImageResource(emojiMap[emoji] ?: R.drawable.smile)
+                layoutParams = GridLayout.LayoutParams().apply {
+                    width = 23.dp
+                    height = 23.dp
+                    columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
+                    setGravity(Gravity.CENTER)
+                    bottomMargin = 12.dp
+                }
+                scaleType = ImageView.ScaleType.FIT_CENTER
+            }
+
             calendarGrid.addView(emojiView)
         }
 
-        emotionCalendarContainer.addView(calendarGrid)
+        container.addView(calendarGrid)
+        emotionCalendarContainer.removeAllViews()
+        emotionCalendarContainer.addView(container)
     }
+
+
 
     val Int.dp: Int
         get() = (this * resources.displayMetrics.density).toInt()
