@@ -9,6 +9,7 @@ import com.example.nogorok.network.api.DiaryApi
 import com.example.nogorok.network.api.MypageApi
 import com.example.nogorok.network.api.MonthlyApi
 import com.example.nogorok.network.api.WeeklyApi
+import com.example.nogorok.network.api.HomeApi
 import com.example.nogorok.utils.TokenManager
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -73,4 +74,5 @@ object RetrofitClient {
     val mypageApi: MypageApi by lazy { retrofit.create(MypageApi::class.java) }
     val monthlyApi: MonthlyApi by lazy { retrofit.create(MonthlyApi::class.java) }
     val weeklyApi: WeeklyApi by lazy { retrofit.create(WeeklyApi::class.java) }
+    val homeApi: HomeApi by lazy { retrofit.create(HomeApi::class.java) }
 }
