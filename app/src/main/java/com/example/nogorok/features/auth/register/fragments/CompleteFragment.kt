@@ -90,7 +90,9 @@ class CompleteFragment : Fragment() {
                         }
 
                         Toast.makeText(requireContext(), "회원가입이 완료되었습니다", Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(requireContext(), SurveyActivity::class.java))
+                        val intent = Intent(requireContext(), SurveyActivity::class.java)
+                        intent.putExtra("mode", "register")
+                        startActivity(intent)
                         requireActivity().finish()
                     } else {
                         Toast.makeText(requireContext(), "회원가입 실패: ${response.code()}", Toast.LENGTH_LONG).show()

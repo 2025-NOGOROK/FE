@@ -17,6 +17,7 @@ import com.example.nogorok.network.RetrofitClient
 import com.example.nogorok.utils.TokenManager
 import kotlinx.coroutines.launch
 import android.util.Log
+import com.example.nogorok.features.auth.survey.SurveyActivity
 
 class MypageFragment : Fragment() {
 
@@ -41,7 +42,9 @@ class MypageFragment : Fragment() {
 
         // 스트레스 설문 수정
         view.findViewById<LinearLayout>(R.id.layout_edit_survey).setOnClickListener {
-            Toast.makeText(requireContext(), "설문 수정 화면으로 이동", Toast.LENGTH_SHORT).show()
+            val intent = Intent(requireContext(), SurveyActivity::class.java)
+            intent.putExtra("mode", "edit")
+            startActivity(intent)
         }
 
         // ✅ 회원 탈퇴 기능
