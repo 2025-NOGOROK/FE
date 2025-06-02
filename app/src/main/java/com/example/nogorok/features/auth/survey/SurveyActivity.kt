@@ -22,6 +22,9 @@ class SurveyActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_survey)
 
+        val mode = intent.getStringExtra("mode") ?: "register"
+        viewModel.updateMode(mode)
+
         // 첫 화면에 Step1 띄우기
         if (savedInstanceState == null) {
             supportFragmentManager.commit {

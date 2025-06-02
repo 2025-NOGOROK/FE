@@ -16,10 +16,6 @@ import com.example.nogorok.features.connect.health.HealthMainActivity
 import com.example.nogorok.network.RetrofitClient
 import com.example.nogorok.network.dto.SurveyRequest
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
-import java.io.IOException
-
-// 생략된 import는 그대로 유지
 
 class SurveyFinalFragment : Fragment() {
     private var _binding: FragmentSurveyFinalBinding? = null
@@ -36,22 +32,31 @@ class SurveyFinalFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        // 👉 안내 문구와 버튼 텍스트 변경
+        if (viewModel.mode == "edit") {
+            binding.tvDesc.text = "기존 설문 내용을 수정하고\n업데이트할 수 있어요."
+            binding.btnNext.text = "완료"
+        } else {
+            binding.tvDesc.text = "고생하셨어요!\n이제 당신의 루틴을 완성할\n두 가지 설정만 남았어요."
+            binding.btnNext.text = "다음"
+        }
+
         binding.btnBack.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
         binding.btnNext.setOnClickListener {
-            // ✅ 유효성 체크
             if (viewModel.hasStressRelief.value == true &&
                 (viewModel.stressReliefMethods.value.isNullOrEmpty())) {
                 Toast.makeText(requireContext(), "스트레스 해소 방법을 입력하세요.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            val userEmail = TokenManager.getEmail(requireContext()) // 또는 ViewModel에서 받아올 수도 있음
+            val userEmail = TokenManager.getEmail(requireContext()) ?: ""
 
             val request = SurveyRequest(
-                email = userEmail ?: "", // ❗ null 방지를 위해 기본값 처리
+                email = userEmail,
                 scheduleType = viewModel.scheduleType.value ?: "",
                 suddenChangePreferred = viewModel.suddenChangePreferred.value ?: false,
                 chronotype = viewModel.chronotype.value ?: "",
@@ -61,14 +66,23 @@ class SurveyFinalFragment : Fragment() {
                 stressReliefMethods = viewModel.stressReliefMethods.value ?: emptyList()
             )
 
-
             lifecycleScope.launch {
                 try {
-                    val response = RetrofitClient.surveyApi.submitSurvey(request)
+                    val response = if (viewModel.mode == "edit") {
+                        RetrofitClient.surveyApi.updateSurvey(request)
+                    } else {
+                        RetrofitClient.surveyApi.submitSurvey(request)
+                    }
+
                     if (response.isSuccessful) {
-                        val intent = Intent(requireContext(), HealthMainActivity::class.java)
-                        startActivity(intent)
-                        requireActivity().finish()
+                        if (viewModel.mode == "edit") {
+                            Toast.makeText(requireContext(), "설문 정보가 수정되었습니다", Toast.LENGTH_SHORT).show()
+                            requireActivity().finish()
+                        } else {
+                            val intent = Intent(requireContext(), HealthMainActivity::class.java)
+                            startActivity(intent)
+                            requireActivity().finish()
+                        }
                     } else {
                         Toast.makeText(requireContext(), "서버 오류 발생: ${response.code()}", Toast.LENGTH_SHORT).show()
                     }
