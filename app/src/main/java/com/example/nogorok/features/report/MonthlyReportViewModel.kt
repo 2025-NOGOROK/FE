@@ -1,4 +1,26 @@
 package com.example.nogorok.features.report
 
-class MonthlyReportViewModel {
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.nogorok.network.RetrofitClient
+import kotlinx.coroutines.launch
+import java.time.LocalDate
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+
+class MonthlyReportViewModel : ViewModel() {
+
+    private val _emotionData = MutableLiveData<Map<String, Double>>()
+    val emotionData: LiveData<Map<String, Double>> = _emotionData
+
+    fun fetchEmotionRatio(year: Int = LocalDate.now().year, month: Int = LocalDate.now().monthValue) {
+        viewModelScope.launch {
+            try {
+                val response = RetrofitClient.monthlyApi.getMonthlyEmotion(year, month)
+                _emotionData.postValue(response.emotionPercent)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
 }

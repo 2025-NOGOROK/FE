@@ -5,14 +5,17 @@ import android.os.Bundle
 import android.util.TypedValue
 import android.view.Gravity
 import android.widget.*
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.lifecycle.ViewModelProvider
 import com.example.nogorok.R
 import java.time.LocalDate
 import java.time.YearMonth
 import android.view.View
-
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.observe
 
 class MonthlyReportActivity : AppCompatActivity() {
 
@@ -21,6 +24,9 @@ class MonthlyReportActivity : AppCompatActivity() {
     private lateinit var btnBack: ImageView
     private lateinit var emotionRatioContainer: LinearLayout
     private lateinit var emotionCalendarContainer: FrameLayout
+    private val viewModel: MonthlyReportViewModel by lazy {
+        ViewModelProvider(this)[MonthlyReportViewModel::class.java]
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +43,11 @@ class MonthlyReportActivity : AppCompatActivity() {
 
         btnBack.setOnClickListener { finish() }
 
-        setupEmotionRatioGraph()
+        viewModel.emotionData.observe(this) { data ->
+            setupEmotionRatioGraph(data)
+        }
+
+        viewModel.fetchEmotionRatio()
         setupMonthlyEmotionCalendar()
     }
 
@@ -46,42 +56,52 @@ class MonthlyReportActivity : AppCompatActivity() {
         return "${today.year}년 ${today.monthValue}월"
     }
 
-    private fun setupEmotionRatioGraph() {
-        val emotionData = listOf(
-            Triple("우울", 8, R.drawable.sad),
-            Triple("화남", 7, R.drawable.angry),
-            Triple("보통", 32, R.drawable.regular),
-            Triple("기쁨", 36, R.drawable.smile),
-            Triple("짜증", 7, R.drawable.irritated)
+    private fun setupEmotionRatioGraph(emotionMap: Map<String, Double>) {
+        emotionRatioContainer.removeAllViews()
+
+        val iconMap = mapOf(
+            "JOY" to R.drawable.smile,
+            "DEPRESSED" to R.drawable.sad,
+            "NORMAL" to R.drawable.regular,
+            "IRRITATED" to R.drawable.irritated,
+            "ANGRY" to R.drawable.angry
         )
 
-        val maxPercent = emotionData.maxOf { it.second }
+        val maxPercent = emotionMap.values.maxOrNull() ?: 1.0
 
-        for ((label, percent, iconRes) in emotionData) {
+        for ((code, percent) in emotionMap) {
+            val iconRes = iconMap[code] ?: continue
+            val label = when (code) {
+                "JOY" -> "기쁨"
+                "DEPRESSED" -> "우울"
+                "NORMAL" -> "보통"
+                "IRRITATED" -> "짜증"
+                "ANGRY" -> "화남"
+                else -> code
+            }
+
             val row = LinearLayout(this).apply {
                 orientation = LinearLayout.HORIZONTAL
                 gravity = Gravity.CENTER_VERTICAL
                 layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
-                ).apply {
-                    bottomMargin = 16.dp
-                }
+                ).apply { bottomMargin = 16.dp }
             }
 
-            // 이모지
             val emoji = ImageView(this).apply {
                 setImageResource(iconRes)
                 layoutParams = LinearLayout.LayoutParams(32.dp, 32.dp).apply {
-                    rightMargin = 4.dp
+                    rightMargin = 8.dp
                 }
             }
 
+            val barWidth = (200.dp * (percent / 100)).toInt().coerceAtLeast(2.dp)
 
-            // 막대 그래프 채움 (비율만큼 width 설정)
-            val fillWidthPercent = percent / 100f
-            val barFill = View(this).apply {
-                layoutParams = FrameLayout.LayoutParams((200.dp * fillWidthPercent).toInt(), 12.dp)
+            val bar = View(this).apply {
+                layoutParams = FrameLayout.LayoutParams(barWidth, 12.dp).apply {
+                    gravity = Gravity.CENTER_VERTICAL
+                }
                 background = GradientDrawable().apply {
                     setColor(
                         if (percent == maxPercent)
@@ -93,24 +113,28 @@ class MonthlyReportActivity : AppCompatActivity() {
                 }
             }
 
-
-            // 퍼센트 텍스트
             val percentText = TextView(this).apply {
-                text = "$label ${percent}%"
+                text = "$label ${percent.toInt()}%"
                 setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
                 setTextColor(ContextCompat.getColor(this@MonthlyReportActivity, R.color.black))
-                typeface = ResourcesCompat.getFont(this@MonthlyReportActivity, R.font.pretendard_regular)
-                layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
+                typeface = ResourcesCompat.getFont(this@MonthlyReportActivity, R.font.pretendard_semibold)
+                layoutParams = FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.WRAP_CONTENT,
+                    FrameLayout.LayoutParams.WRAP_CONTENT
                 ).apply {
-                    leftMargin = 8.dp
+                    gravity = Gravity.CENTER_VERTICAL or Gravity.START
+                    leftMargin = barWidth + 8.dp
                 }
             }
 
+            val barFrame = FrameLayout(this).apply {
+                layoutParams = LinearLayout.LayoutParams(0, 32.dp, 1f)
+                addView(bar)
+                addView(percentText)
+            }
+
             row.addView(emoji)
-            row.addView(barFill)
-            row.addView(percentText)
+            row.addView(barFrame)
 
             emotionRatioContainer.addView(row)
         }
@@ -130,7 +154,7 @@ class MonthlyReportActivity : AppCompatActivity() {
         val currentMonth = YearMonth.of(today.year, today.month)
         val daysInMonth = currentMonth.lengthOfMonth()
         val firstDay = currentMonth.atDay(1)
-        val firstWeekdayIndex = firstDay.dayOfWeek.value % 7  // 일=0, 월=1, ..., 토=6
+        val firstWeekdayIndex = firstDay.dayOfWeek.value % 7
 
         val container = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
@@ -140,7 +164,6 @@ class MonthlyReportActivity : AppCompatActivity() {
             )
         }
 
-        // 📅 "2025년 5월"
         val title = TextView(this).apply {
             text = "${today.year}년 ${today.monthValue}월"
             gravity = Gravity.CENTER
@@ -150,13 +173,10 @@ class MonthlyReportActivity : AppCompatActivity() {
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
-            ).apply {
-                bottomMargin = 16.dp
-            }
+            ).apply { bottomMargin = 16.dp }
         }
         container.addView(title)
 
-        // 🗓 요일 헤더
         val daysOfWeek = listOf("일", "월", "화", "수", "목", "금", "토")
         val dayHeader = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
@@ -175,24 +195,19 @@ class MonthlyReportActivity : AppCompatActivity() {
         }
         container.addView(dayHeader)
 
-        // 📆 캘린더 그리드
         val calendarGrid = GridLayout(this).apply {
             rowCount = 6
             columnCount = 7
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
-            ).apply {
-                topMargin = 12.dp
-            }
+            ).apply { topMargin = 12.dp }
         }
 
-        // 📌 샘플 감정값
         val sampleEmotions = List(daysInMonth) {
             listOf("기쁨", "보통", "화남", "우울", "짜증").random()
         }
 
-        // 공백 채우기
         for (i in 0 until firstWeekdayIndex) {
             val emptyView = View(this).apply {
                 layoutParams = GridLayout.LayoutParams().apply {
@@ -203,7 +218,6 @@ class MonthlyReportActivity : AppCompatActivity() {
             calendarGrid.addView(emptyView)
         }
 
-        // 날짜별 이모지 추가
         for (i in 0 until daysInMonth) {
             val emoji = sampleEmotions[i]
             val emojiView = ImageView(this).apply {
@@ -217,7 +231,6 @@ class MonthlyReportActivity : AppCompatActivity() {
                 }
                 scaleType = ImageView.ScaleType.FIT_CENTER
             }
-
             calendarGrid.addView(emojiView)
         }
 
@@ -225,8 +238,6 @@ class MonthlyReportActivity : AppCompatActivity() {
         emotionCalendarContainer.removeAllViews()
         emotionCalendarContainer.addView(container)
     }
-
-
 
     val Int.dp: Int
         get() = (this * resources.displayMetrics.density).toInt()
