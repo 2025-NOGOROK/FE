@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/shortRestLoadingRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#B3000000"
+    android:clickable="true"
+    android:focusable="true">
+
+    <!-- 쉼표 아이콘과 텍스트만 세로로 중앙 배치 -->
+<LinearLayout
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:orientation="vertical"
+android:gravity="center"
+android:layout_gravity="center">
+
+<!-- 쉼표 아이콘 (예: ic_comma, 없으면 텍스트 쉼표로 대체) -->
+<ImageView
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:src="@drawable/short_rest_loading_comma"
+    android:contentDescription="쉼표"/>
+
+<!-- 안내 텍스트 -->
+<TextView
+    android:id="@+id/tvLoadingText"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="짧은 쉼표 일정을 생성하고 있어요!"
+    android:textColor="#FFF9E2"
+    android:textSize="18sp"
+    android:fontFamily="@font/pretendard_bold"
+    android:layout_marginTop="12dp"
+    android:gravity="center"/>
+</LinearLayout>
+    </FrameLayout>

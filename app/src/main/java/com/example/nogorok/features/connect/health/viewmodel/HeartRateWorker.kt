@@ -8,56 +8,90 @@ import com.example.nogorok.network.RetrofitClient
 import com.example.nogorok.network.dto.HeartRateUploadRequest
 import com.example.nogorok.utils.TokenManager
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
-import com.example.nogorok.features.connect.health.utils.HeartRateLocal
-
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class HeartRateWorker(
-    context: Context,
-    params: WorkerParameters
-) : CoroutineWorker(context, params) {
+    private val context: Context,
+    workerParams: WorkerParameters
+) : CoroutineWorker(context, workerParams) {
+
+    companion object {
+        private const val MAX_RETRIES = 5
+        private const val RETRY_INTERVAL_MS = 60 * 60 * 1000L // 1시간
+    }
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
-        try {
-            val prefs = applicationContext.getSharedPreferences("HeartRateStorage", Context.MODE_PRIVATE)
-            val json = prefs.getString("unsentHeartRates", null) ?: return@withContext Result.success()
+        Log.d("HeartRateWorker", "⏰ WorkManager 실행 시작")
 
-            val type = object : TypeToken<List<HeartRateLocal>>() {}.type
-            val heartRates: List<HeartRateLocal> = Gson().fromJson(json, type)
+        val email = TokenManager.getEmail(context)
+        val token = TokenManager.getAccessToken(context)
 
-            val email = TokenManager.getEmail(applicationContext)
-                ?: return@withContext Result.failure()
+        if (email.isNullOrEmpty() || token.isNullOrEmpty()) {
+            Log.e("HeartRateWorker", "❌ 이메일 또는 토큰이 없음")
+            return@withContext Result.failure()
+        }
 
-            for (hr in heartRates) {
-                val request = HeartRateUploadRequest(
-                    email = email,
-                    startTime = "2025-05-20T${hr.startTime}:00", // 실제 프로젝트에서는 저장 시점 기반으로 조정
-                    endTime = "2025-05-20T${hr.endTime}:00",
-                    count = hr.count,
-                    min = hr.min,
-                    max = hr.max,
-                    avg = hr.avg,
-                    stress = hr.stress
-                )
+        repeat(MAX_RETRIES) { attempt ->
+            Log.d("HeartRateWorker", "🔄 데이터 조회 시도: ${attempt + 1}")
+
+            val request = getLatestHeartRateRequest(email)
+            if (request != null) {
+                Log.d("HeartRateWorker", "📦 전송할 데이터: $request")
 
                 val response = RetrofitClient.healthApi.uploadHeartRate(request)
-                if (!response.isSuccessful) {
-                    Log.e("HeartRateUpload", "전송 실패: ${response.code()}")
-                    return@withContext Result.retry()
+
+                return@withContext if (response.isSuccessful) {
+                    Log.d("HeartRateWorker", "✅ 서버 업로드 성공")
+                    Result.success()
+                } else {
+                    Log.e("HeartRateWorker", "❌ 서버 응답 실패: ${response.code()}")
+                    Result.retry()
                 }
+            } else {
+                Log.w("HeartRateWorker", "⚠️ 전송할 데이터가 아직 없음. 1시간 후 재시도 예정")
+                delay(RETRY_INTERVAL_MS)
             }
-
-            prefs.edit().remove("unsentHeartRates").apply()
-            Log.i("HeartRateUpload", "모든 데이터 업로드 완료")
-            Result.success()
-
-        } catch (e: Exception) {
-            Log.e("HeartRateUpload", "예외 발생: ${e.message}")
-            Result.failure()
         }
+
+        Log.e("HeartRateWorker", "📛 최대 재시도 횟수 도달. 작업 실패 처리")
+        return@withContext Result.failure()
     }
+
+    private fun getLatestHeartRateRequest(email: String): HeartRateUploadRequest? {
+        val prefs = context.getSharedPreferences("HeartRateStorage", Context.MODE_PRIVATE)
+        val json = prefs.getString("unsentHeartRates", null) ?: return null
+
+        val type = object : com.google.gson.reflect.TypeToken<List<HeartRate>>() {}.type
+        val list: List<HeartRate> = Gson().fromJson(json, type)
+
+        val latest = list.maxByOrNull { it.startTime } ?: return null
+
+        val now = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
+
+        return HeartRateUploadRequest(
+            email = email,
+            startTime = now.minusHours(1).format(formatter),
+            endTime = now.format(formatter),
+            count = latest.count,
+            min = latest.min,
+            max = latest.max,
+            avg = latest.avg,
+            stress = latest.stress
+        )
+    }
+
+    data class HeartRate(
+        var min: Float,
+        var max: Float,
+        var avg: Float,
+        var startTime: String,
+        var endTime: String,
+        var count: Int,
+        var stress: Float = 0f
+    )
 }
-
-

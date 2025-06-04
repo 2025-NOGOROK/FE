@@ -10,7 +10,6 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.example.nogorok.R
 import com.example.nogorok.features.auth.register.RegisterViewModel
 import com.example.nogorok.features.auth.survey.SurveyActivity
@@ -78,15 +77,30 @@ class CompleteFragment : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = RetrofitClient.authApi.signUp(request)
+
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful) {
                         val body = response.body() as? SignUpResponse
                         val accessToken = body?.data?.accessToken
 
                         accessToken?.let {
+                            // ✅ accessToken 저장 및 등록
                             TokenManager.saveAccessToken(requireContext(), it)
                             TokenManager.saveEmail(requireContext(), viewModel.email ?: "")
-                            RetrofitClient.setAccessToken(it) // interceptor에 토큰 등록
+                            RetrofitClient.setAccessToken(it)
+
+                            // ✅ accessToken 등록 후 FCM 토큰 전송
+                            val token = viewModel.deviceToken
+                            if (!token.isNullOrBlank()) {
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    try {
+                                        RetrofitClient.fcmApi.registerFcmToken(token)
+                                        Log.d("CompleteFragment", "FCM 토큰 서버 전송 성공")
+                                    } catch (e: Exception) {
+                                        Log.e("CompleteFragment", "FCM 토큰 전송 실패: ${e.message}")
+                                    }
+                                }
+                            }
                         }
 
                         Toast.makeText(requireContext(), "회원가입이 완료되었습니다", Toast.LENGTH_SHORT).show()

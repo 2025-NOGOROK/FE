@@ -8,6 +8,8 @@ object TokenManager {
     private const val PREFS_NAME = "nogorok_prefs"
     private const val ACCESS_TOKEN_KEY = "access_token"
     private const val KEY_EMAIL = "email"
+    private const val GOOGLE_TOKEN_KEY = "google_access_token"
+
 
     // ✅ 항상 applicationContext 사용
     private fun getPrefs(context: Context): SharedPreferences {
@@ -33,4 +35,16 @@ object TokenManager {
     fun getEmail(context: Context): String? {
         return getPrefs(context).getString(KEY_EMAIL, null)
     }
+    fun saveGoogleToken(context: Context, token: String) {
+        getPrefs(context).edit().putString(GOOGLE_TOKEN_KEY, token).apply()
+    }
+
+    fun getGoogleToken(context: Context): String? {
+        return getPrefs(context).getString(GOOGLE_TOKEN_KEY, null)
+    }
+
+    fun clearGoogleToken(context: Context) {
+        getPrefs(context).edit().remove(GOOGLE_TOKEN_KEY).apply()
+    }
+
 }

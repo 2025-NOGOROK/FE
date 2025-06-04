@@ -1,12 +1,13 @@
 package com.example.nogorok.features.rest.shortrest
 
+import android.app.Dialog
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Handler
+import android.os.Looper
+import android.view.*
+import androidx.fragment.app.DialogFragment
 import com.example.nogorok.R
 
-class ShortRestActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_short_rest)
-    }
+// 오버레이처럼 동작하는 DialogFragment야!
+class ShortRestActivity(){
 }
