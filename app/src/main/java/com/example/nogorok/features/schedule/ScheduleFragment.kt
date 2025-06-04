@@ -262,9 +262,49 @@ class ScheduleFragment : Fragment() {
                 cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) &&
                 cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH)
     }
+    // 짧은 쉼표 로딩 프래그먼트와 일정 추가 기능
+    fun showShortRestLoadingFragment() {
+        // 1. 로딩 프래그먼트 UI를 띄운다 (예시로 DialogFragment 사용, 직접 구현한 프래그먼트로 바꿔도 됨)
+        val loadingFragment = com.example.nogorok.features.rest.shortrest.ShortRestLoadingFragment()
+        // 선택된 날짜를 넘겨주고 싶으면 아래처럼 setter 사용
+        loadingFragment.setSelectedDate(selectedDate.clone() as Calendar)
+        loadingFragment.show(parentFragmentManager, "ShortRestLoadingFragment")
+
+        // 2. 3초 후에 로딩 프래그먼트 닫고, 일정 추가
+        android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
+            // 로딩 프래그먼트 닫기
+            loadingFragment.dismissAllowingStateLoss()
+
+            // 랜덤 시간 생성 (예: 20:00~20:30)
+            val hour = (18..21).random()
+            val minute = listOf(0, 30).random()
+            val startCal = (selectedDate.clone() as Calendar).apply {
+                set(Calendar.HOUR_OF_DAY, hour)
+                set(Calendar.MINUTE, minute)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
+            val endCal = (startCal.clone() as Calendar).apply { add(Calendar.MINUTE, 30) }
+
+            // 일정 데이터 생성
+            val newSchedule = Schedule(
+                title = "독서하기", // 예시
+                description = "짧은 쉼표 추천 일정",
+                startDate = startCal.time,
+                endDate = endCal.time,
+                alarmOption = "알림 없음",
+                moveAlarm = false,
+                type = "rest"
+            )
+
+            // ViewModel에 추가
+            viewModel.addSchedule(newSchedule)
+        }, 3000)
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
 }
