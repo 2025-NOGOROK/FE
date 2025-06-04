@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.nogorok.R
 import com.example.nogorok.databinding.ItemScheduleBinding
 
 class ScheduleAdapter :
@@ -19,23 +20,27 @@ class ScheduleAdapter :
             binding.tvTitle.text = item.title
             binding.tvTime.text = item.time
 
-            // 📌 핀 표시 여부
-            binding.layoutPinned.visibility = if (item.isPinned) View.VISIBLE else View.GONE
-
-            // 🟤 배경색 분기 처리
-            binding.root.setCardBackgroundColor(
-                if (item.isShortRest) Color.parseColor("#6A4E42") // 짧은 쉼표: 브라운
-                else Color.parseColor("#FFFBEA")                  // 일반 일정: 연노랑
+            // ✅ 배경 drawable 적용
+            binding.cardSchedule.setBackgroundResource(
+                if (item.isShortRest) R.drawable.bg_schedule_short_rest
+                else R.drawable.bg_schedule_normal
             )
+
+            // ✅ 텍스트 색상 적용
+            val textColor = if (item.isShortRest) Color.parseColor("#FFFBEA") else Color.parseColor("#6A4A38")
+            binding.tvTitle.setTextColor(textColor)
+            binding.tvTime.setTextColor(textColor)
+
+            // ✅ 핀/쉼표 이미지
+            binding.ivSymbol.apply {
+                visibility = View.VISIBLE
+                setImageResource(if (item.isShortRest) R.drawable.comma else R.drawable.pin)
+            }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleViewHolder {
-        val binding = ItemScheduleBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
+        val binding = ItemScheduleBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ScheduleViewHolder(binding)
     }
 

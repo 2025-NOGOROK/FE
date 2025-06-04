@@ -2,55 +2,100 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:orientation="vertical">
 
-    <!-- 상단 달력 토글 -->
+    <!-- 배경 포함 캘린더 헤더 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:orientation="vertical"
+        android:background="@drawable/bg_calendar_header_rounded"
+        android:padding="16dp"
+        android:layout_marginBottom="16dp">
 
-        <ImageView
-            android:id="@+id/ivCalendarToggle"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/bg_calendar_header_rounded"
-            android:contentDescription="달력 토글" />
-
-        <TextView
-            android:id="@+id/tvCalendarMode"
-            android:layout_width="wrap_content"
+        <!-- 🔽 년월 + 화살표 -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="주"
-            android:textSize="16sp"
-            android:layout_marginStart="8dp"/>
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
+
+            <!-- 📌 왼쪽 아이콘: 달력 아이콘 -->
+            <ImageView
+                android:id="@+id/ivCalendarToggle"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="-8dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_calendar_month"
+                android:contentDescription="달력 토글" />
+
+            <!-- 📌 가운데 텍스트: 년도, 월 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="5"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/btnPrevMonth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_full_arrow_left"
+                    android:contentDescription="이전 달" />
+
+                <TextView
+                    android:id="@+id/tvYearMonth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2025년 6월"
+                    android:textSize="18sp"
+                    android:textColor="#6A4E42"
+                    android:layout_marginHorizontal="12dp" />
+
+                <ImageView
+                    android:id="@+id/btnNextMonth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_full_arrow_right"
+                    android:contentDescription="다음 달" />
+            </LinearLayout>
+
+            <!-- 오른쪽 빈 공간 (정렬 보정용) -->
+            <View
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="0dp"/>
+        </LinearLayout>
+
+
+        <!-- 🔽 캘린더 날짜 -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCalendar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" />
     </LinearLayout>
 
-    <!-- 달력 영역 -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvCalendar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:numColumns="7" />
-
-    <!-- 일정 리스트 -->
+    <!-- 🔽 일정 리스트 -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSchedule"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="16dp" />
+        android:layout_height="wrap_content"
+        android:layout_marginStart="37dp"
+        android:layout_marginEnd="37dp"
+        android:layout_marginBottom="16dp" />
 
-    <!-- 일정 추가 버튼 -->
+    <!-- 🔽 일정 추가 버튼 -->
     <Button
         android:id="@+id/btnAddSchedule"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="+ 일정 추가하기"
+        android:layout_marginStart="37dp"
+        android:layout_marginEnd="37dp"
         android:backgroundTint="#eeeeee"
-        android:textColor="#000000"
-        android:layout_marginTop="8dp" />
+        android:textColor="#73605A" />
 </LinearLayout>

@@ -45,12 +45,86 @@ class WeeklyReportActivity : AppCompatActivity() {
 
         btnBack.setOnClickListener { finish() }
 
+        // ✅ 감정
         viewModel.emotionValues.observe(this, Observer { emotionValues ->
             setupEmotionGraph(emotionValues)
         })
 
+        // ✅ 스트레스
+        viewModel.stressValues.observe(this, Observer { stressValues ->
+            setupDummyGraph(stressValues)
+        })
+
+        // ✅ 날씨
+        viewModel.weatherValues.observe(this, Observer { weatherCodes ->
+            setupWeeklyWeather(weatherCodes)
+        })
+
         viewModel.fetchWeeklyEmotion()
-        setupWeeklyWeather(listOf("SUNNY", "CLOUDY", "SUNNY", "SUNNY", "SUNNY", "RAIN", "SUNNY"))
+        viewModel.fetchWeeklyStress()
+        viewModel.fetchWeeklyWeather() // 🔹 추가됨
+    }
+
+    private fun getWeekInfo(): Pair<String, String> {
+        val today = LocalDate.now()
+        val startOfWeek = today.with(java.time.DayOfWeek.MONDAY)
+        val endOfWeek = startOfWeek.plusDays(6)
+
+        val formatter = DateTimeFormatter.ofPattern("M월 d일")
+        val rangeStr = "${startOfWeek.format(formatter)}~${endOfWeek.format(formatter)}"
+
+        val weekFields = WeekFields.of(Locale.KOREA)
+        val weekOfMonth = today.get(weekFields.weekOfMonth())
+        val monthStr = "${today.year}년 ${today.monthValue}월"
+        val weekStr = "$monthStr ${weekOfMonth}째주"
+
+        return Pair(weekStr, rangeStr)
+    }
+
+    private fun setupDummyGraph(stressValues: List<Int>) {
+        barChartContainer.removeAllViews()
+
+        val dayLabels = listOf("월", "화", "수", "목", "금", "토", "일")
+        val barColors = listOf(
+            R.color.graph_green, R.color.graph_green, R.color.graph_green,
+            R.color.graph_brown, R.color.graph_green, R.color.graph_brown,
+            R.color.graph_green
+        )
+
+        val maxValue = 100f
+        val barMaxHeight = 160.dp
+
+        for (i in stressValues.indices) {
+            val dayLayout = LinearLayout(this).apply {
+                orientation = LinearLayout.VERTICAL
+                gravity = Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM
+                layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1f)
+            }
+
+            val barHeight = (barMaxHeight * (stressValues[i] / maxValue)).toInt()
+
+            val bar = View(this).apply {
+                layoutParams = LinearLayout.LayoutParams(10.dp, barHeight).apply {
+                    bottomMargin = 8.dp
+                }
+                background = GradientDrawable().apply {
+                    cornerRadius = 10.dp.toFloat()
+                    setColor(ContextCompat.getColor(this@WeeklyReportActivity, barColors[i]))
+                }
+            }
+
+            val label = TextView(this).apply {
+                text = dayLabels[i]
+                setTextColor(ContextCompat.getColor(this@WeeklyReportActivity, R.color.black))
+                setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
+                typeface = ResourcesCompat.getFont(this@WeeklyReportActivity, R.font.pretendard_medium)
+                setPadding(18.dp, 0, 0, 0)
+            }
+
+            dayLayout.addView(bar)
+            dayLayout.addView(label)
+            barChartContainer.addView(dayLayout)
+        }
     }
 
     private fun setupEmotionGraph(emotionValues: List<Int>) {
@@ -67,7 +141,6 @@ class WeeklyReportActivity : AppCompatActivity() {
         val chartHeight = 180.dp
 
         emotionGraphContainer.removeViews(1, emotionGraphContainer.childCount - 1)
-
         val points = mutableListOf<Pair<Float, Float>>()
         emotionLineView.points = points
         emotionLineView.invalidate()
@@ -78,7 +151,6 @@ class WeeklyReportActivity : AppCompatActivity() {
 
         emotionGraphContainer.post {
             val width = emotionGraphContainer.width
-            val height = emotionGraphContainer.height
 
             for (i in emotionValues.indices) {
                 val pointX = (width / 7f) * i + (width / 14f)
@@ -113,20 +185,6 @@ class WeeklyReportActivity : AppCompatActivity() {
                 emotionGraphContainer.addView(label)
             }
         }
-    }
-
-    private fun getWeekInfo(): Pair<String, String> {
-        val today = LocalDate.now()
-        val startOfWeek = today.with(java.time.DayOfWeek.MONDAY)
-        val endOfWeek = startOfWeek.plusDays(6)
-        val formatter = DateTimeFormatter.ofPattern("M월 d일")
-        val rangeStr = "${startOfWeek.format(formatter)}~${endOfWeek.format(formatter)}"
-
-        val weekFields = WeekFields.of(Locale.KOREA)
-        val weekOfMonth = today.get(weekFields.weekOfMonth())
-        val monthStr = "${today.year}년 ${today.monthValue}월"
-        val weekStr = "$monthStr ${weekOfMonth}째주"
-        return Pair(weekStr, rangeStr)
     }
 
     private fun setupWeeklyWeather(weatherCodes: List<String>) {
