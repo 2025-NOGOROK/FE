@@ -4,6 +4,7 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.Gravity
+import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -11,11 +12,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.nogorok.R
+import com.example.nogorok.network.dto.DailyStressEntry
 import java.time.LocalDate
 import java.time.YearMonth
-import android.view.View
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.observe
+import android.widget.GridLayout
 
 class MonthlyReportActivity : AppCompatActivity() {
 
@@ -47,8 +47,12 @@ class MonthlyReportActivity : AppCompatActivity() {
             setupEmotionRatioGraph(data)
         }
 
+        viewModel.dailyStressList.observe(this) { list ->
+            setupMonthlyEmotionCalendar(list)
+        }
+
         viewModel.fetchEmotionRatio()
-        setupMonthlyEmotionCalendar()
+        viewModel.fetchMonthlyStress()
     }
 
     private fun getCurrentMonth(): String {
@@ -140,14 +144,13 @@ class MonthlyReportActivity : AppCompatActivity() {
         }
     }
 
-
-    private fun setupMonthlyEmotionCalendar() {
+    private fun setupMonthlyEmotionCalendar(dailyStressList: List<DailyStressEntry>) {
         val emojiMap = mapOf(
-            "기쁨" to R.drawable.smile,
-            "보통" to R.drawable.regular,
-            "화남" to R.drawable.angry,
-            "우울" to R.drawable.sad,
-            "짜증" to R.drawable.irritated
+            "20" to R.drawable.smile,
+            "40" to R.drawable.regular,
+            "60" to R.drawable.irritated,
+            "80" to R.drawable.sad,
+            "100" to R.drawable.angry
         )
 
         val today = LocalDate.now()
@@ -155,6 +158,8 @@ class MonthlyReportActivity : AppCompatActivity() {
         val daysInMonth = currentMonth.lengthOfMonth()
         val firstDay = currentMonth.atDay(1)
         val firstWeekdayIndex = firstDay.dayOfWeek.value % 7
+
+        val emojiByDate = dailyStressList.associateBy({ it.date }) { it.emoji }
 
         val container = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
@@ -204,24 +209,22 @@ class MonthlyReportActivity : AppCompatActivity() {
             ).apply { topMargin = 12.dp }
         }
 
-        val sampleEmotions = List(daysInMonth) {
-            listOf("기쁨", "보통", "화남", "우울", "짜증").random()
-        }
-
         for (i in 0 until firstWeekdayIndex) {
-            val emptyView = View(this).apply {
+            calendarGrid.addView(View(this).apply {
                 layoutParams = GridLayout.LayoutParams().apply {
                     width = 23.dp
                     height = 23.dp
                 }
-            }
-            calendarGrid.addView(emptyView)
+            })
         }
 
-        for (i in 0 until daysInMonth) {
-            val emoji = sampleEmotions[i]
+        for (i in 1..daysInMonth) {
+            val dateStr = currentMonth.atDay(i).toString()
+            val emojiKey = emojiByDate[dateStr]
+            val emojiRes = emojiMap[emojiKey] ?: R.drawable.comma
+
             val emojiView = ImageView(this).apply {
-                setImageResource(emojiMap[emoji] ?: R.drawable.smile)
+                setImageResource(emojiRes)
                 layoutParams = GridLayout.LayoutParams().apply {
                     width = 23.dp
                     height = 23.dp
@@ -239,6 +242,5 @@ class MonthlyReportActivity : AppCompatActivity() {
         emotionCalendarContainer.addView(container)
     }
 
-    val Int.dp: Int
-        get() = (this * resources.displayMetrics.density).toInt()
+    val Int.dp: Int get() = (this * resources.displayMetrics.density).toInt()
 }

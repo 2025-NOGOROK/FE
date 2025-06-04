@@ -50,4 +50,10 @@
     <string name="diary_icon">하루일기 아이콘</string>
     <string name="fab_main_icon">메인 플로팅 버튼</string>
 
+    <string-array name="alarm_time_options">
+        <item>5분 전</item>
+        <item>10분 전</item>
+        <item>30분 전</item>
+    </string-array>
+
 </resources>

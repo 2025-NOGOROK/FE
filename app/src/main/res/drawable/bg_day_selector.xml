@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:insetLeft="12dp"
+    android:insetRight="12dp"
+    android:insetTop="8dp"
+    android:insetBottom="8dp">
 
-    <!-- 선택된 상태 -->
-    <item android:state_selected="true">
-        <shape android:shape="oval">
-            <solid android:color="#6A4E42" /> <!-- 진한 갈색 배경 -->
-        </shape>
-    </item>
-
-    <!-- 기본 상태 -->
-    <item>
-        <shape android:shape="oval">
-            <solid android:color="@android:color/transparent" />
-        </shape>
-    </item>
-
-</selector>
+    <shape android:shape="oval">
+        <solid android:color="#6A4E42" />
+    </shape>
+</inset>

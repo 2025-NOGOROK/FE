@@ -6,22 +6,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.nogorok.databinding.FragmentScheduleBinding
 import java.time.LocalDate
 import java.time.temporal.WeekFields
 import java.util.*
+import com.example.nogorok.R
 
 class ScheduleFragment : Fragment() {
 
     private var _binding: FragmentScheduleBinding? = null
     private val binding get() = _binding!!
 
-    // 🔥 MainActivity에서 접근 가능하도록 public으로 선언
     val viewModel: ScheduleViewModel by viewModels()
 
-    private var isMonthView = false
+    private var isMonthView = true
     private var currentDate: LocalDate = LocalDate.now()
 
     private lateinit var scheduleAdapter: ScheduleAdapter
@@ -36,6 +37,8 @@ class ScheduleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setupCalendarToggle()
         setupScheduleList()
+        setupMonthNavigation()
+        setupAddScheduleButton()
         observeViewModel()
         updateCalendar()
     }
@@ -43,19 +46,49 @@ class ScheduleFragment : Fragment() {
     private fun setupCalendarToggle() {
         binding.ivCalendarToggle.setOnClickListener {
             isMonthView = !isMonthView
-            binding.tvCalendarMode.text = if (isMonthView) "월" else "주"
             updateCalendar()
         }
     }
 
+    private fun setupMonthNavigation() {
+        binding.btnPrevMonth.setOnClickListener {
+            currentDate = currentDate.minusMonths(1)
+            viewModel.selectDate(currentDate)
+            updateCalendar()
+        }
+
+        binding.btnNextMonth.setOnClickListener {
+            currentDate = currentDate.plusMonths(1)
+            viewModel.selectDate(currentDate)
+            updateCalendar()
+        }
+    }
+
+    private fun setupAddScheduleButton() {
+        binding.btnAddSchedule.setOnClickListener {
+            findNavController().navigate(R.id.action_scheduleFragment_to_scheduleAddFragment)
+        }
+    }
+
+    private fun updateYearMonthLabel() {
+        binding.tvYearMonth.text = "${currentDate.year}년 ${currentDate.monthValue}월"
+    }
+
     private fun updateCalendar() {
+        updateYearMonthLabel()
+
+        val selected = viewModel.selectedDate.value ?: currentDate
         val dates = if (isMonthView) getMonthDates(currentDate) else getWeekDates(currentDate)
+
         val adapter = CalendarAdapter(
             dates,
-            viewModel.selectedDate.value ?: currentDate
+            selected
         ) {
             viewModel.selectDate(it)
+            currentDate = it
+            updateCalendar()
         }
+
         binding.rvCalendar.layoutManager = GridLayoutManager(requireContext(), 7)
         binding.rvCalendar.adapter = adapter
     }

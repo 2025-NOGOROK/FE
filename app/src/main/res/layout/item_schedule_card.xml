@@ -1,43 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="48dp"
-    android:background="@drawable/bg_schedule_card"
-    android:gravity="center_vertical"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
     android:layout_marginBottom="10dp"
-    android:padding="0dp">
+    android:gravity="center_vertical">
 
-    <!-- 일정 이모지 -->
-    <TextView
-        android:id="@+id/tvEmoji"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:text="📝"
-        android:textSize="20sp"
-        android:gravity="center"
-        android:layout_marginStart="12dp"/>
+    <!-- 📌 핀이 있는 경우 바깥쪽으로 분리 표시 -->
+    <ImageView
+        android:id="@+id/ivPin"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="6dp"
+        android:visibility="gone"
+        android:src="@drawable/ic_pin" />
 
-    <!-- 일정 제목 -->
-    <TextView
-        android:id="@+id/tvTitle"
+    <!-- 🟨 카드 배경 내부 일정 정보 -->
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="교양독일어 발표 준비"
-        android:textColor="#6A4A38"
-        android:textSize="15sp"
-        android:paddingLeft="8dp"
-        android:fontFamily="@font/pretendard_regular"/>
+        android:orientation="horizontal"
+        android:background="@drawable/bg_schedule_card"
+        android:gravity="center_vertical"
+        android:paddingVertical="6dp">
 
-    <!-- 일정 시간 -->
-    <TextView
-        android:id="@+id/tvTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="09:00-10:00"
-        android:textColor="#6A4A38"
-        android:textSize="14sp"
-        android:fontFamily="@font/pretendard_regular"
-        android:layout_marginEnd="16dp"/>
+        <!-- 일정 이모지 -->
+        <TextView
+            android:id="@+id/tvEmoji"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:text="📝"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:layout_marginStart="12dp" />
+
+        <!-- 일정 제목 -->
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="교양독일어 발표 준비"
+            android:textColor="#6A4A38"
+            android:textSize="15sp"
+            android:paddingLeft="8dp"
+            android:fontFamily="@font/pretendard_regular" />
+
+        <!-- 일정 시간 -->
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="09:00-10:00"
+            android:textColor="#6A4A38"
+            android:textSize="14sp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/pretendard_regular" />
+    </LinearLayout>
 </LinearLayout>
