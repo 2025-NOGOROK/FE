@@ -2,24 +2,31 @@ package com.example.nogorok
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.nogorok.features.rest.diary.DiaryDialogFragment
-import com.example.nogorok.features.rest.longrest.LongRestActivity
-import com.example.nogorok.features.rest.shortrest.ShortRestActivity
-import com.example.nogorok.features.schedule.ScheduleFragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.example.nogorok.features.schedule.AddScheduleFragment
-
+import com.example.nogorok.databinding.ActivityMainBinding
+import com.example.nogorok.features.rest.diary.DiaryDialogFragment
+import com.example.nogorok.features.rest.longrest.LongRestActivity
+import com.example.nogorok.features.rest.shortrest.ShortRestFragment
+import com.example.nogorok.features.schedule.ScheduleFragment
+import com.example.nogorok.network.RetrofitClient
+import com.example.nogorok.network.dto.ShortRestResponse
+import com.example.nogorok.utils.TokenManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,6 +45,11 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        // ✅ 토큰 설정 및 로그
+        val token = TokenManager.getAccessToken(this)
+        Log.d("TOKEN_CHECK", "AccessToken: $token")
+        RetrofitClient.setAccessToken(token)
+
         // Bottom Navigation 연결
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.navigation_main)
         bottomNavigationView.itemIconTintList = null
@@ -53,13 +65,13 @@ class MainActivity : AppCompatActivity() {
         val fabLong = findViewById<LinearLayout>(R.id.fabLong)
         val fabDiary = findViewById<LinearLayout>(R.id.fabDiary)
 
-        // 열림/닫힘 애니메이션
+        // 애니메이션
         val animOpen = AnimationUtils.loadAnimation(this, R.anim.fab_open)
         val animClose = AnimationUtils.loadAnimation(this, R.anim.fab_close)
         val rotateOpen = AnimationUtils.loadAnimation(this, R.anim.rotate_open)
         val rotateClose = AnimationUtils.loadAnimation(this, R.anim.rotate_close)
 
-        // 클릭 이벤트
+        // 메인 FAB 클릭
         fabMain.setOnClickListener {
             isFabOpen = !isFabOpen
             if (isFabOpen) {
@@ -73,22 +85,52 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // 이동 이벤트
+        // 짧은 쉼표 추천
         fabShort.setOnClickListener {
-            // 현재 navHostFragment에서 ScheduleFragment를 찾아서 함수 호출
-            val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
-            val fragment = navHostFragment?.childFragmentManager?.fragments?.find { it is ScheduleFragment } as? ScheduleFragment
-            fragment?.showShortRestLoadingFragment()
+            showShortRest()
         }
 
-
+        // 긴 쉼표 이동
         fabLong.setOnClickListener {
             startActivity(Intent(this, LongRestActivity::class.java))
         }
 
+        // 하루일기 다이얼로그
         fabDiary.setOnClickListener {
             DiaryDialogFragment().show(supportFragmentManager, "DiaryDialog")
         }
-
     }
+
+    private fun showShortRest() {
+        val dialog = ShortRestFragment()
+        dialog.show(supportFragmentManager, "ShortRest")
+
+        val today = LocalDate.now().toString()
+        Log.d("ShortRestAPI", "🔄 요청 시작: $today")
+
+
+        lifecycleScope.launch {
+            try {
+                val result: List<ShortRestResponse> =
+                    RetrofitClient.shortRestApi.getShortRest(today)
+
+                Log.d("ShortRestAPI", "✅ 응답 성공: ${result.size}건 수신")
+                dialog.dismiss()
+
+                val navHostFragment =
+                    supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+                val scheduleFragment =
+                    navHostFragment.childFragmentManager.fragments.find { it is ScheduleFragment } as? ScheduleFragment
+
+                scheduleFragment?.viewModel?.setShortRestItems(result)
+
+
+            } catch (e: Exception) {
+                dialog.dismiss()
+                Log.e("ShortRestAPI", "❌ 요청 실패: ${e.localizedMessage}", e)
+                Toast.makeText(this@MainActivity, "서버 요청 실패: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
 }

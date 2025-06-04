@@ -70,7 +70,6 @@
 
         <!-- 쉼표 및 일기 -->
         <activity android:name=".features.rest.longrest.LongRestActivity" />
-        <activity android:name=".features.rest.shortrest.ShortRestActivity" />
 
         <!-- 설문 -->
         <activity android:name=".features.auth.survey.SurveyActivity" />

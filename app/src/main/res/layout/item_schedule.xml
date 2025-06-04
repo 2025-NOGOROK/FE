@@ -1,55 +1,50 @@
-<!-- res/layout/item_schedule.xml -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cardView="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="56dp"
-    android:orientation="horizontal"
-    android:gravity="center_vertical"
-    android:layout_marginTop="8dp"
-    android:layout_marginBottom="8dp">
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="6dp"
+    cardView:cardElevation="2dp"
+    cardView:cardCornerRadius="16dp">
 
-    <!-- 아이콘 (핀 or 쉼표) -->
-    <ImageView
-        android:id="@+id/ivType"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:contentDescription="일정 타입"/>
-
-    <!-- 일정 내용 박스 -->
     <LinearLayout
-        android:id="@+id/layoutScheduleBox"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="24dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:padding="12dp"
         android:gravity="center_vertical"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:background="@drawable/bg_schedule_fixed"
-        android:minHeight="56dp">
+        android:background="#FFFBEA">
+
+        <LinearLayout
+            android:id="@+id/layoutPinned"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:gravity="center"
+            android:layout_marginEnd="8dp">
+            <TextView
+                android:text="📌"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="서영이랑 저녁약속"
-            android:textColor="#73605A"
-            android:textSize="18sp"
-            android:fontFamily="@font/pretendard_regular"/>
+            android:layout_height="wrap_content"
+            android:text="일정 제목"
+            android:textSize="16sp"
+            android:textColor="#000000" />
 
         <TextView
             android:id="@+id/tvTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="18:00~20:00"
-            android:textColor="#73605A"
-            android:textSize="16sp"
-            android:fontFamily="@font/pretendard_regular"/>
+            android:text="시간"
+            android:textSize="14sp"
+            android:textColor="#444444"
+            android:layout_marginStart="8dp" />
     </LinearLayout>
-</LinearLayout>
+
+</androidx.cardview.widget.CardView>

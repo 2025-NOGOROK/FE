@@ -3,26 +3,41 @@ package com.example.nogorok.features.schedule
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.nogorok.network.dto.ShortRestResponse
+import java.time.LocalDate
 
 class ScheduleViewModel : ViewModel() {
 
-    // 일정 리스트를 LiveData로 관리 (초기값은 빈 리스트)
-    private val _scheduleList = MutableLiveData<List<Schedule>>(emptyList())
-    val scheduleList: LiveData<List<Schedule>> = _scheduleList
+    private val _selectedDate = MutableLiveData(LocalDate.now())
+    val selectedDate: LiveData<LocalDate> = _selectedDate
 
-    // 현재 수정 중인 일정(선택된 일정)
-    var editingSchedule: Schedule? = null
+    private val _scheduleList = MutableLiveData<List<ScheduleItem>>()
+    val scheduleList: LiveData<List<ScheduleItem>> = _scheduleList
 
-    // 일정 추가 (가장 최근 일정이 맨 위)
-    fun addSchedule(schedule: Schedule) {
-        _scheduleList.value = listOf(schedule) + _scheduleList.value.orEmpty()
+    fun selectDate(date: LocalDate) {
+        _selectedDate.value = date
     }
 
-    // 일정 수정 (기존 일정 덮어쓰기)
-    fun updateSchedule(old: Schedule, new: Schedule) {
-        _scheduleList.value = _scheduleList.value.orEmpty().map {
-            if (it == old) new else it
+    fun loadSchedules(date: LocalDate) {
+        // 더미 일정 예시
+        _scheduleList.value = listOf(
+            ScheduleItem("기존 일정 1", "10:00 - 11:00", isPinned = true),
+            ScheduleItem("기존 일정 2", "14:00 - 15:00", isPinned = false)
+        )
+    }
+
+    fun setShortRestItems(items: List<ShortRestResponse>) {
+        val shortRestSchedules = items.map {
+            val time = "${it.startTime} - ${it.endTime}"
+            ScheduleItem(
+                title = it.title,
+                time = time,
+                isPinned = false, // 서버에서 고정 여부 정보가 없으므로 false 고정
+                isShortRest = true
+            )
         }
-        editingSchedule = null
+
+        val current = _scheduleList.value.orEmpty()
+        _scheduleList.value = current + shortRestSchedules
     }
 }
