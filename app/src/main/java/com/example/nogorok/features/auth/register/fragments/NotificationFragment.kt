@@ -87,17 +87,6 @@ class NotificationFragment : Fragment() {
             onTokenReceived = { token ->
                 viewModel.deviceToken = token
                 Log.d("NotificationFragment", "FCM Token 저장 완료: $token")
-
-                // 서버에 전송
-                lifecycleScope.launch {
-                    try {
-                        RetrofitClient.fcmApi.registerFcmToken(token)
-                        Log.d("NotificationFragment", "서버에 FCM 토큰 업로드 성공")
-                    } catch (e: Exception) {
-                        Log.e("NotificationFragment", "서버 업로드 실패: ${e.message}")
-                        Toast.makeText(requireContext(), "FCM 토큰 업로드 실패", Toast.LENGTH_SHORT).show()
-                    }
-                }
             },
             onError = { error ->
                 Log.e("NotificationFragment", "FCM Token 수신 실패: ${error.message}")

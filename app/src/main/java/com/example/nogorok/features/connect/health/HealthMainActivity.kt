@@ -2,6 +2,7 @@ package com.example.nogorok.features.connect.health
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -23,6 +24,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import androidx.lifecycle.Lifecycle
+import androidx.work.WorkManager
+
 import java.time.LocalDate
 
 class HealthMainActivity : AppCompatActivity() {
@@ -90,6 +93,14 @@ class HealthMainActivity : AppCompatActivity() {
 
                             // ✅ WorkManager 등록
                             HeartRateScheduler.scheduleHourlyUpload(this@HealthMainActivity)
+
+                            // ✅ 등록 직후 상태 확인 로그
+                            WorkManager.getInstance(this@HealthMainActivity)
+                                .getWorkInfosForUniqueWorkLiveData("HeartRateUploadWork")
+                                .observe(this@HealthMainActivity) { workInfos ->
+                                    val state = workInfos?.firstOrNull()?.state
+                                    Log.d("WorkManagerStatus", "📦 현재 워커 상태: $state")
+                                }
 
                             // ✅ 다음 화면으로 이동
                             val intent = Intent(this@HealthMainActivity, CalendarConnectActivity::class.java)

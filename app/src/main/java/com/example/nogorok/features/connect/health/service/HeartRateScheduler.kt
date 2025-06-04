@@ -1,25 +1,25 @@
+// HeartRateScheduler.kt
 package com.example.nogorok.features.connect.health.service
 
 import android.content.Context
 import androidx.work.*
-import com.example.nogorok.features.connect.health.viewmodel.HeartRateWorker
 import java.util.concurrent.TimeUnit
-import androidx.work.WorkManager
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkRequest
+import com.example.nogorok.features.connect.health.viewmodel.HeartRateWorker
 
 object HeartRateScheduler {
-
     fun scheduleHourlyUpload(context: Context) {
-        val request = PeriodicWorkRequestBuilder<HeartRateWorker>(
-            1, TimeUnit.HOURS
-        ).build()
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+
+        val uploadRequest = PeriodicWorkRequestBuilder<HeartRateWorker>(1, TimeUnit.HOURS)
+            .setConstraints(constraints)
+            .build()
 
         WorkManager.getInstance(context).enqueueUniquePeriodicWork(
-            "HeartRateUploadWorker",
-            ExistingPeriodicWorkPolicy.KEEP,
-            request
+            "HeartRateUploadWork",
+            ExistingPeriodicWorkPolicy.UPDATE,
+            uploadRequest
         )
     }
 }
