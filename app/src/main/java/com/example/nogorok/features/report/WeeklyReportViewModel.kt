@@ -18,6 +18,10 @@ class WeeklyReportViewModel : ViewModel() {
     private val _emotionValues = MutableLiveData<List<Int>>()
     val emotionValues: LiveData<List<Int>> = _emotionValues
 
+    private val _emotionNames = MutableLiveData<List<String>>()
+    val emotionNames: LiveData<List<String>> = _emotionNames
+
+
     // 스트레스 값 (막대 그래프용)
     private val _stressValues = MutableLiveData<List<Int>>()
     val stressValues: LiveData<List<Int>> = _stressValues
@@ -30,8 +34,12 @@ class WeeklyReportViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val response: WeeklyResponse = RetrofitClient.weeklyApi.getWeeklyEmotionFatigue()
-                val values = response.days.map { mapEmotionToValue(it.emotion) }
-                _emotionValues.value = values
+
+                val fatigueList = response.days.map { mapFatigueToValue(it.fatigue) }  // null도 포함
+                val emotionList = response.days.map { it.emotion ?: "보통" }           // null은 "보통" 처리
+
+                _emotionValues.value = fatigueList
+                _emotionNames.value = emotionList
             } catch (e: HttpException) {
                 Log.e("WeeklyReportViewModel", "Emotion API error: ${e.code()} ${e.message()}")
             } catch (e: Exception) {
@@ -39,6 +47,7 @@ class WeeklyReportViewModel : ViewModel() {
             }
         }
     }
+
 
     fun fetchWeeklyStress() {
         viewModelScope.launch {
@@ -68,14 +77,12 @@ class WeeklyReportViewModel : ViewModel() {
         }
     }
 
-    private fun mapEmotionToValue(emotion: String): Int {
-        return when (emotion.uppercase()) {
-            "JOY" -> 80
-            "NORMAL" -> 50
-            "DEPRESSED" -> 30
-            "ANGRY" -> 10
-            "IRRITATED" -> 20
-            else -> 40
+    private fun mapFatigueToValue(fatigue: String?): Int {
+        return when (fatigue?.uppercase()) {
+            "에너지 넘침" -> 80
+            "보통" -> 50
+            "매우 피곤" -> 20
+            else -> 0
         }
     }
 }

@@ -45,5 +45,9 @@
 
     <dimen name="calendar_date_size">36dp</dimen>
 
+    <dimen name="image_width">168dp</dimen>
+    <dimen name="image_height">200dp</dimen>
+    <dimen name="image_margin">12dp</dimen>
+
 
 </resources>
