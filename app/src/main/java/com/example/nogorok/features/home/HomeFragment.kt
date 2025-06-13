@@ -25,6 +25,12 @@ import com.example.nogorok.R
 import com.example.nogorok.databinding.FragmentHomeBinding
 import com.example.nogorok.utils.CustomTypefaceSpan
 import com.example.nogorok.network.dto.TourItem
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import android.Manifest
+import android.content.pm.PackageManager
+
+
 
 class HomeFragment : Fragment() {
 
@@ -32,6 +38,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var viewModel: HomeViewModel
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,16 +47,49 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
         observeViewModel()
         viewModel.fetchLatestStress()
-        viewModel.fetchTourByLocation(x = 126.9723, y = 37.5547)
         viewModel.fetchTraumaArticle()
         viewModel.fetchSamsungStress()
 
+        getCurrentLocation()
 
         return binding.root
     }
+
+    private fun getCurrentLocation() {
+        val fine = Manifest.permission.ACCESS_FINE_LOCATION
+        val coarse = Manifest.permission.ACCESS_COARSE_LOCATION
+
+        if (ContextCompat.checkSelfPermission(requireContext(), fine) == PackageManager.PERMISSION_GRANTED ||
+            ContextCompat.checkSelfPermission(requireContext(), coarse) == PackageManager.PERMISSION_GRANTED) {
+
+            try {
+                fusedLocationClient.lastLocation
+                    .addOnSuccessListener { location ->
+                        if (location != null) {
+                            val x = location.longitude
+                            val y = location.latitude
+                            viewModel.fetchTourByLocation(x, y)
+                        } else {
+                            Log.e("HomeFragment", "위치를 가져올 수 없습니다.")
+                        }
+                    }
+                    .addOnFailureListener {
+                        Log.e("HomeFragment", "위치 요청 실패: ${it.message}")
+                    }
+            } catch (e: SecurityException) {
+                Log.e("HomeFragment", "위치 권한 예외 발생: ${e.message}")
+            }
+
+        } else {
+            Log.e("HomeFragment", "위치 권한 없음. 호출하지 않음.")
+        }
+    }
+
+
 
     private fun observeViewModel() {
         viewModel.stress.observe(viewLifecycleOwner) { stress ->
@@ -60,7 +100,6 @@ class HomeFragment : Fragment() {
             Log.d("HomeFragment", "받아온 tourList size: ${tourList.size}")
             updateTourListUI(tourList)
         }
-
     }
 
     private fun updateTourListUI(tourList: List<TourItem>) {
