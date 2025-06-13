@@ -11,17 +11,17 @@ import com.example.nogorok.network.api.MonthlyApi
 import com.example.nogorok.network.api.WeeklyApi
 import com.example.nogorok.network.api.HomeApi
 import com.example.nogorok.network.api.ShortRestApi
-import com.example.nogorok.utils.TokenManager
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+
 object RetrofitClient {
 
     private const val BASE_URL = "https://recommend.ai.kr/"
 
-    // 외부에서 주입하는 토큰 변수
+    // 외부에서 주입하는 토큰 변수 (로그인/연동 후 설정 필요)
     private var accessToken: String? = null
 
     fun setAccessToken(token: String?) {
@@ -41,7 +41,8 @@ object RetrofitClient {
         val excludedPaths = listOf(
             "/auth/signUp",
             "/auth/signIn",
-            "/auth/google/callback"
+            "/auth/google/callback",
+            "/auth/google/mobile-register" // ✅ 구글 연동 시 제외 경로 추가
         )
 
         val requestBuilder = request.newBuilder()
@@ -66,6 +67,7 @@ object RetrofitClient {
             .build()
     }
 
+    // 각 API 인터페이스
     val authApi: AuthApi by lazy { retrofit.create(AuthApi::class.java) }
     val surveyApi: SurveyApi by lazy { retrofit.create(SurveyApi::class.java) }
     val healthApi: HealthApi by lazy { retrofit.create(HealthApi::class.java) }
@@ -77,5 +79,4 @@ object RetrofitClient {
     val weeklyApi: WeeklyApi by lazy { retrofit.create(WeeklyApi::class.java) }
     val homeApi: HomeApi by lazy { retrofit.create(HomeApi::class.java) }
     val shortRestApi: ShortRestApi by lazy { retrofit.create(ShortRestApi::class.java) }
-
 }

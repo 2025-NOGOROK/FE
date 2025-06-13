@@ -9,9 +9,8 @@ object TokenManager {
     private const val ACCESS_TOKEN_KEY = "access_token"
     private const val KEY_EMAIL = "email"
     private const val GOOGLE_TOKEN_KEY = "google_access_token"
+    private const val JWT_TOKEN_KEY = "jwt_token"
 
-
-    // ✅ 항상 applicationContext 사용
     private fun getPrefs(context: Context): SharedPreferences {
         return context.applicationContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     }
@@ -35,6 +34,7 @@ object TokenManager {
     fun getEmail(context: Context): String? {
         return getPrefs(context).getString(KEY_EMAIL, null)
     }
+
     fun saveGoogleToken(context: Context, token: String) {
         getPrefs(context).edit().putString(GOOGLE_TOKEN_KEY, token).apply()
     }
@@ -47,4 +47,15 @@ object TokenManager {
         getPrefs(context).edit().remove(GOOGLE_TOKEN_KEY).apply()
     }
 
+    fun saveJwtToken(context: Context, jwt: String) {
+        getPrefs(context).edit().putString(JWT_TOKEN_KEY, jwt).apply()
+    }
+
+    fun getJwtToken(context: Context): String? {
+        return getPrefs(context).getString(JWT_TOKEN_KEY, null)
+    }
+
+    fun clearJwtToken(context: Context) {
+        getPrefs(context).edit().remove(JWT_TOKEN_KEY).apply()
+    }
 }

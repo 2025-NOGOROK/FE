@@ -1,20 +1,22 @@
 package com.example.nogorok.network.api
 
+import com.example.nogorok.network.dto.JwtResponse
+import com.example.nogorok.network.dto.GoogleTokenResponse
+import com.example.nogorok.network.dto.GoogleRegisterRequest
 import retrofit2.Response
-import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Query
-
-data class TokenResponse(
-    val access_token: String,
-    val refresh_token: String,
-    val expires_in: Long,
-    val token_type: String,
-    val email: String
-)
+import retrofit2.http.GET
+import retrofit2.http.Body
 
 interface GoogleApi {
-    @GET("/auth/google/callback")
-    suspend fun getToken(
+    @GET("/auth/google/token")
+    suspend fun getGoogleTokens(
         @Query("code") code: String
-    ): Response<TokenResponse>
+    ): Response<GoogleTokenResponse>
+
+    @POST("/auth/google/mobile-register")
+    suspend fun registerGoogleToken(
+        @Body body: GoogleRegisterRequest
+    ): Response<JwtResponse>
 }

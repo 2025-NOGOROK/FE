@@ -7,16 +7,24 @@ import android.text.SpannableStringBuilder
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.ImageSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewOutlineProvider
+import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.example.nogorok.R
 import com.example.nogorok.databinding.FragmentHomeBinding
 import com.example.nogorok.utils.CustomTypefaceSpan
+import com.example.nogorok.network.dto.TourItem
 
 class HomeFragment : Fragment() {
 
@@ -35,6 +43,10 @@ class HomeFragment : Fragment() {
 
         observeViewModel()
         viewModel.fetchLatestStress()
+        viewModel.fetchTourByLocation(x = 126.9723, y = 37.5547)
+        viewModel.fetchTraumaArticle()
+        viewModel.fetchSamsungStress()
+
 
         return binding.root
     }
@@ -42,6 +54,68 @@ class HomeFragment : Fragment() {
     private fun observeViewModel() {
         viewModel.stress.observe(viewLifecycleOwner) { stress ->
             binding.stressLabel.text = createStressMessage(stress)
+        }
+
+        viewModel.tourList.observe(viewLifecycleOwner) { tourList ->
+            Log.d("HomeFragment", "받아온 tourList size: ${tourList.size}")
+            updateTourListUI(tourList)
+        }
+
+    }
+
+    private fun updateTourListUI(tourList: List<TourItem>) {
+        val container = binding.tourListContainer
+        container.removeAllViews()
+
+        tourList.forEach { item ->
+            val context = requireContext()
+
+            val frameLayout = FrameLayout(context).apply {
+                layoutParams = LinearLayout.LayoutParams(168.dp, 200.dp).apply {
+                    marginEnd = 12.dp
+                }
+                clipToOutline = true
+                background = ContextCompat.getDrawable(context, R.drawable.rounded_item_background)
+                outlineProvider = ViewOutlineProvider.BACKGROUND
+            }
+
+            val imageView = ImageView(context).apply {
+                layoutParams = FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                    FrameLayout.LayoutParams.MATCH_PARENT
+                )
+                scaleType = ImageView.ScaleType.CENTER_CROP
+            }
+
+            val titleOverlay = TextView(context).apply {
+                text = item.title
+                setTextColor(Color.WHITE)
+                textSize = 14f
+                setTypeface(null, android.graphics.Typeface.BOLD)
+                setPadding(10.dp, 10.dp, 10.dp, 10.dp)
+                background = ContextCompat.getDrawable(context, R.drawable.overlay_background)
+                layoutParams = FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                    FrameLayout.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    gravity = android.view.Gravity.BOTTOM
+                }
+            }
+
+            val imageUrl = when {
+                !item.firstImage.isNullOrBlank() -> item.firstImage
+                !item.firstImage2.isNullOrBlank() -> item.firstImage2
+                else -> null
+            }
+
+            Glide.with(this)
+                .load(imageUrl ?: R.drawable.sample)
+                .into(imageView)
+
+            frameLayout.addView(imageView)
+            frameLayout.addView(titleOverlay)
+
+            container.addView(frameLayout)
         }
     }
 
@@ -67,7 +141,7 @@ class HomeFragment : Fragment() {
             val imageSpan = drawable?.let { ImageSpan(it, ImageSpan.ALIGN_BASELINE) }
 
             val imageStart = length
-            append("❤️") // placeholder
+            append("❤️")
             if (imageSpan != null) {
                 setSpan(imageSpan, imageStart, imageStart + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             }
@@ -108,4 +182,7 @@ class HomeFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+    // 확장 함수 (dp to px)
+    val Int.dp: Int get() = (this * resources.displayMetrics.density).toInt()
 }
