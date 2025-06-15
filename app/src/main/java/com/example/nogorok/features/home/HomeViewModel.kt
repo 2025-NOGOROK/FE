@@ -25,20 +25,28 @@ class HomeViewModel : ViewModel() {
     private val _samsungStress = MutableLiveData<String>()
     val samsungStress: LiveData<String> = _samsungStress
 
+    private val _lawtimes = MutableLiveData<String>()
+    val lawtimes: LiveData<String> = _lawtimes
+
     fun fetchLatestStress() {
         viewModelScope.launch {
             try {
                 val response = RetrofitClient.homeApi.getLatestStress()
+                Log.d("fetchLatestStress", "response code: ${response.code()}, body: ${response.body()}")
+
                 if (response.isSuccessful) {
-                    _stress.value = response.body()?.stress ?: 0f
+                    _stress.value = response.body()?.avg ?: 0f
                 } else {
+                    Log.e("fetchLatestStress", "API 실패: ${response.code()} - ${response.errorBody()?.string()}")
                     _stress.value = 0f
                 }
             } catch (e: Exception) {
+                Log.e("fetchLatestStress", "예외 발생: ${e.message}", e)
                 _stress.value = 0f
             }
         }
     }
+
 
     fun fetchTourByLocation(x: Double, y: Double) {
         viewModelScope.launch {
@@ -62,8 +70,21 @@ class HomeViewModel : ViewModel() {
             try {
                 val response = RetrofitClient.homeApi.getTraumaArticle()
                 if (response.isSuccessful) {
-                    _trauma.value = response.body()?.content ?: "내용 없음"
-                    Log.d("HomeViewModel", "기사 내용: ${response.body()?.content}")
+                    val content = response.body()?.string() ?: "내용 없음"
+                    _trauma.value = content
+                    Log.d("HomeViewModel", "기사 내용: $content")
+
+                    // 🔍 이미지 URL 추출 (.png, .jpg 등)
+                    val imageRegex = Regex("https?://[^\\s'\"]+\\.(png|jpg|jpeg|gif)")
+                    val firstImage = imageRegex.find(content)?.value
+
+                    if (firstImage != null) {
+                        _trauma.value = firstImage ?: ""
+                        Log.d("HomeViewModel", "첫 번째 이미지 URL: $firstImage")
+                    } else {
+                        _trauma.value = ""
+                        Log.w("HomeViewModel", "이미지 URL을 찾지 못했습니다.")
+                    }
                 } else {
                     Log.e("HomeViewModel", "크롤링 실패: ${response.code()}")
                 }
@@ -73,18 +94,63 @@ class HomeViewModel : ViewModel() {
         }
     }
 
+
+
     fun fetchSamsungStress() {
         viewModelScope.launch {
             try {
                 val response = RetrofitClient.homeApi.getSamsungStress()
                 if (response.isSuccessful) {
-                    val body = response.body()
-                    Log.d("SamsungStressRaw", "🔵 응답 본문: $body")
+                    val content = response.body()?.string() ?: "내용 없음"
+                    _samsungStress.value = content
+                    Log.d("HomeViewModel", "기사 내용: $content")
+
+                    // 🔍 이미지 URL 추출 (.png, .jpg 등)
+                    val imageRegex = Regex("https?://[^\\s'\"]+\\.(png|jpg|jpeg|gif)")
+                    val firstImage = imageRegex.find(content)?.value
+
+                    if (firstImage != null) {
+                        _samsungStress.value = firstImage ?: ""
+                        Log.d("HomeViewModel", "첫 번째 이미지 URL: $firstImage")
+                    } else {
+                        _samsungStress.value = ""
+                        Log.w("HomeViewModel", "이미지 URL을 찾지 못했습니다.")
+                    }
                 } else {
-                    Log.e("SamsungStressRaw", "🔴 실패 코드: ${response.code()} / ${response.errorBody()?.string()}")
+                    Log.e("HomeViewModel", "크롤링 실패: ${response.code()}")
                 }
             } catch (e: Exception) {
-                Log.e("SamsungStressRaw", "🔥 예외 발생: ${e.message}", e)
+                Log.e("HomeViewModel", "크롤링 예외: ${e.message}")
+            }
+        }
+    }
+
+
+    fun fetchLawTimes() {
+        viewModelScope.launch {
+            try {
+                val response = RetrofitClient.homeApi.getLawtimesArticle()
+                if (response.isSuccessful) {
+                    val content = response.body()?.string() ?: "내용 없음"
+                    _lawtimes.value = content
+                    Log.d("HomeViewModel", "기사 내용: $content")
+
+                    // 🔍 이미지 URL 추출 (.png, .jpg 등)
+                    val imageRegex = Regex("https?://[^\\s'\"]+\\.(png|jpg|jpeg|gif)")
+                    val firstImage = imageRegex.find(content)?.value
+
+                    if (firstImage != null) {
+                        _lawtimes.value = firstImage ?: ""
+                        Log.d("HomeViewModel", "첫 번째 이미지 URL: $firstImage")
+                    } else {
+                        _lawtimes.value = ""
+                        Log.w("HomeViewModel", "이미지 URL을 찾지 못했습니다.")
+                    }
+                } else {
+                    Log.e("HomeViewModel", "크롤링 실패: ${response.code()}")
+                }
+            } catch (e: Exception) {
+                Log.e("HomeViewModel", "크롤링 예외: ${e.message}")
             }
         }
     }

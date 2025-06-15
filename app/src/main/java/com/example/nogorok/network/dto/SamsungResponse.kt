@@ -1,5 +1,5 @@
 package com.example.nogorok.network.dto
 
-data class TraumaResponse(
+data class SamsungResponse(
     val content: String
 )
