@@ -28,9 +28,28 @@ class MypageFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_mypage, container, false)
 
-        // 사용자 이름 표시 (하드코딩된 예시)
         val tvUsername = view.findViewById<TextView>(R.id.tv_username)
-        tvUsername.text = "김덕우님"
+
+        lifecycleScope.launch {
+            try {
+                val token = TokenManager.getAccessToken(requireContext())
+                if (token != null) {
+                    val response = RetrofitClient.mypageApi.getUserName()
+                    if (response.isSuccessful) {
+                        val name = response.body()?.string() ?: "이름없음"
+                        tvUsername.text = "$name 님"
+                    } else {
+                        Log.e("이름반환실패", "code=${response.code()}")
+                    }
+                } else {
+                    Log.e("이름반환실패", "No token")
+                }
+            } catch (e: Exception) {
+                Log.e("이름반환오류", e.toString())
+            }
+        }
+
+
 
         // 로그아웃
         val btnLogout = view.findViewById<Button>(R.id.btn_logout)
