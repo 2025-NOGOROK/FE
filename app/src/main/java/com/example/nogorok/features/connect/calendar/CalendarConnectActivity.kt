@@ -85,15 +85,22 @@ class CalendarConnectActivity : AppCompatActivity() {
         handleDeepLink(intent)
     }
 
-    // ✅ 딥링크 처리 → code 추출
+    // ✅ handleDeepLink 수정
     private fun handleDeepLink(intent: Intent?) {
-        val data = intent?.data ?: return
-        val code = data.getQueryParameter("code")
+        val data = intent?.data
+        Log.d("OAuth", "딥링크 URI: $data") // ← 추가 로그
+
+        val code = data?.getQueryParameter("code")
+        val error = data?.getQueryParameter("error")
 
         if (!code.isNullOrBlank()) {
             Log.d("OAuth", "받은 code: $code")
             exchangeCodeForTokens(code)
+        } else if (!error.isNullOrBlank()) {
+            Log.e("OAuth", "Google OAuth 오류: $error") // ← error=access_denied 등 체크
+            Toast.makeText(this, "구글 로그인 실패: $error", Toast.LENGTH_SHORT).show()
         } else {
+            Log.e("OAuth", "code 파라미터 없음. URI: $data") // ← URI에 code 없음
             Toast.makeText(this, "인증 코드가 없습니다", Toast.LENGTH_SHORT).show()
         }
     }
@@ -115,9 +122,10 @@ class CalendarConnectActivity : AppCompatActivity() {
         }
     }
 
-    // ✅ Google OAuth 토큰 요청 함수
+    // ✅ getGoogleTokens 수정
     private suspend fun getGoogleTokens(code: String): GoogleTokenResponse? = withContext(Dispatchers.IO) {
         val url = "https://oauth2.googleapis.com/token"
+        Log.d("OAuth", "Token 요청 시작. code=$code") // ← 추가 로그
 
         val formBody = FormBody.Builder()
             .add("code", code)
@@ -135,27 +143,39 @@ class CalendarConnectActivity : AppCompatActivity() {
         val client = OkHttpClient()
         val response = client.newCall(request).execute()
 
+        val bodyString = response.body?.string()
+        Log.d("OAuth", "Token 응답 코드: ${response.code}") // ← 응답코드 확인
+        Log.d("OAuth", "Token 응답 바디: $bodyString") // ← 응답 메시지 출력
+
         if (response.isSuccessful) {
-            val body = response.body?.string()
-            Gson().fromJson(body, GoogleTokenResponse::class.java)
+            Gson().fromJson(bodyString, GoogleTokenResponse::class.java)
         } else {
-            Log.e("OAuth", "구글 서버 응답 오류: ${response.code}")
+            Log.e("OAuth", "구글 서버 응답 실패: ${response.code}")
             null
         }
     }
 
-    // ✅ access_token, refresh_token → 백엔드에 전달
+
+    // ✅ sendTokensToBackend 수정
     private fun sendTokensToBackend(accessToken: String, refreshToken: String) {
         lifecycleScope.launch {
             try {
+                Log.d("OAuth", "백엔드에 토큰 전송 시작") // ← 로그 추가
+                Log.d("OAuth", "accessToken: $accessToken")
+                Log.d("OAuth", "refreshToken: $refreshToken")
+
                 val request = GoogleRegisterRequest(
                     access_token = accessToken,
                     refresh_token = refreshToken
                 )
 
                 val response = RetrofitClient.googleApi.registerGoogleToken(request)
+                Log.d("OAuth", "백엔드 응답 코드: ${response.code()}")
+
                 if (response.isSuccessful) {
                     val jwt = response.body()?.jwt
+                    Log.d("OAuth", "받은 JWT: $jwt") // ← jwt 확인
+
                     if (!jwt.isNullOrBlank()) {
                         TokenManager.saveJwtToken(this@CalendarConnectActivity, jwt)
                         RetrofitClient.setAccessToken(jwt)
@@ -167,6 +187,7 @@ class CalendarConnectActivity : AppCompatActivity() {
                         Toast.makeText(this@CalendarConnectActivity, "JWT가 없습니다", Toast.LENGTH_SHORT).show()
                     }
                 } else {
+                    Log.e("OAuth", "JWT 등록 실패: ${response.errorBody()?.string()}")
                     Toast.makeText(this@CalendarConnectActivity, "JWT 등록 실패", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
@@ -175,4 +196,5 @@ class CalendarConnectActivity : AppCompatActivity() {
             }
         }
     }
+
 }

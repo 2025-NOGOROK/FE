@@ -2,10 +2,11 @@ package com.example.nogorok.network.api
 
 import com.example.nogorok.network.dto.HomeResponse
 import com.example.nogorok.network.dto.TourResponse
-import com.example.nogorok.network.dto.TraumaResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
+import okhttp3.ResponseBody
+
 
 interface HomeApi {
     @GET("/api/devices/latest")
@@ -24,8 +25,11 @@ interface HomeApi {
     ): Response<TourResponse>
 
     @GET("/api/crawl/trauma")
-    suspend fun getTraumaArticle(): Response<TraumaResponse>
+    suspend fun getTraumaArticle(): Response<ResponseBody>
 
     @GET("/api/crawl/samsung-stress")
-    suspend fun getSamsungStress(): Response<String>
+    suspend fun getSamsungStress(): Response<ResponseBody>
+
+    @GET("/api/crawl/lawtimes-article")
+    suspend fun getLawtimesArticle(): Response<ResponseBody>
 }

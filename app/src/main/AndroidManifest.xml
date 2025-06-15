@@ -94,6 +94,7 @@
             </intent-filter>
         </activity>
 
+
         <activity android:name=".features.connect.ConnectActivity" />
 
     </application>
