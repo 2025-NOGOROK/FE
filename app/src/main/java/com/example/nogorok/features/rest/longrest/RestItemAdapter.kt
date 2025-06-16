@@ -6,13 +6,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nogorok.R
-import com.example.nogorok.features.rest.longrest.RestItem
 
-class RestItemAdapter(private val items: List<RestItem>) :
+class RestItemAdapter(private var items: List<RestItem>) :
     RecyclerView.Adapter<RestItemAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val icon: TextView = view.findViewById(R.id.itemIcon)
         val title: TextView = view.findViewById(R.id.itemTitle)
         val time: TextView = view.findViewById(R.id.itemTime)
     }
@@ -25,10 +23,14 @@ class RestItemAdapter(private val items: List<RestItem>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
-        holder.icon.text = item.icon
         holder.title.text = item.title
         holder.time.text = item.time
     }
 
     override fun getItemCount(): Int = items.size
+
+    fun updateItems(newItems: List<RestItem>) {
+        items = newItems
+        notifyDataSetChanged()
+    }
 }

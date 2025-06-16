@@ -18,20 +18,19 @@ class ScheduleAdapter :
 
         fun bind(item: ScheduleItem) {
             binding.tvTitle.text = item.title
-            binding.tvTime.text = item.time
 
-            // ✅ 배경 drawable 적용
+            // ✅ 시간 표시 형식 수정: "startTime - endTime"
+            binding.tvTime.text = "${item.startTime} - ${item.endTime}"
+
             binding.cardSchedule.setBackgroundResource(
                 if (item.isShortRest) R.drawable.bg_schedule_short_rest
                 else R.drawable.bg_schedule_normal
             )
 
-            // ✅ 텍스트 색상 적용
             val textColor = if (item.isShortRest) Color.parseColor("#FFFBEA") else Color.parseColor("#6A4A38")
             binding.tvTitle.setTextColor(textColor)
             binding.tvTime.setTextColor(textColor)
 
-            // ✅ 핀/쉼표 이미지
             binding.ivSymbol.apply {
                 visibility = View.VISIBLE
                 setImageResource(if (item.isShortRest) R.drawable.comma else R.drawable.pin)
@@ -51,7 +50,9 @@ class ScheduleAdapter :
     companion object {
         val diffUtil = object : DiffUtil.ItemCallback<ScheduleItem>() {
             override fun areItemsTheSame(oldItem: ScheduleItem, newItem: ScheduleItem): Boolean {
-                return oldItem.title == newItem.title && oldItem.time == newItem.time
+                return oldItem.title == newItem.title &&
+                        oldItem.startTime == newItem.startTime &&
+                        oldItem.endTime == newItem.endTime
             }
 
             override fun areContentsTheSame(oldItem: ScheduleItem, newItem: ScheduleItem): Boolean {

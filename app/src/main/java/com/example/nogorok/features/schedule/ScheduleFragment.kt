@@ -41,6 +41,9 @@ class ScheduleFragment : Fragment() {
         setupAddScheduleButton()
         observeViewModel()
         updateCalendar()
+
+        // ✅ 최초 진입 시 오늘 날짜 일정 로딩
+        viewModel.fetchGoogleEvents(requireContext(), viewModel.selectedDate.value ?: LocalDate.now())
     }
 
     private fun setupCalendarToggle() {
@@ -129,7 +132,7 @@ class ScheduleFragment : Fragment() {
     private fun observeViewModel() {
         viewModel.selectedDate.observe(viewLifecycleOwner) {
             updateCalendar()
-            viewModel.loadSchedules(it)
+            viewModel.fetchGoogleEvents(requireContext(), it)
         }
     }
 

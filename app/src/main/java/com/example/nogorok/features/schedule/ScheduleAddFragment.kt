@@ -11,11 +11,21 @@ import android.widget.ArrayAdapter
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.example.nogorok.network.api.FcmApi
+import com.example.nogorok.R
 import com.example.nogorok.databinding.FragmentScheduleAddBinding
+import com.example.nogorok.network.RetrofitClient
+import com.example.nogorok.network.dto.FcmScheduleRequest
+import com.example.nogorok.network.dto.GoogleEventAddRequest
+import com.example.nogorok.utils.TokenManager
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.*
+import android.util.Log
 
 class ScheduleAddFragment : Fragment() {
 
@@ -45,6 +55,10 @@ class ScheduleAddFragment : Fragment() {
         setupTimePickers()
         setupAlarmSpinner()
         setupAddButton()
+
+        binding.btnBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     private fun setupDefaultDateTime() {
@@ -148,7 +162,9 @@ class ScheduleAddFragment : Fragment() {
     }
 
     private fun setupAddButton() {
+        Log.d("ScheduleAddFragment", "setupAddButton 실행됨")
         binding.btnAddSchedule.setOnClickListener {
+            Log.d("ScheduleAddFragment", "Add 버튼 눌림")
             val title = binding.etTitle.text.toString()
             val desc = binding.etDescription.text.toString()
 
@@ -157,13 +173,77 @@ class ScheduleAddFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            Toast.makeText(
-                requireContext(),
-                "일정이 추가되었습니다\n알림: $selectedAlarmTime",
-                Toast.LENGTH_SHORT
-            ).show()
+            val startDateTime = "${startDate}T${startTime}:00+09:00"
+            val endDateTime = "${endDate}T${endTime}:00+09:00"
+            val minutesBefore = when (selectedAlarmTime) {
+                "5분 전" -> 5
+                "10분 전" -> 10
+                "30분 전" -> 30
+                else -> 10
+            }
 
-            // TODO: 데이터 저장 처리
+            val isAlarmChecked = binding.cbMoveAlarm.isChecked
+
+
+            Log.d("ScheduleAdd", "토큰 가져오기 전")
+            val token = TokenManager.getJwtToken(requireContext()) ?: return@setOnClickListener
+            Log.d("tokenCheck", "token=$token")
+            if (token == null) {
+                Toast.makeText(requireContext(), "구글 로그인이 완료되지 않은 상태", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+
+
+            val scheduleRequest = GoogleEventAddRequest(
+                title = title,
+                description = desc,
+                startDateTime = startDateTime,
+                endDateTime = endDateTime,
+                serverAlarm = isAlarmChecked,
+                minutesBeforeAlarm = minutesBefore
+            )
+
+            Log.d("ScheduleAdd", "API 요청 시작")
+            Log.d("ScheduleAdd", "startDateTime=$startDateTime, endDateTime=$endDateTime")
+
+            lifecycleScope.launch {
+                try {
+                    val response = RetrofitClient.calendarApi.addGoogleEvent(
+                        jwt = "Bearer $token",
+                        request = scheduleRequest
+                    )
+                    if (response.isSuccessful) {
+                        // ✅ serverAlarm이 true일 때만 FCM 예약 API 호출
+                        if (scheduleRequest.serverAlarm) {
+                            val fcmRequest = FcmScheduleRequest(
+                                title = "$title 시작 알림",
+                                startDateTime = startDateTime,
+                                minutesBeforeAlarm = minutesBefore
+                            )
+
+                            val fcmResponse = RetrofitClient.fcmApi.registerFcmSchedule(
+                                request = fcmRequest
+                            )
+
+                            if (fcmResponse.isSuccessful) {
+                                Toast.makeText(requireContext(), "일정 및 알림이 등록되었습니다", Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(requireContext(), "일정은 추가되었지만 알림 예약 실패", Toast.LENGTH_SHORT).show()
+                            }
+                        } else {
+                            Toast.makeText(requireContext(), "일정이 등록되었습니다", Toast.LENGTH_SHORT).show()
+                        }
+
+                        findNavController().popBackStack()
+                    }
+                    else {
+                        Toast.makeText(requireContext(), "일정 추가 실패: ${response.code()}", Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: Exception) {
+                    Toast.makeText(requireContext(), "에러 발생: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
