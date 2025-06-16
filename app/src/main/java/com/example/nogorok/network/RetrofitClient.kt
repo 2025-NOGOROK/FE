@@ -11,6 +11,8 @@ import com.example.nogorok.network.api.MonthlyApi
 import com.example.nogorok.network.api.WeeklyApi
 import com.example.nogorok.network.api.HomeApi
 import com.example.nogorok.network.api.ShortRestApi
+import com.example.nogorok.network.api.CalendarApi
+import com.example.nogorok.network.api.LongRestApi
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -42,7 +44,10 @@ object RetrofitClient {
             "/auth/signUp",
             "/auth/signIn",
             "/auth/google/callback",
-            "/auth/google/mobile-register" // ✅ 구글 연동 시 제외 경로 추가
+            "/auth/google/mobile-register",
+            "/auth/google/events",
+            "/auth/google/eventsPlus",
+            "/api/short-recommend"// ✅ 구글 연동 시 제외 경로 추가
         )
 
         val requestBuilder = request.newBuilder()
@@ -79,4 +84,6 @@ object RetrofitClient {
     val weeklyApi: WeeklyApi by lazy { retrofit.create(WeeklyApi::class.java) }
     val homeApi: HomeApi by lazy { retrofit.create(HomeApi::class.java) }
     val shortRestApi: ShortRestApi by lazy { retrofit.create(ShortRestApi::class.java) }
+    val calendarApi: CalendarApi by lazy { retrofit.create(CalendarApi::class.java) }
+    val longrestApi: LongRestApi by lazy { retrofit.create(LongRestApi::class.java) }
 }

@@ -88,9 +88,8 @@
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data
-                    android:scheme="https"
-                    android:host="recommend.ai.kr"
-                    android:pathPrefix="/auth/google/callback" />
+                    android:scheme="com.example.nogorok"
+                    android:host="oauth2callback" />
             </intent-filter>
         </activity>
 

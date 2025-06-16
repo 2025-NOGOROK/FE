@@ -108,11 +108,19 @@ class MainActivity : AppCompatActivity() {
         val today = LocalDate.now().toString()
         Log.d("ShortRestAPI", "🔄 요청 시작: $today")
 
-
         lifecycleScope.launch {
             try {
-                val result: List<ShortRestResponse> =
-                    RetrofitClient.shortRestApi.getShortRest(today)
+                val token = TokenManager.getJwtToken(this@MainActivity)
+                if (token == null) {
+                    Toast.makeText(this@MainActivity, "JWT 토큰이 없습니다. 로그인 필요", Toast.LENGTH_SHORT).show()
+                    dialog.dismiss()
+                    return@launch
+                }
+
+                val result: List<ShortRestResponse> = RetrofitClient.shortRestApi.getShortRest(
+                    jwt = "Bearer $token",
+                    date = today
+                )
 
                 Log.d("ShortRestAPI", "✅ 응답 성공: ${result.size}건 수신")
                 dialog.dismiss()
@@ -124,7 +132,6 @@ class MainActivity : AppCompatActivity() {
 
                 scheduleFragment?.viewModel?.setShortRestItems(result)
 
-
             } catch (e: Exception) {
                 dialog.dismiss()
                 Log.e("ShortRestAPI", "❌ 요청 실패: ${e.localizedMessage}", e)
@@ -132,5 +139,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
 
 }
