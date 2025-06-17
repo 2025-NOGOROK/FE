@@ -110,7 +110,7 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             try {
-                val token = TokenManager.getJwtToken(this@MainActivity)
+                val token = TokenManager.getAccessToken(this@MainActivity)
                 if (token == null) {
                     Toast.makeText(this@MainActivity, "JWT 토큰이 없습니다. 로그인 필요", Toast.LENGTH_SHORT).show()
                     dialog.dismiss()
@@ -118,7 +118,6 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 val result: List<ShortRestResponse> = RetrofitClient.shortRestApi.getShortRest(
-                    jwt = "Bearer $token",
                     date = today
                 )
 

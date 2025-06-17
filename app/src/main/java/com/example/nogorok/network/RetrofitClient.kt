@@ -44,10 +44,7 @@ object RetrofitClient {
             "/auth/signUp",
             "/auth/signIn",
             "/auth/google/callback",
-            "/auth/google/mobile-register",
-            "/auth/google/events",
-            "/auth/google/eventsPlus",
-            "/api/short-recommend"// ✅ 구글 연동 시 제외 경로 추가
+            "/auth/google/mobile-register", // ✅ 구글 연동 시 제외 경로 추가
         )
 
         val requestBuilder = request.newBuilder()

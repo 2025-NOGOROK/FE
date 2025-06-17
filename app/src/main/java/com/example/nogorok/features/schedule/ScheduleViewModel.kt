@@ -12,7 +12,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
+
 
 class ScheduleViewModel : ViewModel() {
 
@@ -44,13 +46,13 @@ class ScheduleViewModel : ViewModel() {
     fun fetchGoogleEvents(context: Context, date: LocalDate) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val token = TokenManager.getJwtToken(context)
+                val token = TokenManager.getAccessToken(context)
                 if (token != null) {
-                    val timeMin = date.atTime(0, 0, 0).toString() + "+09:00"
-                    val timeMax = date.atTime(23, 59, 59).toString() + "+09:00"
+                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX")
+                    val timeMin = date.atTime(0, 0).atOffset(ZoneOffset.ofHours(9)).format(formatter)
+                    val timeMax = date.atTime(23, 0).atOffset(ZoneOffset.ofHours(9)).format(formatter)
 
                     val response = RetrofitClient.calendarApi.getGoogleEvents(
-                        jwt = "Bearer $token",
                         timeMin = timeMin,
                         timeMax = timeMax
                     )
@@ -60,11 +62,10 @@ class ScheduleViewModel : ViewModel() {
 
                     if (response.isSuccessful) {
                         val items = response.body().orEmpty()
-
-                        val formatter = DateTimeFormatter.ofPattern("HH:mm")
+                        val formatterHHmm = DateTimeFormatter.ofPattern("HH:mm")
 
                         val scheduleItems = items.map { item ->
-                            val start = item.startDateTime.substring(11, 16) // "T10:00"
+                            val start = item.startDateTime.substring(11, 16)
                             val end = item.endDateTime.substring(11, 16)
 
                             ScheduleItem(
@@ -76,9 +77,10 @@ class ScheduleViewModel : ViewModel() {
                             )
                         }
 
+                        Log.d("Schedule", "API 호출됨: ${scheduleItems.size}개 이벤트 수신")
                         _scheduleList.postValue(scheduleItems)
                     } else {
-                        Log.e("API", "구글 일정 조회 실패: ${response.code()}")
+                        Log.e("API", "구글 일정 조회 실패: ${response.code()} / ${response.errorBody()?.string()}")
                     }
                 }
             } catch (e: Exception) {
@@ -86,4 +88,5 @@ class ScheduleViewModel : ViewModel() {
             }
         }
     }
+
 }
