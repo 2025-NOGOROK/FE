@@ -7,5 +7,5 @@ import retrofit2.http.Query
 
 interface ShortRestApi {
     @POST("/api/short-recommend")
-    suspend fun getShortRest(@Header("Authorization") jwt: String, @Query("date") date: String): List<ShortRestResponse>
+    suspend fun getShortRest(@Query("date") date: String): List<ShortRestResponse>
 }

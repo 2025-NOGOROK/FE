@@ -186,7 +186,7 @@ class ScheduleAddFragment : Fragment() {
 
 
             Log.d("ScheduleAdd", "토큰 가져오기 전")
-            val token = TokenManager.getJwtToken(requireContext()) ?: return@setOnClickListener
+            val token = TokenManager.getAccessToken(requireContext()) ?: return@setOnClickListener
             Log.d("tokenCheck", "token=$token")
             if (token == null) {
                 Toast.makeText(requireContext(), "구글 로그인이 완료되지 않은 상태", Toast.LENGTH_SHORT).show()
@@ -210,7 +210,6 @@ class ScheduleAddFragment : Fragment() {
             lifecycleScope.launch {
                 try {
                     val response = RetrofitClient.calendarApi.addGoogleEvent(
-                        jwt = "Bearer $token",
                         request = scheduleRequest
                     )
                     if (response.isSuccessful) {
