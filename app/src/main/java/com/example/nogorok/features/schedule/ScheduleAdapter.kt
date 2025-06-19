@@ -18,24 +18,25 @@ class ScheduleAdapter :
 
         fun bind(item: ScheduleItem) {
             binding.tvTitle.text = item.title
-
-            // ✅ 시간 표시 형식 수정: "startTime - endTime"
             binding.tvTime.text = "${item.startTime} - ${item.endTime}"
 
+            val isRecommend = item.sourceType == "short-recommend" || item.sourceType == "long-recommend"
+
             binding.cardSchedule.setBackgroundResource(
-                if (item.isShortRest) R.drawable.bg_schedule_short_rest
+                if (isRecommend) R.drawable.bg_schedule_short_rest
                 else R.drawable.bg_schedule_normal
             )
 
-            val textColor = if (item.isShortRest) Color.parseColor("#FFFBEA") else Color.parseColor("#6A4A38")
+            val textColor = if (isRecommend) Color.parseColor("#FFFBEA") else Color.parseColor("#6A4A38")
             binding.tvTitle.setTextColor(textColor)
             binding.tvTime.setTextColor(textColor)
 
             binding.ivSymbol.apply {
                 visibility = View.VISIBLE
-                setImageResource(if (item.isShortRest) R.drawable.comma else R.drawable.pin)
+                setImageResource(if (isRecommend) R.drawable.comma else R.drawable.pin)
             }
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleViewHolder {
@@ -52,7 +53,8 @@ class ScheduleAdapter :
             override fun areItemsTheSame(oldItem: ScheduleItem, newItem: ScheduleItem): Boolean {
                 return oldItem.title == newItem.title &&
                         oldItem.startTime == newItem.startTime &&
-                        oldItem.endTime == newItem.endTime
+                        oldItem.endTime == newItem.endTime &&
+                        oldItem.sourceType == newItem.sourceType
             }
 
             override fun areContentsTheSame(oldItem: ScheduleItem, newItem: ScheduleItem): Boolean {

@@ -58,10 +58,18 @@ class SurveyStep5Fragment : Fragment() {
 
         binding.btnNext.setOnClickListener {
             if (selectedIndex != -1) {
-                viewModel.stressReaction.value = selectedIndex.toString()
+                val stressTypes = listOf(
+                    "감각 회피형",
+                    "감각 추구형",
+                    "감각 민감+회피형",
+                    "감각 둔감형",
+                    "감각 민감+추구형"
+                )
+                viewModel.stressReaction.value = stressTypes[selectedIndex]
                 (activity as? SurveyActivity)?.navigateToNext("Step5")
             }
         }
+
     }
 
     override fun onDestroyView() {

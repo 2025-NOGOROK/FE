@@ -28,20 +28,26 @@ class ScheduleViewModel : ViewModel() {
         _selectedDate.value = date
     }
 
-    fun setShortRestItems(items: List<ShortRestResponse>) {
+    fun setShortRestItems(items: List<ShortRestResponse>, context: Context) {
         val shortRestSchedules = items.map {
             ScheduleItem(
                 title = it.title,
-                startTime = it.startTime,
-                endTime = it.endTime,
+                startTime = it.startTime.substring(11, 16),
+                endTime = it.endTime.substring(11, 16),
                 isPinned = false,
-                isShortRest = true
+                sourceType = it.sourceType
             )
         }
 
-        val current = _scheduleList.value.orEmpty()
-        _scheduleList.value = current + shortRestSchedules
+        // ❗ UI에는 표시하지 않음, 로그로만 찍기
+        shortRestSchedules.forEach {
+            Log.d("ShortRestItem", "title=${it.title}, time=${it.startTime}-${it.endTime}, sourceType=${it.sourceType}")
+        }
+
+        // ✅ 호출 성공 후 구글 이벤트 가져오기 실행
+        fetchGoogleEvents(context, selectedDate.value ?: LocalDate.now())
     }
+
 
     fun fetchGoogleEvents(context: Context, date: LocalDate) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -73,11 +79,13 @@ class ScheduleViewModel : ViewModel() {
                                 startTime = start,
                                 endTime = end,
                                 isPinned = false,
-                                isShortRest = false
+                                sourceType = item.sourceType
                             )
+
                         }
 
                         Log.d("Schedule", "API 호출됨: ${scheduleItems.size}개 이벤트 수신")
+
                         _scheduleList.postValue(scheduleItems)
                     } else {
                         Log.e("API", "구글 일정 조회 실패: ${response.code()} / ${response.errorBody()?.string()}")

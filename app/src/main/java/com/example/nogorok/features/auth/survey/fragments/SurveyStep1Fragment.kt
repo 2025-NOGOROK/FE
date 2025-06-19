@@ -60,8 +60,8 @@ class SurveyStep1Fragment : Fragment() {
 
         binding.btnNext.setOnClickListener {
             val scheduleType = when (selectedOption) {
-                1 -> "loose"
-                2 -> "tight"
+                1 -> "루즈"
+                2 -> "타이트"
                 else -> ""
             }
 

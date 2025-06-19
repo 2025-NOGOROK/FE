@@ -60,8 +60,8 @@ class SurveyStep3Fragment : Fragment() {
 
         binding.btnNext.setOnClickListener {
             val chronotype = when (selectedOption) {
-                1 -> "morning"
-                2 -> "evening"
+                1 -> "아침"
+                2 -> "저녁"
                 else -> ""
             }
 

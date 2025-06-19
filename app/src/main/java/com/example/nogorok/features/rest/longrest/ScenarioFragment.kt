@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.nogorok.R
 import com.google.android.material.button.MaterialButton
 import android.widget.Toast
+import android.util.Log
 
 
 class ScenarioFragment : Fragment() {
@@ -69,9 +70,11 @@ class ScenarioFragment : Fragment() {
             viewModel.postSelectedScenario(scenarioIndex,
                 onSuccess = {
                     Toast.makeText(requireContext(), "시나리오 ${scenarioIndex + 1} 선택 완료!", Toast.LENGTH_SHORT).show()
+                    requireActivity().onBackPressedDispatcher.onBackPressed()
                 },
                 onError = {
                     Toast.makeText(requireContext(), "선택 실패: ${it.message}", Toast.LENGTH_SHORT).show()
+                    Log.e("ScenarioSelect", "선택 실패", it)
                 }
             )
         }
