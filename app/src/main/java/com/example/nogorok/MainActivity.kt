@@ -117,19 +117,24 @@ class MainActivity : AppCompatActivity() {
                     return@launch
                 }
 
-                val result: List<ShortRestResponse> = RetrofitClient.shortRestApi.getShortRest(
-                    date = today
-                )
-
+                val result: List<ShortRestResponse> = RetrofitClient.shortRestApi.getShortRest(date = today)
                 Log.d("ShortRestAPI", "✅ 응답 성공: ${result.size}건 수신")
+                result.forEach {
+                    Log.d("ShortRestItem", "title=${it.title}, time=${it.startTime} - ${it.endTime}, sourceType=${it.sourceType}")
+                }
+
                 dialog.dismiss()
 
+                // 📌 ScheduleFragment의 ViewModel에 fetchGoogleEvents 호출
                 val navHostFragment =
                     supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
                 val scheduleFragment =
                     navHostFragment.childFragmentManager.fragments.find { it is ScheduleFragment } as? ScheduleFragment
 
-                scheduleFragment?.viewModel?.setShortRestItems(result)
+                val scheduleViewModel = scheduleFragment?.viewModel
+                val selectedDate = scheduleViewModel?.selectedDate?.value ?: LocalDate.now()
+
+                scheduleViewModel?.fetchGoogleEvents(this@MainActivity, selectedDate)
 
             } catch (e: Exception) {
                 dialog.dismiss()
@@ -138,6 +143,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
 
 
 }

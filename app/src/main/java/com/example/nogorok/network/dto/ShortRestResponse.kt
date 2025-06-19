@@ -5,6 +5,7 @@ data class ShortRestResponse(
     val description: String,
     val startTime: String,
     val endTime: String,
+    val sourceType: String,
     val startDateTime: String,
     val endDateTime: String
 )

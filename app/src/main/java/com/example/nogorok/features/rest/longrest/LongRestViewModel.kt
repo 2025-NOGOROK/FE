@@ -18,9 +18,7 @@ class LongRestViewModel : ViewModel() {
     private val _scenarioItems = MutableLiveData<List<List<RestItem>>>()
     val scenarioItems: LiveData<List<List<RestItem>>> = _scenarioItems
 
-    // 전체 응답 저장용 (시나리오 선택용)
     private var lastRawResponse: List<LongRestResponse>? = null
-
     private var hasSelectedBefore: Boolean = false
 
     fun fetchLongRestItems(
@@ -47,22 +45,38 @@ class LongRestViewModel : ViewModel() {
                         .filter { it.type == "calendar" }
                         .flatMap { it.data }
                         .mapNotNull { event ->
-                            RestItem(
-                                title = event.title ?: "",
-                                description = event.description ?: "",
-                                time = "${parseToTime(event.startDateTime)} - ${parseToTime(event.endDateTime)}"
-                            )
+                            val start = parseToTime(event.startDateTime)
+                            val end = parseToTime(event.endDateTime)
+                            if (start.isNotBlank() && end.isNotBlank()) {
+                                RestItem(
+                                    title = event.title.orEmpty(),
+                                    description = event.description.orEmpty(),
+                                    startTime = start,
+                                    endTime = end,
+                                    sourceType = event.sourceType.orEmpty(),
+                                    startDateTime = event.startDateTime.orEmpty(),
+                                    endDateTime = event.endDateTime.orEmpty()
+                                )
+                            } else null
                         }
                     grouped.add(calendarItems)
 
                     val eventItems = body.filter { it.type == "event" }
                     eventItems.take(2).forEach { responseItem ->
                         val items = responseItem.data.mapNotNull { event ->
-                            RestItem(
-                                title = event.title ?: "",
-                                description = event.description ?: "",
-                                time = "${parseToTime(event.startDateTime)} - ${parseToTime(event.endDateTime)}"
-                            )
+                            val start = parseToTime(event.startDateTime)
+                            val end = parseToTime(event.endDateTime)
+                            if (start.isNotBlank() && end.isNotBlank()) {
+                                RestItem(
+                                    title = event.title.orEmpty(),
+                                    description = event.description.orEmpty(),
+                                    startTime = start,
+                                    endTime = end,
+                                    sourceType = event.sourceType.orEmpty(),
+                                    startDateTime = event.startDateTime.orEmpty(),
+                                    endDateTime = event.endDateTime.orEmpty()
+                                )
+                            } else null
                         }
                         grouped.add(items)
                     }
@@ -115,16 +129,16 @@ class LongRestViewModel : ViewModel() {
             LongRestEventItem(
                 title = it.title,
                 description = it.description,
-                startTime = null,
-                endTime = null,
-                startDateTime = null,
-                endDateTime = null
+                startTime = it.startDateTime,
+                endTime = it.endDateTime,
+                startDateTime = it.startDateTime,
+                endDateTime = it.endDateTime,
+                sourceType = it.sourceType
             )
         }
 
-        val first = selectedGroup.firstOrNull()
-        val start = first?.time?.split(" - ")?.getOrNull(0) ?: ""
-        val end = first?.time?.split(" - ")?.getOrNull(1) ?: ""
+        val start = selectedGroup.firstOrNull()?.startDateTime ?: ""
+        val end = selectedGroup.lastOrNull()?.endDateTime ?: "" // ✅ 수정
 
         val request = ChoiceRequest(
             type = responseForLabel.type,

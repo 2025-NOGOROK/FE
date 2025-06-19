@@ -60,8 +60,8 @@ class SurveyStep4Fragment : Fragment() {
 
         binding.btnNext.setOnClickListener {
             val preferAlone = when (selectedOption) {
-                1 -> "alone"
-                2 -> "together"
+                1 -> "혼자"
+                2 -> "함께"
                 else -> ""
             }
 

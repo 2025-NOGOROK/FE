@@ -1,32 +1,43 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cardRestItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="12dp"
-    android:background="@drawable/bg_item"
     android:layout_marginBottom="10dp"
-    android:gravity="center_vertical">
+    android:layout_marginHorizontal="8dp"
+    android:elevation="2dp"
+    android:foreground="?attr/selectableItemBackground"
+    android:padding="0dp">
 
-    <TextView
-        android:id="@+id/itemIcon"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="🖋"
-        android:textSize="18sp"
-        android:layout_marginEnd="8dp" />
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:gravity="center_vertical">
 
-    <TextView
-        android:id="@+id/itemTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="교양독립 발표 준비"
-        android:textSize="16sp" />
+        <ImageView
+            android:id="@+id/ivSymbol"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="8dp"
+            android:visibility="gone"
+            android:contentDescription="아이콘" />
 
-    <TextView
-        android:id="@+id/itemTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="09:00~10:00"
-        android:textSize="14sp" />
-</LinearLayout>
+        <TextView
+            android:id="@+id/itemTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="교양독립 발표 준비"
+            android:textSize="16sp"
+            android:textColor="#6A4A38" />
+
+        <TextView
+            android:id="@+id/itemTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="09:00~10:00"
+            android:textSize="14sp"
+            android:textColor="#6A4A38" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

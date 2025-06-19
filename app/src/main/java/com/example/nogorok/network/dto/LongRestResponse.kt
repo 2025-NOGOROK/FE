@@ -14,5 +14,6 @@ data class LongRestEventItem(
     val startTime: String?,
     val endTime: String?,
     val startDateTime: String?,
-    val endDateTime: String?
+    val endDateTime: String?,
+    val sourceType: String?,
 )

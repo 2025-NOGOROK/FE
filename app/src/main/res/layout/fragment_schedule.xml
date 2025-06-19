@@ -79,23 +79,39 @@
             android:layout_marginTop="8dp" />
     </LinearLayout>
 
-    <!-- 🔽 일정 리스트 -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvSchedule"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="37dp"
-        android:layout_marginEnd="37dp"
-        android:layout_marginBottom="16dp" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
 
-    <!-- 🔽 일정 추가 버튼 -->
-    <Button
-        android:id="@+id/btnAddSchedule"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="+ 일정 추가하기"
-        android:layout_marginStart="37dp"
-        android:layout_marginEnd="37dp"
-        android:backgroundTint="#eeeeee"
-        android:textColor="#73605A" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- 🔽 일정 리스트 -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSchedule"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="37dp"
+                android:layout_marginEnd="37dp"
+                android:layout_marginBottom="16dp"
+                android:nestedScrollingEnabled="false" />
+
+            <!-- 🔽 일정 추가 버튼 -->
+            <Button
+                android:id="@+id/btnAddSchedule"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="+ 일정 추가하기"
+                android:layout_marginStart="37dp"
+                android:layout_marginEnd="37dp"
+                android:layout_marginBottom="100dp"
+                android:backgroundTint="#eeeeee"
+                android:textColor="#73605A" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
 </LinearLayout>
