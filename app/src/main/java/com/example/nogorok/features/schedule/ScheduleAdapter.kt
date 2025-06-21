@@ -20,22 +20,40 @@ class ScheduleAdapter :
             binding.tvTitle.text = item.title
             binding.tvTime.text = "${item.startTime} - ${item.endTime}"
 
-            val isRecommend = item.sourceType == "short-recommend" || item.sourceType == "long-recommend"
-
-            binding.cardSchedule.setBackgroundResource(
-                if (isRecommend) R.drawable.bg_schedule_short_rest
-                else R.drawable.bg_schedule_normal
-            )
-
-            val textColor = if (isRecommend) Color.parseColor("#FFFBEA") else Color.parseColor("#6A4A38")
-            binding.tvTitle.setTextColor(textColor)
-            binding.tvTime.setTextColor(textColor)
-
-            binding.ivSymbol.apply {
-                visibility = View.VISIBLE
-                setImageResource(if (isRecommend) R.drawable.comma else R.drawable.pin)
+            when (item.sourceType) {
+                "short-recommend" -> {
+                    binding.cardSchedule.setBackgroundResource(R.drawable.bg_schedule_short_rest)
+                    val textColor = Color.parseColor("#FFFBEA")
+                    binding.tvTitle.setTextColor(textColor)
+                    binding.tvTime.setTextColor(textColor)
+                    binding.ivSymbol.apply {
+                        visibility = View.VISIBLE
+                        setImageResource(R.drawable.comma)
+                    }
+                }
+                "long-recommend" -> {
+                    binding.cardSchedule.setBackgroundResource(R.drawable.bg_schedule_long_rest)
+                    val textColor = Color.parseColor("#73605A")
+                    binding.tvTitle.setTextColor(textColor)
+                    binding.tvTime.setTextColor(textColor)
+                    binding.ivSymbol.apply {
+                        visibility = View.VISIBLE
+                        setImageResource(R.drawable.comma)
+                    }
+                }
+                else -> {
+                    binding.cardSchedule.setBackgroundResource(R.drawable.bg_schedule_normal)
+                    val textColor = Color.parseColor("#6A4A38")
+                    binding.tvTitle.setTextColor(textColor)
+                    binding.tvTime.setTextColor(textColor)
+                    binding.ivSymbol.apply {
+                        visibility = View.VISIBLE
+                        setImageResource(R.drawable.pin)
+                    }
+                }
             }
         }
+
 
     }
 

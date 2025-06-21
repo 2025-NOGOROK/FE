@@ -23,6 +23,13 @@ class LongRestActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.titleText).text = "긴 쉼표 추천"
         findViewById<ImageView>(R.id.backButton).setOnClickListener { finish() }
 
+        val helpButton = findViewById<ImageView>(R.id.btnHelp)
+
+        helpButton.setOnClickListener {
+            val dialog = DialogFragment()
+            dialog.show(supportFragmentManager, "LongRestHelpDialog")
+        }
+
         val viewPager = findViewById<ViewPager2>(R.id.viewPager)
         val scenarioLabel = findViewById<TextView>(R.id.scenarioLabel)
         val btnPrev = findViewById<TextView>(R.id.btnPrev)
