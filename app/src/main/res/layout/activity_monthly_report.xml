@@ -30,7 +30,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="주간 리포트"
+                android:text="월간 리포트"
                 android:textColor="@color/ivory"
                 android:textSize="20sp"
                 android:gravity="center"
@@ -49,7 +49,7 @@
                 android:id="@+id/tvDateRange"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="5월 12일~5월 18일"
+                android:text="5월"
                 android:textSize="16sp"
                 android:textColor="@color/brown"
                 android:fontFamily="@font/pretendard_semibold"
@@ -59,7 +59,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="이달의 감정"
+                android:text="이달의 쉼표"
                 android:textSize="18sp"
                 android:fontFamily="@font/pretendard_semibold"
                 android:textColor="@color/black"
@@ -67,27 +67,22 @@
                 android:paddingBottom="2dp"
                 android:layout_marginBottom="8dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="최근 스트레스 받는 일이 있었나요? 지난 감정을 되돌아보세요."
-                android:textColor="@color/brown"
-                android:textSize="14sp"
-                android:fontFamily="@font/pretendard_regular"
-                android:layout_marginBottom="16dp" />
 
             <LinearLayout
-                android:id="@+id/emotionRatioContainer"
+                android:id="@+id/mockSummaryContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginBottom="24dp"/>
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                />
+
 
             <!-- 이달의 평균 스트레스 변화 -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="이달의 평균 스트레스 변화"
+                android:text="스트레스와 쉼표 리포트"
                 android:textSize="18sp"
                 android:fontFamily="@font/pretendard_semibold"
                 android:textColor="@color/black"
@@ -96,19 +91,24 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="8dp" />
 
+
+            <FrameLayout
+                android:id="@+id/stressReportContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="한 달 간의 스트레스 변화를 살펴보세요."
-                android:textColor="@color/brown"
+                android:text="스트레스가 많은 한 달이었지만, 완화일정은 많지 않았어요.\n앞으로도 내 컨디션에 따라 여유롭게 쉼표 일정을 조절해보세요."
+                android:textColor="@color/black"
                 android:textSize="14sp"
                 android:fontFamily="@font/pretendard_regular"
-                android:layout_marginBottom="16dp" />
-
-            <FrameLayout
-                android:id="@+id/emotionCalendarContainer"
-                android:layout_width="match_parent"
-                android:layout_height="240dp"/>
+                android:gravity="center"
+                android:textAlignment="center"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="32dp" />
 
 
         </LinearLayout>
