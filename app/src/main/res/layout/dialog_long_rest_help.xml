@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="294dp"
+    android:layout_height="344dp"
+    android:orientation="vertical"
+    android:padding="30dp"
+    android:layout_marginStart="40dp"
+    android:layout_marginEnd="40dp"
+    android:background="@drawable/dialog_background">
+
+    <!-- 상단 라인: 물음표 + X 닫기 버튼 -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/questionIcon"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/question" />
+
+        <ImageView
+            android:id="@+id/btnClose"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_close"
+        android:contentDescription="닫기 버튼"/>
+    </RelativeLayout>
+
+    <!-- 제목 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="긴 쉼표 추천이란?"
+        android:fontFamily="@font/pretendard_black"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:layout_marginTop="12dp"/>
+
+    <!-- 설명 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="누적된 스트레스와 일정, 선호 정보를\n바탕으로 오늘 내게 꼭 맞는 공연·전시 등\n문화행사를 추천해드려요."
+        android:textAlignment="center"
+        android:fontFamily="@font/pretendard_semibold"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:layout_marginTop="16dp"/>
+
+    <!-- 사용 방법 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1. 알림 또는 홈 화면에서 ‘긴 쉼표’ 버튼을 눌러주세요.\n2. 추천받고 싶은 시나리오를 선택하세요.\n3. 추천된 행사를 확인하고, 마음에 드는 시나리오를 선택하면 일정 등록이 가능합니다."
+        android:textColor="#73605A"
+        android:fontFamily="@font/pretendard_regular"
+        android:textSize="14sp"
+        android:layout_marginTop="38dp"/>
+</LinearLayout>

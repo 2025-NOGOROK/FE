@@ -31,23 +31,35 @@ class RestItemAdapter(private var items: List<RestItem>) :
         holder.title.text = item.title
         holder.time.text = "${item.startTime} - ${item.endTime}"
 
-        val isRecommend = item.sourceType == "short-recommend" || item.sourceType == "long-recommend"
+        when (item.sourceType) {
+            "short-recommend" -> {
+                holder.card.setBackgroundResource(R.drawable.bg_schedule_short_rest)
+                val textColor = Color.parseColor("#FFFBEA")
+                holder.title.setTextColor(textColor)
+                holder.time.setTextColor(textColor)
+                holder.icon.setImageResource(R.drawable.comma)
+            }
 
-        // 배경 색상 적용
-        holder.card.setBackgroundResource(
-            if (isRecommend) R.drawable.bg_schedule_short_rest
-            else R.drawable.bg_schedule_normal
-        )
+            "long-recommend" -> {
+                holder.card.setBackgroundResource(R.drawable.bg_schedule_long_rest)
+                val textColor = Color.parseColor("#73605A")
+                holder.title.setTextColor(textColor)
+                holder.time.setTextColor(textColor)
+                holder.icon.setImageResource(R.drawable.comma)
+            }
 
-        // 텍스트 색상 적용
-        val textColor = if (isRecommend) Color.parseColor("#FFFBEA") else Color.parseColor("#6A4A38")
-        holder.title.setTextColor(textColor)
-        holder.time.setTextColor(textColor)
+            else -> {
+                holder.card.setBackgroundResource(R.drawable.bg_schedule_normal)
+                val textColor = Color.parseColor("#6A4A38")
+                holder.title.setTextColor(textColor)
+                holder.time.setTextColor(textColor)
+                holder.icon.setImageResource(R.drawable.pin)
+            }
+        }
 
-        // 아이콘 설정
         holder.icon.visibility = View.VISIBLE
-        holder.icon.setImageResource(if (isRecommend) R.drawable.comma else R.drawable.pin)
     }
+
 
     override fun getItemCount(): Int = items.size
 
