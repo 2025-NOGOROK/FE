@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- 배경색: 아주 연한 아이보리 또는 크림 -->
+    <solid android:color="#4CF4EED4" />
+
+    <!-- 둥근 모서리 -->
+    <corners android:radius="16dp" />
+
+    <!-- 그림자 대신 약간의 padding (그림자가 필요하면 elevation으로 처리) -->
+    <padding
+        android:bottom="12dp"
+        android:left="12dp"
+        android:right="12dp"
+        android:top="12dp" />
+</shape>
