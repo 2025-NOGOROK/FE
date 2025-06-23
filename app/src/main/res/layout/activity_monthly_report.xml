@@ -82,7 +82,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="스트레스와 쉼표 리포트"
+                android:text="스트레스와 쉼표 연관성"
                 android:textSize="18sp"
                 android:fontFamily="@font/pretendard_semibold"
                 android:textColor="@color/black"
