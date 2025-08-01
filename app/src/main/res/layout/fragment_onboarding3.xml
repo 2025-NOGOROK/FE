@@ -45,14 +45,14 @@
 
     <ImageView
         android:id="@+id/img_illust"
-        android:layout_width="277dp"
-        android:layout_height="277dp"
-        android:src="@drawable/splash3"
+        android:layout_width="206dp"
+        android:layout_height="425dp"
+        android:src="@drawable/phone3"
         app:layout_constraintTop_toBottomOf="@id/tv_sub_message"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="32dp"
-        android:contentDescription="사람과 고양이 일러스트" />
+        android:contentDescription="3번 사진" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnNext"
