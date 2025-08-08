@@ -95,8 +95,8 @@
                         android:textSize="14sp"
                         android:fontFamily="@font/pretendard_regular"
                         android:textColor="#FFFAE3"
+                        app:chipCornerRadius="0dp"
                         app:chipBackgroundColor="#73605A"
-                        app:chipStrokeWidth="0dp"
                         app:closeIconEnabled="false"
                         app:chipIconEnabled="false"/>
 
