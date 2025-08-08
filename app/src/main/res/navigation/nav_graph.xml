@@ -34,4 +34,13 @@
         android:name="com.example.nogorok.features.mypage.MypageFragment"
         android:label="마이페이지"
         tools:layout="@layout/fragment_mypage" />
+
+    <!-- 5. 행사 정보 -->
+    <fragment
+        android:id="@+id/eventDetailFragment"
+        android:name="com.example.nogorok.features.event.EventDetailFragment"
+        android:label="행사 정보"
+        tools:layout="@layout/fragment_event_detail" />
+
+
 </navigation>
