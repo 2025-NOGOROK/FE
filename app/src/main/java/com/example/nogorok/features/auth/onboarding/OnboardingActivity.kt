@@ -20,19 +20,29 @@ class OnboardingActivity : AppCompatActivity() {
         // ✅ 온보딩 데이터 정의
         val dataList = listOf(
             OnboardingData(
-                title = "하루하루 쌓이는 고단함을\n기록하고, 돌아보고, 회복하는 시간",
-                subtitle = "노력과 고민의 기록이\n곧 나를 회복시키는 루틴이 됩니다.",
-                imageResId = R.drawable.onboarding_1
+                title = "바쁜 일상 속 짧은 쉼표",
+                subtitle = "바쁜 일상 속 짧은 휴식 타이밍을 제안해 드려요.\n잠깐의 재충전으로 지금 이 순간 숨을 고르세요.",
+                imageResId = R.drawable.phone1
             ),
             OnboardingData(
-                title = "당신의 몸이 말해주는\n스트레스 신호를 기록해요",
-                subtitle = "스마트워치와 연동하여\n스트레스 지수를 분석할게요.",
-                imageResId = R.drawable.onboarding_2
+                title = "바쁜 일상 속 짧은 쉼표",
+                subtitle = "바쁜 일상 속 짧은 휴식 타이밍을 제안해 드려요.\n잠깐의 재충전으로 지금 이 순간 숨을 고르세요.",
+                imageResId = R.drawable.phone2
             ),
             OnboardingData(
-                title = "스트레스 지수에 따른 맞춤 루틴,\n오늘도 나를 돌보는 연습을 시작해요",
-                subtitle = "하루하루의 감정과 고단함,\n이제 노고록이 함께 기억할게요.",
-                imageResId = R.drawable.onboarding_3
+                title = "긴 쉼표 일정 추천",
+                subtitle = "긴 쉼표 일정의 시나리오를 맞춤 추천해드려요.\n내 주변에서 열리는 행사와 전시를 관람해보세요.",
+                imageResId = R.drawable.phone3
+            ),
+            OnboardingData(
+                title = "실시간으로 확인하는 스트레스 지수",
+                subtitle = "스마트워치와 연동하여 스트레스 상태를 확인합니다. \n언제든 앱을 켜는 순간 한 눈에 컨디션을 파악하세요.",
+                imageResId = R.drawable.phone4
+            ),
+            OnboardingData(
+                title = "주·월간 리포트가 도착했어요",
+                subtitle = "주기적으로 스트레스 패턴과 휴식 이력을 분석해 드려요.\n데이터로 보는 변화를 통해 스스로를 격려해보세요.",
+                imageResId = R.drawable.phone5
             )
         )
 
