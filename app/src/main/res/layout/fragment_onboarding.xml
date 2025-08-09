@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#73605A">
 
-    <!-- ① 콤마 인디케이터 4개 -->
+    <!-- ① 콤마 인디케이터 6개 -->
     <LinearLayout
         android:id="@+id/llCommaIndicator"
         android:layout_width="wrap_content"
@@ -40,6 +40,19 @@
             android:layout_width="32dp" android:layout_height="32dp"
             android:src="@drawable/onboarding_comma2"
             android:layout_margin="4dp"/>
+
+        <ImageView
+            android:id="@+id/ivComma4"
+            android:layout_width="32dp" android:layout_height="32dp"
+            android:src="@drawable/onboarding_comma2"
+            android:layout_margin="4dp"/>
+
+        <ImageView
+            android:id="@+id/ivComma5"
+            android:layout_width="32dp" android:layout_height="32dp"
+            android:src="@drawable/onboarding_comma2"
+            android:layout_margin="4dp"/>
+
     </LinearLayout>
 
     <!-- 제목 -->

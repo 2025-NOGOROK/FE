@@ -70,7 +70,9 @@ class OnboardingFragment : Fragment() {
             view.findViewById<ImageView>(R.id.ivComma0),
             view.findViewById<ImageView>(R.id.ivComma1),
             view.findViewById<ImageView>(R.id.ivComma2),
-            view.findViewById<ImageView>(R.id.ivComma3)
+            view.findViewById<ImageView>(R.id.ivComma3),
+            view.findViewById<ImageView>(R.id.ivComma4),
+            view.findViewById<ImageView>(R.id.ivComma5)
         )
 
         // 3) 콘텐츠 세팅
@@ -80,10 +82,12 @@ class OnboardingFragment : Fragment() {
 
         // 4) 콤마 인디케이터 토글
         val darkIndex = when (position) {
-            0, 1 -> 0
-            2    -> 1
-            3    -> 2
-            4    -> 3
+            0    -> 0
+            1    -> 1
+            2    -> 2
+            3    -> 3
+            4    -> 4
+            5    -> 5
             else -> 0
         }
         commaIcons.forEachIndexed { idx, iv ->

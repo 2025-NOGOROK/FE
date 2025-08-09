@@ -43,6 +43,11 @@ class OnboardingActivity : AppCompatActivity() {
                 title = "주·월간 리포트가 도착했어요",
                 subtitle = "주기적으로 스트레스 패턴과 휴식 이력을 분석해 드려요.\n데이터로 보는 변화를 통해 스스로를 격려해보세요.",
                 imageResId = R.drawable.phone5
+            ),
+            OnboardingData(
+                title = "만성 스트레스 모드 활성화",
+                subtitle = "스트레스가 지속적으로 이어지면 만성 스트레스 모드를 활\n성화하세요. 회복을 위해 맞춤 관리와 휴식 계획을 제안합\n니다.",
+                imageResId = R.drawable.phone6
             )
         )
 
