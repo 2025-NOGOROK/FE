@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp"
+    android:gravity="center_horizontal">  <!-- ✅ 버튼과 같은 가로 기준 -->
+
+    <!-- ✅ 버튼 폭(320dp)과 동일하게 맞춰 시작선 일치 -->
+    <TextView
+        android:id="@+id/tvQuestion"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:text="1) 질문"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:fontFamily="@font/pretendard_medium"
+        android:lineSpacingExtra="2dp"
+        android:paddingBottom="8dp"
+        android:textAlignment="viewStart"/>
+
+    <!-- 세로 라디오 그룹: 4개 중 1개만 선택 -->
+    <RadioGroup
+        android:id="@+id/rgOptions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <RadioButton
+            android:id="@+id/rb1"
+            style="@style/SurveyOptionSmall"/>
+
+        <RadioButton
+            android:id="@+id/rb2"
+            style="@style/SurveyOptionSmall"/>
+
+        <RadioButton
+            android:id="@+id/rb3"
+            style="@style/SurveyOptionSmall"/>
+
+        <RadioButton
+            android:id="@+id/rb4"
+            style="@style/SurveyOptionSmall"/>
+    </RadioGroup>
+</LinearLayout>

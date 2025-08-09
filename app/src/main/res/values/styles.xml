@@ -73,6 +73,19 @@
         <item name="android:textSize">15sp</item>
         <item name="android:layout_marginTop">12dp</item>
     </style>
-
+    <!-- Figma: 320x39, 라운드 10, 배경 #FFFAE3, 텍스트 #73605A -->
+    <style name="SurveyOptionSmall">
+        <item name="android:layout_width">320dp</item>
+        <item name="android:layout_height">39dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/selector_option_bg</item>
+        <item name="android:button">@null</item> <!-- 라디오 점 제거 -->
+        <item name="android:textColor">#73605A</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+    </style>
     </resources>
 

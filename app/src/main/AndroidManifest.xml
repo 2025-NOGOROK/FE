@@ -95,7 +95,10 @@
 
 
         <activity android:name=".features.connect.ConnectActivity" />
-
+        <activity
+            android:name="com.example.nogorok.features.survey.BannerSurveyActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
     </application>
 </manifest>
 

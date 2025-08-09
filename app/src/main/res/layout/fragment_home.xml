@@ -117,11 +117,21 @@
             android:layout_height="wrap_content"
             android:text="내 주변 전시/행사 정보"
             android:layout_marginTop="56dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="12dp"
             android:paddingStart="10dp"
             android:textSize="20sp"
             android:textColor="#73605A"
             android:fontFamily="@font/pretendard_semibold"/>
+
+        <!-- ✅ 배너 설문으로 가기 버튼 (ScrollView > LinearLayout 내부) -->
+        <Button
+            android:id="@+id/btnGoSurvey"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="배너 설문으로 가기"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="12dp" />
 
         <!-- 행사 정보 목록 -->
         <HorizontalScrollView

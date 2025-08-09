@@ -1,6 +1,7 @@
 package com.example.nogorok.features.home
 
 import android.Manifest
+import android.content.Intent // ✅ 추가: Activity 전환용
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.Drawable
@@ -27,6 +28,7 @@ import com.example.nogorok.network.dto.TourItem
 import com.example.nogorok.utils.CustomTypefaceSpan
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.example.nogorok.features.survey.BannerSurveyActivity // ✅ 추가: 대상 Activity
 
 class HomeFragment : Fragment() {
 
@@ -52,6 +54,11 @@ class HomeFragment : Fragment() {
         viewModel.fetchLawTimes()
 
         getCurrentLocation()
+
+        // ✅ 배너 설문으로 가기 버튼 → Activity 전환
+        binding.btnGoSurvey.setOnClickListener {
+            startActivity(Intent(requireContext(), BannerSurveyActivity::class.java))
+        }
 
         return binding.root
     }
@@ -162,7 +169,6 @@ class HomeFragment : Fragment() {
             Glide.with(this)
                 .load(imageUrl ?: R.drawable.sample)
                 .into(imageView)
-
 
             frameLayout.addView(imageView)
             frameLayout.addView(titleOverlay)

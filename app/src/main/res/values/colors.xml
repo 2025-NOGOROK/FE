@@ -60,5 +60,5 @@
     <color name="graph_brown">#73605A</color>
     <color name="graph_gray">#BCAFB2</color>
     <color name="light_gray">#E0E0E0</color>
-
+    <color name="survey_stroke">#73605A</color>
 </resources>
