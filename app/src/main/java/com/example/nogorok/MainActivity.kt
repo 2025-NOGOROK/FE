@@ -14,15 +14,14 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.example.nogorok.databinding.ActivityMainBinding
 import com.example.nogorok.features.rest.diary.DiaryDialogFragment
 import com.example.nogorok.features.rest.longrest.LongRestActivity
 import com.example.nogorok.features.rest.shortrest.ShortRestFragment
 import com.example.nogorok.features.schedule.ScheduleFragment
 import com.example.nogorok.network.RetrofitClient
-import com.example.nogorok.network.dto.ShortRestResponse
 import com.example.nogorok.utils.TokenManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
@@ -31,6 +30,8 @@ import java.time.LocalDate
 class MainActivity : AppCompatActivity() {
 
     private var isFabOpen = false
+    private lateinit var bottomNavigationView: BottomNavigationView
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,15 +51,18 @@ class MainActivity : AppCompatActivity() {
         Log.d("TOKEN_CHECK", "AccessToken: $token")
         RetrofitClient.setAccessToken(token)
 
-        // Bottom Navigation 연결
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.navigation_main)
+        // Nav + BottomNav
+        bottomNavigationView = findViewById(R.id.navigation_main)
         bottomNavigationView.itemIconTintList = null
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController = navHostFragment.navController
+        navController = navHostFragment.navController
         bottomNavigationView.setupWithNavController(navController)
 
-        // 플로팅 버튼들
+        // 결과 화면에서 넘어온 의도 처리 (앱 최초 실행 시)
+        handleResultIntent(intent)
+
+        // FABs
         val fabMain = findViewById<ImageButton>(R.id.fabMain)
         val fabMenu = findViewById<LinearLayout>(R.id.fabMenu)
         val fabShort = findViewById<LinearLayout>(R.id.fabShort)
@@ -85,20 +89,57 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // 짧은 쉼표 추천
-        fabShort.setOnClickListener {
-            showShortRest()
+        fabShort.setOnClickListener { showShortRest() }
+        fabLong.setOnClickListener { startActivity(Intent(this, LongRestActivity::class.java)) }
+        fabDiary.setOnClickListener { DiaryDialogFragment().show(supportFragmentManager, "DiaryDialog") }
+    }
+
+    // 앱이 살아 있는 상태에서 결과 화면이 다시 띄워졌을 때도 처리
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        intent ?: return
+        setIntent(intent) // 현재 Intent 교체
+        handleResultIntent(intent)
+    }
+
+    /**
+     * 결과 페이지에서 온 의도 처리:
+     *  - navigateTo=home → 홈 탭으로 전환
+     *  - navigateTo=schedule (+ autoShortRest, date) → 일정 탭 전환 후 ScheduleFragment에 args 전달
+     */
+    private fun handleResultIntent(intent: Intent?) {
+        intent ?: return
+        val dest = intent.getStringExtra("navigateTo") ?: return
+
+        when (dest) {
+            "home" -> {
+                // 탭 선택 동기화
+                bottomNavigationView.selectedItemId = R.id.homeFragment
+                // 혹시 다른 스택 위에 있다면 목적지로 이동 시도
+                runCatching { navController.navigate(R.id.homeFragment) }
+                    .onFailure { Log.w("MainActivity", "navigate home failed: ${it.localizedMessage}") }
+            }
+            "schedule" -> {
+                val auto = intent.getBooleanExtra("autoShortRest", false)
+                val date = intent.getStringExtra("date")
+
+                // 탭 선택 동기화 (중요: UI의 선택 상태가 바뀌어야 홈 버튼이 정상 작동)
+                bottomNavigationView.selectedItemId = R.id.scheduleFragment
+
+                // 인자 전달하여 ScheduleFragment가 후속 액션 수행하도록
+                val args = Bundle().apply {
+                    putBoolean("autoShortRest", auto)
+                    if (!date.isNullOrBlank()) putString("date", date)
+                }
+                runCatching { navController.navigate(R.id.scheduleFragment, args) }
+                    .onFailure { Log.w("MainActivity", "navigate schedule failed: ${it.localizedMessage}") }
+            }
         }
 
-        // 긴 쉼표 이동
-        fabLong.setOnClickListener {
-            startActivity(Intent(this, LongRestActivity::class.java))
-        }
-
-        // 하루일기 다이얼로그
-        fabDiary.setOnClickListener {
-            DiaryDialogFragment().show(supportFragmentManager, "DiaryDialog")
-        }
+        // 동일 인텐트로 재실행 시 중복 처리 방지
+        intent.removeExtra("navigateTo")
+        intent.removeExtra("autoShortRest")
+        intent.removeExtra("date")
     }
 
     private fun showShortRest() {
@@ -117,7 +158,7 @@ class MainActivity : AppCompatActivity() {
                     return@launch
                 }
 
-                val result: List<ShortRestResponse> = RetrofitClient.shortRestApi.getShortRest(date = today)
+                val result = RetrofitClient.shortRestApi.getShortRest(date = today)
                 Log.d("ShortRestAPI", "✅ 응답 성공: ${result.size}건 수신")
                 result.forEach {
                     Log.d("ShortRestItem", "title=${it.title}, time=${it.startTime} - ${it.endTime}, sourceType=${it.sourceType}")

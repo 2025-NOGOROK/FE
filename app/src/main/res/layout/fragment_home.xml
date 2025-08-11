@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
@@ -117,28 +118,17 @@
             android:layout_height="wrap_content"
             android:text="내 주변 전시/행사 정보"
             android:layout_marginTop="56dp"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="20dp"
             android:paddingStart="10dp"
             android:textSize="20sp"
             android:textColor="#73605A"
             android:fontFamily="@font/pretendard_semibold"/>
 
-        <!-- ✅ 배너 설문으로 가기 버튼 (ScrollView > LinearLayout 내부) -->
-        <Button
-            android:id="@+id/btnGoSurvey"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="배너 설문으로 가기"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="12dp" />
-
         <!-- 행사 정보 목록 -->
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="none"
-            android:layout_marginBottom="30dp">
+            android:scrollbars="none">
 
             <LinearLayout
                 android:id="@+id/tourListContainer"
@@ -147,5 +137,62 @@
                 android:orientation="horizontal"
                 android:paddingStart="10dp" />
         </HorizontalScrollView>
+
+        <!-- 설문 배너 -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/bannerSurvey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="30dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="#FFFAE3"
+            app:strokeWidth="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="12dp">
+
+                <ImageView
+                    android:id="@+id/imgSiren"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/siren"
+                    android:contentDescription="@string/siren_icon"
+                    android:layout_marginEnd="12dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvBannerTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="스트레스 관리에 어려움을 겪고 있나요?"
+                        android:textSize="15sp"
+                        android:textColor="#000000"
+                        android:fontFamily="@font/pretendard_semibold" />
+
+                    <TextView
+                        android:id="@+id/tvBannerSubtitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="간단한 설문을 통해서 나의 상태를 확인해보세요."
+                        android:textSize="12sp"
+                        android:textColor="#000000"
+                        android:fontFamily="@font/pretendard_regular" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
     </LinearLayout>
 </ScrollView>

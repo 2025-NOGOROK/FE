@@ -1,5 +1,6 @@
 package com.example.nogorok.features.survey
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
@@ -9,13 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.example.nogorok.R
 import com.example.nogorok.databinding.FragmentSurveyResultBinding
+import com.example.nogorok.MainActivity
 
 /**
- * 결과 타입에 따라 UI가 달라지는 배너 설문 결과 화면
- *
+ * 설문 배너 결과 화면
  * arguments:
  *  - "result": String = "STABLE" | "CAUTION" | "SERIOUS"
  */
@@ -41,25 +41,40 @@ class SurveyResultFragment : Fragment() {
 
         renderUi(type)
 
-        // 뒤로가기: 설문 페이지로 복귀 (단순 popBackStack)
+        // 상단 뒤로가기: 설문 페이지로 복귀
         binding.btnBack.setOnClickListener {
-            findNavController().popBackStack()
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
-        // 하단 버튼 액션
+        // 하단 버튼: 현재는 모든 타입을 홈으로 보냄.
+        // 나중에 SERIOUS만 다른 동작으로 바꾸기 쉽게 분리해둠.
         binding.btnPrimary.setOnClickListener {
             when (type) {
-                ResultType.SERIOUS -> {
-                    // 임시: 캘린더(일정) 화면으로 이동
-                    // 프로젝트의 nav_graph에 존재하는 fragment id 사용 (예: scheduleFragment)
-                    findNavController().navigate(R.id.scheduleFragment)
-                }
-                ResultType.STABLE, ResultType.CAUTION -> {
-                    // 홈으로 이동
-                    findNavController().navigate(R.id.homeFragment)
-                }
+                ResultType.STABLE, ResultType.CAUTION -> navigateStableOrCautionToHome()
+                ResultType.SERIOUS -> navigateSeriousTempToHome() // TODO: 나중에 '짧은 쉼표 자동 생성'으로 교체
             }
         }
+    }
+
+    // === 여기부터 분리된 네비게이션 로직 (지금은 동일하게 홈 이동) ===
+
+    private fun navigateStableOrCautionToHome() {
+        val intent = Intent(requireContext(), MainActivity::class.java).apply {
+            putExtra("navigateTo", "home")
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        }
+        startActivity(intent)
+        requireActivity().finish()
+    }
+
+    // 임시: SERIOUS도 동일하게 홈으로. 나중에 이 함수만 수정하면 됨.
+    private fun navigateSeriousTempToHome() {
+        val intent = Intent(requireContext(), MainActivity::class.java).apply {
+            putExtra("navigateTo", "home")
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        }
+        startActivity(intent)
+        requireActivity().finish()
     }
 
     private fun renderUi(type: ResultType) {
@@ -71,7 +86,8 @@ class SurveyResultFragment : Fragment() {
                     highlight = "안정 범위",
                     color = 0xFF3E9D5C.toInt()
                 )
-                binding.txtSubtitle.text = "현재 신체적·정서적 긴장 반응이 낮은 수준으로 나타\n났어요. 일상에서 스트레스를 잘 조절하고 있는 상태\n로 보입니다. 안정된 컨디션을 유지하기 위해서는 주\n기적인 휴식과 감정 체크를 권장드려요."
+                binding.txtSubtitle.text =
+                    "현재 신체적·정서적 긴장 반응이 낮은 수준으로 나타났어요. 일상에서 스트레스를 잘 조절하고 있는 상태로 보입니다. 안정된 컨디션을 유지하기 위해서는 주기적인 휴식과 감정 체크를 권장드려요."
                 binding.btnPrimary.text = "홈으로 돌아가기"
             }
             ResultType.CAUTION -> {
@@ -81,7 +97,8 @@ class SurveyResultFragment : Fragment() {
                     highlight = "주의 단계",
                     color = 0xFFB95E18.toInt()
                 )
-                binding.txtSubtitle.text = "일상적인 자극에 대한 반응이 예민해지고 있\n을 수 있어요. 피로, 수면 변화, 감정 기복 등의 신호가 나타날\n가능성이 있습니다. 스트레스 관리가 필요한 시점이에\n요. 홈에서 제안하는 맞춤 관리법을 참고해보세요."
+                binding.txtSubtitle.text =
+                    "일상적인 자극에 대한 반응이 예민해지고 있을 수 있어요. 피로, 수면 변화, 감정 기복 등의 신호가 나타날 가능성이 있습니다. 스트레스 관리가 필요한 시점이에요. 홈에서 제안하는 맞춤 관리법을 참고해보세요."
                 binding.btnPrimary.text = "홈으로 돌아가기"
             }
             ResultType.SERIOUS -> {
@@ -91,8 +108,9 @@ class SurveyResultFragment : Fragment() {
                     highlight = "매우 높아요",
                     color = 0xFFEA1D1D.toInt()
                 )
-                binding.txtSubtitle.text = "감정 조절, 수면, 집중력 등에 이미 영향을 주고 있을\n가능성이 높습니다. 현재 상태는 고위험군에 해당하\n며, 즉각적인 스트레스 완화 조치가 필요합니다. 지금\n바로 회복을 시작해보세요."
-                binding.btnPrimary.text = "짧은 쉼표 생성하기"
+                binding.txtSubtitle.text =
+                    "감정 조절, 수면, 집중력 등에 이미 영향을 주고 있을 가능성이 높습니다. 현재 상태는 고위험군에 해당하며, 즉각적인 스트레스 완화 조치가 필요합니다. 지금 바로 회복을 시작해보세요."
+                binding.btnPrimary.text = "짧은 쉼표 생성하기" // 텍스트는 유지, 동작만 임시로 홈 이동
             }
         }
     }

@@ -99,6 +99,10 @@
             android:name="com.example.nogorok.features.survey.BannerSurveyActivity"
             android:exported="false"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
+        <!-- 결과 프래그먼트를 띄우는 호스트 액티비티 -->
+        <activity
+            android:name=".features.home.banner.SurveyResultHostActivity"
+            android:exported="false" />
     </application>
 </manifest>
 

@@ -1,9 +1,11 @@
 package com.example.nogorok.features.survey
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.nogorok.databinding.ActivityBannerSurveyBinding
+import com.example.nogorok.features.home.banner.SurveyResultHostActivity
 
 class BannerSurveyActivity : AppCompatActivity() {
 
@@ -21,10 +23,10 @@ class BannerSurveyActivity : AppCompatActivity() {
     )
 
     private val options = listOf(
-        "전혀 그렇지 않아요",
-        "가끔 그런 것 같아요",
-        "자주 그런 편이에요",
-        "거의 항상 그래요"
+        "전혀 그렇지 않아요",   // 0점
+        "가끔 그런 것 같아요", // 1점
+        "자주 그런 편이에요", // 2점
+        "거의 항상 그래요"     // 3점
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,8 +40,21 @@ class BannerSurveyActivity : AppCompatActivity() {
             items = questions.map { Question(it, -1) }.toMutableList(),
             options = options
         ) { answers ->
-            // TODO: 모든 답변 완료 후 처리
-            finish()
+            // 각 문항 선택 인덱스(0..3)가 그대로 점수
+            val total = answers.sum()
+            val resultType = when (total) {
+                in 0..7 -> SurveyResultFragment.ResultType.STABLE
+                in 8..14 -> SurveyResultFragment.ResultType.CAUTION
+                else -> SurveyResultFragment.ResultType.SERIOUS
+            }
+
+            val intent = Intent(this, SurveyResultHostActivity::class.java).apply {
+                putExtra("result", resultType.name)
+            }
+            startActivity(intent)
+
+            // 🔴 중요: 뒤로가기로 설문으로 돌아오려면 finish() 하면 안 됨
+            // finish()
         }
 
         binding.rvQuestions.layoutManager = LinearLayoutManager(this)

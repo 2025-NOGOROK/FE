@@ -56,7 +56,7 @@ class HomeFragment : Fragment() {
         getCurrentLocation()
 
         // ✅ 배너 설문으로 가기 버튼 → Activity 전환
-        binding.btnGoSurvey.setOnClickListener {
+        binding.bannerSurvey.setOnClickListener {
             startActivity(Intent(requireContext(), BannerSurveyActivity::class.java))
         }
 
