@@ -22,6 +22,7 @@ import com.example.nogorok.features.rest.longrest.LongRestActivity
 import com.example.nogorok.features.rest.shortrest.ShortRestFragment
 import com.example.nogorok.features.schedule.ScheduleFragment
 import com.example.nogorok.network.RetrofitClient
+import com.example.nogorok.network.dto.ShortRestResponse
 import com.example.nogorok.utils.TokenManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
@@ -158,7 +159,7 @@ class MainActivity : AppCompatActivity() {
                     return@launch
                 }
 
-                val result = RetrofitClient.shortRestApi.getShortRest(date = today)
+                val result: List<ShortRestResponse> = RetrofitClient.shortRestApi.getShortRest(date = today)
                 Log.d("ShortRestAPI", "✅ 응답 성공: ${result.size}건 수신")
                 result.forEach {
                     Log.d("ShortRestItem", "title=${it.title}, time=${it.startTime} - ${it.endTime}, sourceType=${it.sourceType}")
