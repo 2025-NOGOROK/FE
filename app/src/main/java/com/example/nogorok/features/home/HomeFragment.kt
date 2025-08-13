@@ -55,6 +55,9 @@ class HomeFragment : Fragment() {
 
         getCurrentLocation()
 
+        // ✅ 처음 로딩 시: 썸네일 없이 '자리만' 보이게 빈 슬롯 주입
+        showTourPlaceholders()
+
         // ✅ 배너 설문으로 가기 버튼 → Activity 전환
         binding.bannerSurvey.setOnClickListener {
             startActivity(Intent(requireContext(), BannerSurveyActivity::class.java))
@@ -174,6 +177,28 @@ class HomeFragment : Fragment() {
             frameLayout.addView(titleOverlay)
             container.addView(frameLayout)
         }
+    }
+
+    // ✅ 추가: 이미지 없이 '자리만' 차지하는 빈 카드 슬롯
+    private fun addBlankEventSlot(parent: LinearLayout) {
+        val context = requireContext()
+        val frame = FrameLayout(context).apply {
+            layoutParams = LinearLayout.LayoutParams(168.dp, 200.dp).apply { marginEnd = 12.dp }
+            clipToOutline = true
+            background = ContextCompat.getDrawable(context, R.drawable.rounded_item_background)
+            outlineProvider = ViewOutlineProvider.BACKGROUND
+        }
+        // 내용물(이미지/텍스트) 없이 자리만 추가
+        parent.addView(frame)
+    }
+
+    // ✅ 추가: 초기/빈 데이터 시 빈 슬롯 3개 노출
+    private fun showTourPlaceholders() {
+        val parent = binding.tourListContainer
+        parent.removeAllViews()
+        addBlankEventSlot(parent)
+        addBlankEventSlot(parent)
+        addBlankEventSlot(parent)
     }
 
     private fun createStressMessage(stress: Float): SpannableStringBuilder {
