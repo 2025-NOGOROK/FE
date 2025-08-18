@@ -27,3 +27,4 @@ rootProject.name = "NOGOROK"
 include(":app")
 
 
+include(":nogorokwear")

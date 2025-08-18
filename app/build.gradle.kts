@@ -62,6 +62,8 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
 
 
+    implementation("com.google.android.gms:play-services-wearable:18.2.0")
+
 
     //스플래시 화면 관련 코드 한줄 추가
     implementation ("androidx.core:core-splashscreen:1.0.1")
