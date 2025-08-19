@@ -18,6 +18,8 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import com.example.nogorok.network.api.BannerSurveyApi
+
 
 object RetrofitClient {
 
@@ -83,4 +85,6 @@ object RetrofitClient {
     val shortRestApi: ShortRestApi by lazy { retrofit.create(ShortRestApi::class.java) }
     val calendarApi: CalendarApi by lazy { retrofit.create(CalendarApi::class.java) }
     val longrestApi: LongRestApi by lazy { retrofit.create(LongRestApi::class.java) }
+    val bannerSurveyApi: BannerSurveyApi by lazy { retrofit.create(BannerSurveyApi::class.java) }
+
 }
