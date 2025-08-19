@@ -135,6 +135,9 @@ class MainActivity : AppCompatActivity() {
                 runCatching { navController.navigate(R.id.scheduleFragment, args) }
                     .onFailure { Log.w("MainActivity", "navigate schedule failed: ${it.localizedMessage}") }
             }
+            "shortrest" -> {
+                showShortRest() // 다이얼로그 바로 실행
+            }
         }
 
         // 동일 인텐트로 재실행 시 중복 처리 방지
@@ -177,6 +180,9 @@ class MainActivity : AppCompatActivity() {
                 val selectedDate = scheduleViewModel?.selectedDate?.value ?: LocalDate.now()
 
                 scheduleViewModel?.fetchGoogleEvents(this@MainActivity, selectedDate)
+
+                // ✅ 짧은 쉼표 다이얼로그 닫힌 후, 나의 일정 탭으로 자동 전환
+                bottomNavigationView.selectedItemId = R.id.scheduleFragment
 
             } catch (e: Exception) {
                 dialog.dismiss()
