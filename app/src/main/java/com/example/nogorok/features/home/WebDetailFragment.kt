@@ -19,8 +19,10 @@ class WebDetailFragment : Fragment() {
         val webView: WebView = view.findViewById(R.id.webView)
 
         // WebView 기본 설정
-        webView.webViewClient = WebViewClient()
-        webView.settings.javaScriptEnabled = true
+        webView.apply {
+            webViewClient = WebViewClient()
+            settings.javaScriptEnabled = true
+        }
 
         // 전달받은 URL 열기
         val url = arguments?.getString("url") ?: "https://www.naver.com"

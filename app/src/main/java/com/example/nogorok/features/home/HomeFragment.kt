@@ -107,9 +107,11 @@ class HomeFragment : Fragment() {
             .error(R.drawable.sample)
             .into(binding.ivLawtimes)
 
-        // ✅ 코리아.kr 카드 (이미지 없음 → 노고록 기본 이미지로 대체)
+        // ✅ 닥터나우 카드
         Glide.with(this)
-            .load(R.drawable.sample)
+            .load("https://d2m9duoqjhyhsq.cloudfront.net/marketingContents/article/article230-01.jpg")
+            .placeholder(R.drawable.sample)
+            .error(R.drawable.sample)
             .into(binding.ivTrauma)
     }
 
@@ -123,7 +125,7 @@ class HomeFragment : Fragment() {
         }
 
         binding.containerTrauma.setOnClickListener {
-            openWebView("https://www.korea.kr/news/healthView.do?newsId=148855677")
+            openWebView("https://doctornow.co.kr/content/magazine/ce509c92b93d4329b03435840ef2a608")
         }
     }
 
