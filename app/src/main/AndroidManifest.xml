@@ -125,6 +125,10 @@
         <activity
             android:name=".features.home.banner.SurveyResultHostActivity"
             android:exported="false" />
+        <activity android:name=".features.home.webview.WebViewActivity" />
+        <activity android:name=".features.home.StressWebActivity"
+            android:exported="true" />
+
     </application>
 </manifest>
 
