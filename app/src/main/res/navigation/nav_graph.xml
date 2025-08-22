@@ -26,7 +26,18 @@
         android:id="@+id/homeFragment"
         android:name="com.example.nogorok.features.home.HomeFragment"
         android:label="홈"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/action_homeFragment_to_webDetailFragment"
+            app:destination="@id/webDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/webDetailFragment"
+        android:name="com.example.nogorok.features.web.WebDetailFragment"
+        android:label="상세 페이지"
+        tools:layout="@layout/fragment_web_detail" />
 
     <!-- 4. 마이페이지 -->
     <fragment

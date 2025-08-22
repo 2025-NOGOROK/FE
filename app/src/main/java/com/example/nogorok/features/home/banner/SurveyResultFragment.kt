@@ -70,12 +70,13 @@ class SurveyResultFragment : Fragment() {
     // 임시: SERIOUS도 동일하게 홈으로. 나중에 이 함수만 수정하면 됨.
     private fun navigateSeriousTempToHome() {
         val intent = Intent(requireContext(), MainActivity::class.java).apply {
-            putExtra("navigateTo", "home")
+            putExtra("navigateTo", "shortrest") // 👈 짧은 쉼표 탭으로 가기 위한 키
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
         }
         startActivity(intent)
         requireActivity().finish()
     }
+
 
     private fun renderUi(type: ResultType) {
         when (type) {

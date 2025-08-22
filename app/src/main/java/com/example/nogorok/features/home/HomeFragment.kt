@@ -1,10 +1,9 @@
 package com.example.nogorok.features.home
 
 import android.Manifest
-import android.content.Intent // ✅ 추가: Activity 전환용
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -13,7 +12,6 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.ImageSpan
 import android.util.Log
 import android.view.*
-import android.view.ViewGroup
 import android.view.ViewOutlineProvider
 import android.widget.*
 import androidx.core.content.ContextCompat
@@ -21,14 +19,13 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.nogorok.R
 import com.example.nogorok.databinding.FragmentHomeBinding
+import com.example.nogorok.features.survey.BannerSurveyActivity
 import com.example.nogorok.network.dto.TourItem
 import com.example.nogorok.utils.CustomTypefaceSpan
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.example.nogorok.features.survey.BannerSurveyActivity // ✅ 추가: 대상 Activity
 
 class HomeFragment : Fragment() {
 
@@ -49,16 +46,10 @@ class HomeFragment : Fragment() {
 
         observeViewModel()
         viewModel.fetchLatestStress()
-        viewModel.fetchTraumaArticle()
-        viewModel.fetchSamsungStress()
-        viewModel.fetchLawTimes()
-
         getCurrentLocation()
-
-        // ✅ 처음 로딩 시: 썸네일 없이 '자리만' 보이게 빈 슬롯 주입
         showTourPlaceholders()
+        setupStressCardClickListeners()
 
-        // ✅ 배너 설문으로 가기 버튼 → Activity 전환
         binding.bannerSurvey.setOnClickListener {
             startActivity(Intent(requireContext(), BannerSurveyActivity::class.java))
         }
@@ -79,27 +70,18 @@ class HomeFragment : Fragment() {
                         if (location != null) {
                             viewModel.fetchTourByLocation(location.longitude, location.latitude)
                         } else {
-                            Log.e("HomeFragment", "\uC704\uCE58\uB97C \uAC00\uC9C0\uC624\uC9C0 \uBABB\uD588\uC2B5\uB2C8\uB2E4.")
+                            Log.e("HomeFragment", "위치를 가져오지 못했습니다.")
                         }
                     }
                     .addOnFailureListener {
-                        Log.e("HomeFragment", "\uC704\uCE58 \uC694\uCCAD \uC2E4\uD328: ${it.message}")
+                        Log.e("HomeFragment", "위치 요청 실패: ${it.message}")
                     }
             } catch (e: SecurityException) {
-                Log.e("HomeFragment", "\uC704\uCE58 \uAD8C\uD55C \uC608\uC678 \uBC1C\uC0DD: ${e.message}")
+                Log.e("HomeFragment", "위치 권한 예외 발생: ${e.message}")
             }
         } else {
-            Log.e("HomeFragment", "\uC704\uCE58 \uAD8C\uD55C \uC5C6\uC74C. \uD638\uCD9C\uD558\uC9C0 \uC54A\uC74C.")
+            Log.e("HomeFragment", "위치 권한 없음. 호출하지 않음.")
         }
-    }
-
-    private fun loadImageOrSample(imageView: ImageView, imageUrl: String?) {
-        Glide.with(this)
-            .load(imageUrl ?: R.drawable.sample)
-            .placeholder(R.drawable.sample)
-            .error(R.drawable.sample)
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .into(imageView)
     }
 
     private fun observeViewModel() {
@@ -111,17 +93,46 @@ class HomeFragment : Fragment() {
             updateTourListUI(it)
         }
 
-        viewModel.samsungStress.observe(viewLifecycleOwner) {
-            loadImageOrSample(binding.ivSamsungStress, it)
+        // ✅ 삼성병원 카드
+        Glide.with(this)
+            .load("http://www.samsunghospital.com/_newhome/ui/health_center/static/img/checkup-after/after-clinic-stress05-img01.png")
+            .placeholder(R.drawable.sample) // 노고록 기본 이미지
+            .error(R.drawable.sample)
+            .into(binding.ivSamsungStress)
+
+        // ✅ 사이언스타임즈 카드
+        Glide.with(this)
+            .load("https://www.sciencetimes.co.kr/jnrepo/upload/editor/202503/f8c1e3e053ca4453b59b14d1a2e6dceb_1743368019590.png")
+            .placeholder(R.drawable.sample)
+            .error(R.drawable.sample)
+            .into(binding.ivLawtimes)
+
+        // ✅ 닥터나우 카드
+        Glide.with(this)
+            .load("https://d2m9duoqjhyhsq.cloudfront.net/marketingContents/article/article230-01.jpg")
+            .placeholder(R.drawable.sample)
+            .error(R.drawable.sample)
+            .into(binding.ivTrauma)
+    }
+
+    private fun setupStressCardClickListeners() {
+        binding.containerSamsung.setOnClickListener {
+            openWebView("https://www.samsunghospital.com/home/healthMedical/private/lifeClinicStress05.do")
         }
 
-        viewModel.trauma.observe(viewLifecycleOwner) {
-            loadImageOrSample(binding.ivTrauma, it)
+        binding.containerLawtimes.setOnClickListener {
+            openWebView("https://www.sciencetimes.co.kr/nscvrg/view/menu/251?searchCategory=223&nscvrgSn=260043")
         }
 
-        viewModel.lawtimes.observe(viewLifecycleOwner) {
-            loadImageOrSample(binding.ivLawtimes, it)
+        binding.containerTrauma.setOnClickListener {
+            openWebView("https://doctornow.co.kr/content/magazine/ce509c92b93d4329b03435840ef2a608")
         }
+    }
+
+    private fun openWebView(url: String) {
+        val intent = Intent(requireContext(), StressWebActivity::class.java)
+        intent.putExtra("linkUrl", url)
+        startActivity(intent)
     }
 
     private fun updateTourListUI(tourList: List<TourItem>) {
@@ -179,7 +190,6 @@ class HomeFragment : Fragment() {
         }
     }
 
-    // ✅ 추가: 이미지 없이 '자리만' 차지하는 빈 카드 슬롯
     private fun addBlankEventSlot(parent: LinearLayout) {
         val context = requireContext()
         val frame = FrameLayout(context).apply {
@@ -188,11 +198,9 @@ class HomeFragment : Fragment() {
             background = ContextCompat.getDrawable(context, R.drawable.rounded_item_background)
             outlineProvider = ViewOutlineProvider.BACKGROUND
         }
-        // 내용물(이미지/텍스트) 없이 자리만 추가
         parent.addView(frame)
     }
 
-    // ✅ 추가: 초기/빈 데이터 시 빈 슬롯 3개 노출
     private fun showTourPlaceholders() {
         val parent = binding.tourListContainer
         parent.removeAllViews()

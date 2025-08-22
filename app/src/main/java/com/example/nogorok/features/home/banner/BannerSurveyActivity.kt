@@ -6,6 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.nogorok.databinding.ActivityBannerSurveyBinding
 import com.example.nogorok.features.home.banner.SurveyResultHostActivity
+import androidx.lifecycle.lifecycleScope
+import com.example.nogorok.network.RetrofitClient
+import com.example.nogorok.network.dto.BannerSurveyRequest
+import com.example.nogorok.utils.TokenManager
+import kotlinx.coroutines.launch
+import android.util.Log
 
 class BannerSurveyActivity : AppCompatActivity() {
 
@@ -40,7 +46,7 @@ class BannerSurveyActivity : AppCompatActivity() {
             items = questions.map { Question(it, -1) }.toMutableList(),
             options = options
         ) { answers ->
-            // 각 문항 선택 인덱스(0..3)가 그대로 점수
+            // 1️⃣ 점수 계산
             val total = answers.sum()
             val resultType = when (total) {
                 in 0..7 -> SurveyResultFragment.ResultType.STABLE
@@ -48,13 +54,38 @@ class BannerSurveyActivity : AppCompatActivity() {
                 else -> SurveyResultFragment.ResultType.SERIOUS
             }
 
+            // 2️⃣ 서버 전송
+            val email = TokenManager.getEmail(this)
+            if (email != null) {
+                val request = BannerSurveyRequest(
+                    email = email,
+                    score = total,
+                    result = resultType.name
+                )
+
+                lifecycleScope.launch {
+                    try {
+                        val response = RetrofitClient.bannerSurveyApi.submitBannerSurvey(request)
+                        if (response.isSuccessful) {
+                            Log.d("API", "설문 결과 전송 성공")
+                        } else {
+                            Log.e("API", "전송 실패: ${response.code()}")
+                        }
+                    } catch (e: Exception) {
+                        Log.e("API", "전송 오류: ${e.message}")
+                    }
+                }
+            } else {
+                Log.e("API", "사용자 이메일 없음 - 로그인 상태 확인 필요")
+            }
+
+            // 3️⃣ 결과 화면 이동
             val intent = Intent(this, SurveyResultHostActivity::class.java).apply {
                 putExtra("result", resultType.name)
             }
             startActivity(intent)
 
-            // 🔴 중요: 뒤로가기로 설문으로 돌아오려면 finish() 하면 안 됨
-            // finish()
+            // finish() 하지 않음 → 설문 결과에서 뒤로 돌아올 수 있도록
         }
 
         binding.rvQuestions.layoutManager = LinearLayoutManager(this)

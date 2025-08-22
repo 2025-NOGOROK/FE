@@ -101,22 +101,14 @@ class HomeViewModel : ViewModel() {
             try {
                 val response = RetrofitClient.homeApi.getSamsungStress()
                 if (response.isSuccessful) {
-                    val content = response.body()?.string() ?: "내용 없음"
-                    _samsungStress.value = content
-                    Log.d("HomeViewModel", "기사 내용: $content")
-
-                    // 🔍 이미지 URL 추출 (.png, .jpg 등)
+                    val content = response.body()?.string() ?: ""
                     val imageRegex = Regex("https?://[^\\s'\"]+\\.(png|jpg|jpeg|gif)")
-                    val firstImage = imageRegex.find(content)?.value
+                    val imageUrl = imageRegex.find(content)?.value
 
-                    if (firstImage != null) {
-                        _samsungStress.value = firstImage ?: ""
-                        Log.d("HomeViewModel", "첫 번째 이미지 URL: $firstImage")
-                    } else {
-                        _samsungStress.value = ""
-                        Log.w("HomeViewModel", "이미지 URL을 찾지 못했습니다.")
-                    }
+                    _samsungStress.value = imageUrl ?: ""
+                    Log.d("HomeViewModel", "삼성 URL: $imageUrl")
                 } else {
+                    _samsungStress.value = ""
                     Log.e("HomeViewModel", "크롤링 실패: ${response.code()}")
                 }
             } catch (e: Exception) {
@@ -124,6 +116,7 @@ class HomeViewModel : ViewModel() {
             }
         }
     }
+
 
 
     fun fetchLawTimes() {

@@ -1,30 +1,33 @@
-package com.example.nogorok.web
+package com.example.nogorok.features.web
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.example.nogorok.R
-import com.example.nogorok.databinding.FragmentWebDetailBinding
 
-class WebDetailFragment : Fragment(R.layout.fragment_web_detail) {
+class WebDetailFragment : Fragment() {
 
-    private var _binding: FragmentWebDetailBinding? = null
-    private val binding get() = _binding!!
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_web_detail, container, false)
+        val webView: WebView = view.findViewById(R.id.webView)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        // 뷰 바인딩 초기화
-        _binding = FragmentWebDetailBinding.bind(view)
-
-        // 백버튼 클릭 시 이전 화면으로
-        binding.btnBack.setOnClickListener {
-            findNavController().popBackStack()
+        // WebView 기본 설정
+        webView.apply {
+            webViewClient = WebViewClient()
+            settings.javaScriptEnabled = true
         }
-    }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        // 전달받은 URL 열기
+        val url = arguments?.getString("url") ?: "https://www.naver.com"
+        webView.loadUrl(url)
+
+        return view
     }
 }
