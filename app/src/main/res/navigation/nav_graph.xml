@@ -42,5 +42,20 @@
         android:label="행사 정보"
         tools:layout="@layout/fragment_event_detail" />
 
+    <!-- 6. 긴금 스트레스 모드로 이동 -->
+    <fragment
+        android:id="@+id/chronicStressModeFragment"
+        android:name="com.example.nogorok.features.stress.ChronicStressModeFragment"
+        android:label="Chronic Stress Mode">
+
+        <!-- 커스텀 스킴 딥링크 -->
+        <deepLink
+            app:uri="nogorok://stress/chronic" />
+
+        <!-- HTTPS 앱링크(선택) -->
+        <deepLink
+            app:uri="https://nogorok.app/stress/chronic" />
+    </fragment>
+
 
 </navigation>

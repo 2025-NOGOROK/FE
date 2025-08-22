@@ -60,8 +60,8 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
         bottomNavigationView.setupWithNavController(navController)
 
-        // 결과 화면에서 넘어온 의도 처리 (앱 최초 실행 시)
-        handleResultIntent(intent)
+        // ✅ 앱 최초 실행 시 인텐트 처리 (딥링크 우선)
+        dispatchIntent(intent)
 
         // FABs
         val fabMain = findViewById<ImageButton>(R.id.fabMain)
@@ -95,12 +95,27 @@ class MainActivity : AppCompatActivity() {
         fabDiary.setOnClickListener { DiaryDialogFragment().show(supportFragmentManager, "DiaryDialog") }
     }
 
-    // 앱이 살아 있는 상태에서 결과 화면이 다시 띄워졌을 때도 처리
+    // 앱이 살아있는 상태에서 알림 탭 등으로 재호출될 때
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         intent ?: return
         setIntent(intent) // 현재 Intent 교체
+        dispatchIntent(intent)
+    }
+
+    /** 인텐트 일괄 처리: 1) 딥링크 우선 2) 기존 navigateTo 분기 */
+    private fun dispatchIntent(intent: Intent?) {
+        intent ?: return
+        // 🔑 딥링크면 nav가 자동으로 처리하고 true 반환
+        if (navController.handleDeepLink(intent)) return
+
+        // 딥링크가 아니면 기존 로직 처리
         handleResultIntent(intent)
+
+        // 동일 인텐트로 재실행 시 중복 처리 방지
+        intent.removeExtra("navigateTo")
+        intent.removeExtra("autoShortRest")
+        intent.removeExtra("date")
     }
 
     /**
@@ -114,9 +129,7 @@ class MainActivity : AppCompatActivity() {
 
         when (dest) {
             "home" -> {
-                // 탭 선택 동기화
                 bottomNavigationView.selectedItemId = R.id.homeFragment
-                // 혹시 다른 스택 위에 있다면 목적지로 이동 시도
                 runCatching { navController.navigate(R.id.homeFragment) }
                     .onFailure { Log.w("MainActivity", "navigate home failed: ${it.localizedMessage}") }
             }
@@ -124,10 +137,8 @@ class MainActivity : AppCompatActivity() {
                 val auto = intent.getBooleanExtra("autoShortRest", false)
                 val date = intent.getStringExtra("date")
 
-                // 탭 선택 동기화 (중요: UI의 선택 상태가 바뀌어야 홈 버튼이 정상 작동)
                 bottomNavigationView.selectedItemId = R.id.scheduleFragment
 
-                // 인자 전달하여 ScheduleFragment가 후속 액션 수행하도록
                 val args = Bundle().apply {
                     putBoolean("autoShortRest", auto)
                     if (!date.isNullOrBlank()) putString("date", date)
@@ -136,11 +147,6 @@ class MainActivity : AppCompatActivity() {
                     .onFailure { Log.w("MainActivity", "navigate schedule failed: ${it.localizedMessage}") }
             }
         }
-
-        // 동일 인텐트로 재실행 시 중복 처리 방지
-        intent.removeExtra("navigateTo")
-        intent.removeExtra("autoShortRest")
-        intent.removeExtra("date")
     }
 
     private fun showShortRest() {
@@ -167,7 +173,6 @@ class MainActivity : AppCompatActivity() {
 
                 dialog.dismiss()
 
-                // 📌 ScheduleFragment의 ViewModel에 fetchGoogleEvents 호출
                 val navHostFragment =
                     supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
                 val scheduleFragment =
@@ -185,7 +190,4 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-
-
 }
