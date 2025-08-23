@@ -13,14 +13,18 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        // ✅ 매 요청마다 최신 토큰을 가져오도록 설정 (중요)
-        RetrofitClient.setTokenProvider { TokenManager.getAccessToken(this) }
+        // 1) Retrofit/OkHttp 초기화 (전역 인터셉터에 Context 주입)
+        RetrofitClient.init(applicationContext)
 
-        // (선택) 초기 부팅 시점 토큰을 백업용으로도 넣어둘 수 있음
-        // RetrofitClient.setAccessToken(TokenManager.getAccessToken(this))
+        // 2) 매 요청마다 최신 액세스 토큰을 읽도록 공급자 연결
+        RetrofitClient.setTokenProvider {
+            TokenManager.getAccessToken(applicationContext)
+        }
 
-        // ⚠️ Android 13+에서 알림 권한 없으면 FGS 알림 표시가 막혀 예외날 수 있어요.
-        // 권한이 있을 때만 서비스 시작하거나, 권한은 Activity에서 먼저 요청하세요.
+        // (선택) 초기 백업 토큰 주입이 필요하면 사용
+        // RetrofitClient.setAccessToken(TokenManager.getAccessToken(applicationContext))
+
+        // 3) 알림 권한 확인 후 포그라운드 동기화 서비스 시작 (필요 시)
         if (canStartForegroundSync()) {
             StressReceiverService.start(this)
         }
