@@ -18,9 +18,11 @@ import com.example.nogorok.databinding.FragmentLoginBinding
 import com.example.nogorok.features.auth.forgotpassword.FindPasswordEmailActivity
 import com.example.nogorok.network.RetrofitClient
 import com.example.nogorok.network.dto.SignInRequest
-import com.example.nogorok.network.util.apiError   // ★ 공통 에러 파서 사용
+import com.example.nogorok.network.util.apiError
 import com.example.nogorok.utils.TokenManager
 import kotlinx.coroutines.launch
+// ★ 추가
+import com.example.nogorok.features.connect.calendar.CalendarConnectActivity
 
 class LoginFragment : Fragment() {
 
@@ -75,26 +77,39 @@ class LoginFragment : Fragment() {
                                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             })
                         } else {
-                            // ★ 401 + GOOGLE_RELINK_REQUIRED 처리
                             val err = response.apiError()
+
+                            // ★ 여기만 변경: 재연동 화면으로 이동 (브라우저 직접 오픈 X)
                             if (response.code() == 401 &&
                                 err?.error == "GOOGLE_RELINK_REQUIRED" &&
                                 !err.authUrl.isNullOrBlank()
                             ) {
+                                // 모달 안내 후 ‘연결하기’ 누르면 재연동 액티비티로
                                 AlertDialog.Builder(requireContext())
                                     .setTitle("구글 권한 만료")
                                     .setMessage("구글 권한이 만료되었습니다. 다시 연결해 주세요.")
                                     .setNegativeButton("취소", null)
                                     .setPositiveButton("연결하기") { _, _ ->
                                         startActivity(
-                                            Intent(
-                                                Intent.ACTION_VIEW,
-                                                Uri.parse(err.authUrl)
-                                            )
+                                            Intent(requireContext(), CalendarConnectActivity::class.java).apply {
+                                                putExtra(
+                                                    CalendarConnectActivity.EXTRA_MODE,
+                                                    CalendarConnectActivity.MODE_RELINK
+                                                )
+                                                putExtra(
+                                                    CalendarConnectActivity.EXTRA_AUTH_URL,
+                                                    err.authUrl
+                                                )
+                                            }
                                         )
-                                        // 동의 완료 → 서버 /auth/google/callback → intent://oauth2callback?... 로 앱 복귀
                                     }
                                     .show()
+
+                                // 모달 없이 바로 열고 싶으면 아래 한 줄로 대체:
+                                // startActivity(Intent(requireContext(), CalendarConnectActivity::class.java).apply {
+                                //     putExtra(CalendarConnectActivity.EXTRA_MODE, CalendarConnectActivity.MODE_RELINK)
+                                //     putExtra(CalendarConnectActivity.EXTRA_AUTH_URL, err.authUrl)
+                                // })
                             } else {
                                 val msg = err?.message ?: response.errorBody()?.string() ?: "알 수 없는 오류"
                                 Toast.makeText(requireContext(), "로그인 실패: $msg", Toast.LENGTH_SHORT).show()
