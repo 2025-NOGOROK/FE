@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.example.nogorok.MainActivity
 import com.example.nogorok.databinding.ActivityCalendarConnectBinding
 import com.example.nogorok.features.connect.ConnectActivity
 import com.example.nogorok.utils.TokenManager
@@ -17,15 +18,13 @@ class CalendarConnectActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_MODE = "MODE"
-        const val MODE_SIGN_UP = "SIGN_UP"   // 최초 연동(회원가입)
-        const val MODE_RELINK  = "RELINK"    // 401 재연동
-
+        const val MODE_SIGN_UP = "SIGN_UP"   // 최초 연동(회원가입 플로우)
+        const val MODE_RELINK  = "RELINK"    // 로그인 중 401 재연동 플로우
         const val EXTRA_AUTH_URL = "AUTH_URL" // 서버가 내려준 동의 URL(선택)
     }
 
     private lateinit var binding: ActivityCalendarConnectBinding
 
-    // 참고: clientSecret은 앱에 두지 마세요(서버 전용).
     private val clientId = "1062370068118-f2cgskgioh5eeb14rqq5di0tsn30c1et.apps.googleusercontent.com"
     private val redirectUri = "https://recommend.ai.kr/auth/google/callback"
 
@@ -37,28 +36,21 @@ class CalendarConnectActivity : AppCompatActivity() {
         binding = ActivityCalendarConnectBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // 모드/URL 파라미터
         mode = intent.getStringExtra(EXTRA_MODE) ?: MODE_SIGN_UP
         serverAuthUrl = intent.getStringExtra(EXTRA_AUTH_URL)
 
-        // UI 분기
         applyModeUi(mode)
 
-        // 뒤로가기
         binding.btnBack.setOnClickListener { finish() }
 
-        // “연결하기”
-        binding.btnConnect.setOnClickListener {
-            openConsent(serverAuthUrl)
-        }
+        binding.btnConnect.setOnClickListener { openConsent(serverAuthUrl) }
 
-        // “아니요” (회원가입 모드에서만 보임)
         binding.btnNew.setOnClickListener {
+            // 회원가입 모드에서만 보임
             startActivity(Intent(this, ConnectActivity::class.java))
             finish()
         }
 
-        // 딥링크 처리
         handleDeepLink(intent)
     }
 
@@ -71,21 +63,11 @@ class CalendarConnectActivity : AppCompatActivity() {
     private fun applyModeUi(mode: String) {
         when (mode) {
             MODE_RELINK -> {
-                // 401 재연동: '아니요' 숨김, (원하면) 뒤로가기도 숨길 수 있음
-                binding.btnNew.visibility = View.GONE
-                // binding.btnBack.visibility = View.GONE // 필요하면 주석 해제
-
-                // 문구도 재연동에 맞게 바꾸고 싶다면 레이아웃 id에 맞춰 바꾸세요.
-                // binding.title.text = "구글 권한 재연동"
-                // binding.subtitle.text = "만료된 구글 권한을 다시 연결해 주세요."
-
-                // UX를 더 매끄럽게: 화면 진입 시 자동으로 동의창 열기 원하면 주석 해제
+                binding.btnNew.visibility = View.GONE // 401일 땐 "아니요" 숨김
+                // 원하면 자동 오픈:
                 // openConsent(serverAuthUrl)
             }
-            else -> {
-                // 회원가입(최초 연동): 기본 그대로
-                binding.btnNew.visibility = View.VISIBLE
-            }
+            else -> binding.btnNew.visibility = View.VISIBLE
         }
     }
 
@@ -98,25 +80,39 @@ class CalendarConnectActivity : AppCompatActivity() {
         val data = intent?.data ?: return
         Log.d("OAuth", "딥링크 URI: $data")
 
-        // 백엔드: intent://oauth2callback?jwt=...#Intent;scheme=com.example.nogorok;package=com.example.nogorok;end
-        // 앱에서 수신: com.example.nogorok://oauth2callback?jwt=...
+        // intent://oauth2callback?jwt=... -> 앱에서: com.example.nogorok://oauth2callback?jwt=...
         if (data.scheme == "com.example.nogorok" && data.host == "oauth2callback") {
             val jwt = data.getQueryParameter("jwt")
             if (!jwt.isNullOrBlank()) {
-                Log.d("OAuth", "받은 JWT: $jwt")
                 TokenManager.saveJwtToken(this, jwt)
-
                 Toast.makeText(this, "구글 연동 완료", Toast.LENGTH_SHORT).show()
 
-                // (선택) 서버 최종 점검 호출이 필요하면 여기에
+                // 필요하면 서버 최종 점검:
                 lifecycleScope.launch {
                     // runCatching { RetrofitClient.authApi.ensureGoogleLinked() }
                 }
 
-                // 어디로 돌아갈지: 가입 플로우/설정 화면 등 제품 정책에 맞게
-                startActivity(Intent(this, ConnectActivity::class.java).apply {
-                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                })
+                // ✅ 성공 후 분기
+                if (mode == MODE_RELINK) {
+                    // 재연동: 홈으로
+                    startActivity(
+                        Intent(this, MainActivity::class.java).apply {
+                            // 백스택에 ConnectActivity 남지 않도록 정리
+                            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                                    Intent.FLAG_ACTIVITY_NEW_TASK or
+                                    Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                            // 메인에서 홈으로 이동시키는 힌트
+                            putExtra(MainActivity.EXTRA_NAV_DEST, MainActivity.NAV_HOME)
+                        }
+                    )
+                } else {
+                    // 회원가입: 기존처럼 연결 화면으로
+                    startActivity(
+                        Intent(this, ConnectActivity::class.java).apply {
+                            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                        }
+                    )
+                }
                 finish()
             } else {
                 Toast.makeText(this, "JWT가 없습니다", Toast.LENGTH_SHORT).show()

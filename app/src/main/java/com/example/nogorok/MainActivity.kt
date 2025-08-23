@@ -30,6 +30,14 @@ import java.time.LocalDate
 
 class MainActivity : AppCompatActivity() {
 
+    companion object {
+        // 재연동 완료 등 외부에서 특정 화면으로 보내고 싶을 때 사용
+        const val EXTRA_NAV_DEST = "NAV_DEST"
+        const val NAV_HOME = "home"
+        const val NAV_SCHEDULE = "schedule"
+        const val NAV_SHORTREST = "shortrest"
+    }
+
     private var isFabOpen = false
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var navController: NavController
@@ -47,7 +55,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        // ✅ 토큰 설정 및 로그
+        // ✅ 토큰 설정(백업용). App에서 setTokenProvider를 이미 연결했다면 없어도 무방
         val token = TokenManager.getAccessToken(this)
         Log.d("TOKEN_CHECK", "AccessToken: $token")
         RetrofitClient.setAccessToken(token)
@@ -95,45 +103,50 @@ class MainActivity : AppCompatActivity() {
         fabDiary.setOnClickListener { DiaryDialogFragment().show(supportFragmentManager, "DiaryDialog") }
     }
 
-    // 앱이 살아있는 상태에서 알림 탭 등으로 재호출될 때
+    // 앱이 살아있는 상태에서 재호출될 때
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         intent ?: return
-        setIntent(intent) // 현재 Intent 교체
+        setIntent(intent)
         dispatchIntent(intent)
     }
 
-    /** 인텐트 일괄 처리: 1) 딥링크 우선 2) 기존 navigateTo 분기 */
+    /** 인텐트 일괄 처리: 1) 딥링크 우선 2) 명시적 목적지 분기 */
     private fun dispatchIntent(intent: Intent?) {
         intent ?: return
-        // 🔑 딥링크면 nav가 자동으로 처리하고 true 반환
+        // 🔑 네비 딥링크면 NavController가 자동으로 처리
         if (navController.handleDeepLink(intent)) return
 
-        // 딥링크가 아니면 기존 로직 처리
+        // 목적지 힌트 처리
         handleResultIntent(intent)
 
         // 동일 인텐트로 재실행 시 중복 처리 방지
+        intent.removeExtra(EXTRA_NAV_DEST)
         intent.removeExtra("navigateTo")
         intent.removeExtra("autoShortRest")
         intent.removeExtra("date")
     }
 
     /**
-     * 결과 페이지에서 온 의도 처리:
-     *  - navigateTo=home → 홈 탭으로 전환
-     *  - navigateTo=schedule (+ autoShortRest, date) → 일정 탭 전환 후 ScheduleFragment에 args 전달
+     * 외부/다른 액티비티에서 온 의도 처리:
+     *  - EXTRA_NAV_DEST 또는 "navigateTo" : home / schedule / shortrest
+     *  - schedule의 경우 autoShortRest, date 전달 가능
      */
     private fun handleResultIntent(intent: Intent?) {
         intent ?: return
-        val dest = intent.getStringExtra("navigateTo") ?: return
+
+        val dest = intent.getStringExtra(EXTRA_NAV_DEST)
+            ?: intent.getStringExtra("navigateTo")
+            ?: return
 
         when (dest) {
-            "home" -> {
+            NAV_HOME, "home" -> {
                 bottomNavigationView.selectedItemId = R.id.homeFragment
                 runCatching { navController.navigate(R.id.homeFragment) }
                     .onFailure { Log.w("MainActivity", "navigate home failed: ${it.localizedMessage}") }
             }
-            "schedule" -> {
+
+            NAV_SCHEDULE, "schedule" -> {
                 val auto = intent.getBooleanExtra("autoShortRest", false)
                 val date = intent.getStringExtra("date")
 
@@ -146,8 +159,9 @@ class MainActivity : AppCompatActivity() {
                 runCatching { navController.navigate(R.id.scheduleFragment, args) }
                     .onFailure { Log.w("MainActivity", "navigate schedule failed: ${it.localizedMessage}") }
             }
-            "shortrest" -> {
-                showShortRest() // 다이얼로그 바로 실행
+
+            NAV_SHORTREST, "shortrest" -> {
+                showShortRest()
             }
         }
     }
@@ -168,10 +182,14 @@ class MainActivity : AppCompatActivity() {
                     return@launch
                 }
 
-                val result: List<ShortRestResponse> = RetrofitClient.shortRestApi.getShortRest(date = today)
+                val result: List<ShortRestResponse> =
+                    RetrofitClient.shortRestApi.getShortRest(date = today)
                 Log.d("ShortRestAPI", "✅ 응답 성공: ${result.size}건 수신")
                 result.forEach {
-                    Log.d("ShortRestItem", "title=${it.title}, time=${it.startTime} - ${it.endTime}, sourceType=${it.sourceType}")
+                    Log.d(
+                        "ShortRestItem",
+                        "title=${it.title}, time=${it.startTime} - ${it.endTime}, sourceType=${it.sourceType}"
+                    )
                 }
 
                 dialog.dismiss()
@@ -186,7 +204,7 @@ class MainActivity : AppCompatActivity() {
 
                 scheduleViewModel?.fetchGoogleEvents(this@MainActivity, selectedDate)
 
-                // ✅ 짧은 쉼표 다이얼로그 닫힌 후, 나의 일정 탭으로 자동 전환
+                // ✅ 다이얼로그 닫힌 후, 나의 일정 탭으로 전환
                 bottomNavigationView.selectedItemId = R.id.scheduleFragment
 
             } catch (e: Exception) {
