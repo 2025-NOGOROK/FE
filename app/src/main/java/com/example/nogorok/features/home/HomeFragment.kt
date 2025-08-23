@@ -1,3 +1,4 @@
+// 경로: com.example.nogorok.features.home.HomeFragment.kt
 package com.example.nogorok.features.home
 
 import android.Manifest
@@ -121,20 +122,31 @@ class HomeFragment : Fragment() {
 
     private fun setupStressCardClickListeners() {
         binding.containerSamsung.setOnClickListener {
-            openWebView("https://www.samsunghospital.com/home/healthMedical/private/lifeClinicStress05.do")
+            openStressDetail(
+                "http://www.samsunghospital.com/home/healthMedical/private/lifeClinicStress05.do",
+                "http://www.samsunghospital.com/_newhome/ui/health_center/static/img/checkup-after/after-clinic-stress05-img01.png"
+            )
         }
         binding.containerLawtimes.setOnClickListener {
-            openWebView("https://www.sciencetimes.co.kr/nscvrg/view/menu/251?searchCategory=223&nscvrgSn=260043")
+            openStressDetail(
+                "https://www.sciencetimes.co.kr/nscvrg/view/menu/251?searchCategory=223&nscvrgSn=260043",
+                "https://www.sciencetimes.co.kr/jnrepo/upload/editor/202503/f8c1e3e053ca4453b59b14d1a2e6dceb_1743368019590.png"
+            )
         }
         binding.containerTrauma.setOnClickListener {
-            openWebView("https://doctornow.co.kr/content/magazine/ce509c92b93d4329b03435840ef2a608")
+            openStressDetail(
+                "https://doctornow.co.kr/content/magazine/ce509c92b93d4329b03435840ef2a608",
+                "https://d2m9duoqjhyhsq.cloudfront.net/marketingContents/article/article230-01.jpg"
+            )
         }
     }
 
-    private fun openWebView(url: String) {
-        val intent = Intent(requireContext(), StressWebActivity::class.java)
-        intent.putExtra("linkUrl", url)
-        startActivity(intent)
+    private fun openStressDetail(linkUrl: String, thumbnailUrl: String) {
+        val bundle = Bundle().apply {
+            putString("linkUrl", linkUrl)
+            putString("thumbnailUrl", thumbnailUrl)
+        }
+        findNavController().navigate(R.id.action_homeFragment_to_stressDetailFragment, bundle)
     }
 
     private fun updateTourListUI(tourList: List<TourItem>) {

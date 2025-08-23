@@ -42,6 +42,12 @@
         <action
             android:id="@+id/action_homeFragment_to_stressDetailFragment"
             app:destination="@id/stressDetailFragment" />
+        <fragment
+            android:id="@+id/stressDetailFragment"
+            android:name="com.example.nogorok.features.stress.StressDetailFragment"
+            android:label="스트레스 관리 상세"
+            tools:layout="@layout/fragment_web_detail" />
+
     </fragment>
 
     <!-- 웹 상세 -->

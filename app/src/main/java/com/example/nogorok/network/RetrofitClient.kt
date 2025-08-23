@@ -10,32 +10,33 @@ import retrofit2.converter.gson.GsonConverterFactory
 import com.example.nogorok.network.api.*
 import com.example.nogorok.features.event.EventApi
 import com.example.nogorok.features.stress.StressApi
-import com.example.nogorok.network.interceptor.GoogleRelinkInterceptor
 
 object RetrofitClient {
 
-    private const val BASE_URL = "https://recommend.ai.kr/" // ← 반드시 슬래시로 끝나야 함
+    private const val BASE_URL = "https://recommend.ai.kr"
 
-    // 수동 주입 백업용
     @Volatile private var accessToken: String? = null
     fun setAccessToken(token: String?) { accessToken = token }
 
-    // 매 요청 시 토큰 공급자
     @Volatile private var tokenProvider: (() -> String?)? = null
     fun setTokenProvider(provider: () -> String?) { tokenProvider = provider }
 
-    // 로그 (Authorization 헤더 마스킹)
+    // 🔧 init 추가
+    fun init(context: Context) {
+        Log.d("RetrofitClient", "RetrofitClient initialized with context=$context")
+        // 지금은 특별히 context로 할 건 없지만,
+        // SharedPreferences, 캐시 디렉토리 접근 등 필요시 여기에 추가
+    }
+
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
         redactHeader("Authorization")
     }
 
-    // Authorization 헤더 자동 추가
     private val authInterceptor = Interceptor { chain ->
         val request = chain.request()
         val urlPath = request.url.encodedPath
 
-        // 토큰 불필요 엔드포인트
         val excludedPaths = setOf(
             "/auth/signUp",
             "/auth/signIn",
@@ -57,77 +58,35 @@ object RetrofitClient {
         chain.proceed(rb.build())
     }
 
-    // ---- Retrofit/OkHttp 인스턴스들 ----
-    private lateinit var okHttpClient: OkHttpClient
-    private lateinit var retrofit: Retrofit
+    private val okHttpClient = OkHttpClient.Builder()
+        .addInterceptor(authInterceptor)
+        .addInterceptor(loggingInterceptor)
+        .build()
 
-    // === 공개 API 서비스 ===
-    lateinit var authApi: AuthApi
-        private set
-    lateinit var surveyApi: SurveyApi
-        private set
-    lateinit var healthApi: HealthApi
-        private set
-    lateinit var fcmApi: FcmApi
-        private set
-    lateinit var googleApi: GoogleApi
-        private set
-    lateinit var diaryApi: DiaryApi
-        private set
-    lateinit var mypageApi: MypageApi
-        private set
-    lateinit var monthlyApi: MonthlyApi
-        private set
-    lateinit var weeklyApi: WeeklyApi
-        private set
-    lateinit var homeApi: HomeApi
-        private set
-    lateinit var shortRestApi: ShortRestApi
-        private set
-    lateinit var calendarApi: CalendarApi
-        private set
-    lateinit var longrestApi: LongRestApi
-        private set
-    lateinit var bannerSurveyApi: BannerSurveyApi
-        private set
-    lateinit var deviceApi: DeviceApi
-        private set
-    lateinit var eventApi: EventApi
-        private set
-    lateinit var stressApi: StressApi
-        private set
-
-    // ✨ 앱 시작 시 Application에서 한 번 호출
-    fun init(appContext: Context) {
-        okHttpClient = OkHttpClient.Builder()
-            .addInterceptor(authInterceptor)
-            .addInterceptor(GoogleRelinkInterceptor(appContext)) // 401 재연동 처리
-            .addInterceptor(loggingInterceptor)
-            .build()
-
-        retrofit = Retrofit.Builder()
+    private val retrofit: Retrofit by lazy {
+        Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-
-        // 서비스 구현체 생성
-        authApi         = retrofit.create(AuthApi::class.java)
-        surveyApi       = retrofit.create(SurveyApi::class.java)
-        healthApi       = retrofit.create(HealthApi::class.java)
-        fcmApi          = retrofit.create(FcmApi::class.java)
-        googleApi       = retrofit.create(GoogleApi::class.java)
-        diaryApi        = retrofit.create(DiaryApi::class.java)
-        mypageApi       = retrofit.create(MypageApi::class.java)
-        monthlyApi      = retrofit.create(MonthlyApi::class.java)
-        weeklyApi       = retrofit.create(WeeklyApi::class.java)
-        homeApi         = retrofit.create(HomeApi::class.java)
-        shortRestApi    = retrofit.create(ShortRestApi::class.java)
-        calendarApi     = retrofit.create(CalendarApi::class.java)
-        longrestApi     = retrofit.create(LongRestApi::class.java)
-        bannerSurveyApi = retrofit.create(BannerSurveyApi::class.java)
-        deviceApi       = retrofit.create(DeviceApi::class.java)
-        eventApi        = retrofit.create(EventApi::class.java)
-        stressApi       = retrofit.create(StressApi::class.java)
     }
+
+    // === APIs ===
+    val authApi: AuthApi by lazy { retrofit.create(AuthApi::class.java) }
+    val surveyApi: SurveyApi by lazy { retrofit.create(SurveyApi::class.java) }
+    val healthApi: HealthApi by lazy { retrofit.create(HealthApi::class.java) }
+    val fcmApi: FcmApi by lazy { retrofit.create(FcmApi::class.java) }
+    val googleApi: GoogleApi by lazy { retrofit.create(GoogleApi::class.java) }
+    val diaryApi: DiaryApi by lazy { retrofit.create(DiaryApi::class.java) }
+    val mypageApi: MypageApi by lazy { retrofit.create(MypageApi::class.java) }
+    val monthlyApi: MonthlyApi by lazy { retrofit.create(MonthlyApi::class.java) }
+    val weeklyApi: WeeklyApi by lazy { retrofit.create(WeeklyApi::class.java) }
+    val homeApi: HomeApi by lazy { retrofit.create(HomeApi::class.java) }
+    val shortRestApi: ShortRestApi by lazy { retrofit.create(ShortRestApi::class.java) }
+    val calendarApi: CalendarApi by lazy { retrofit.create(CalendarApi::class.java) }
+    val longrestApi: LongRestApi by lazy { retrofit.create(LongRestApi::class.java) }
+    val bannerSurveyApi: BannerSurveyApi by lazy { retrofit.create(BannerSurveyApi::class.java) }
+    val deviceApi: DeviceApi by lazy { retrofit.create(DeviceApi::class.java) }
+    val eventApi: EventApi by lazy { retrofit.create(EventApi::class.java) }
+    val stressApi: StressApi by lazy { retrofit.create(StressApi::class.java) }
 }
