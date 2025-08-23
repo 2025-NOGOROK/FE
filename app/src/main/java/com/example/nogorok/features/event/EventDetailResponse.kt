@@ -26,6 +26,7 @@ data class EventDetailItem(
     val placeAddr: String?,
     val imgUrl: String?,
     val contents1: String?,
-    val gpsX: Double?,   // 경도
-    val gpsY: Double?    // 위도
+    val gpsX: Double?,   // ✅ 경도
+    val gpsY: Double?,   // ✅ 위도
+    val url: String?     // ✅ 상세 URL 추가
 )

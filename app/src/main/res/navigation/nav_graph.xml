@@ -15,7 +15,7 @@
             app:destination="@id/scheduleAddFragment" />
     </fragment>
 
-    <!-- 2. 일정 추가 (두 번째 이미지) -->
+    <!-- 2. 일정 추가 -->
     <fragment
         android:id="@+id/scheduleAddFragment"
         android:name="com.example.nogorok.features.schedule.ScheduleAddFragment"
@@ -28,14 +28,20 @@
         android:label="홈"
         tools:layout="@layout/fragment_home">
 
+        <!-- 웹 상세 -->
         <action
             android:id="@+id/action_homeFragment_to_webDetailFragment"
             app:destination="@id/webDetailFragment" />
 
-        <!-- ✅ 행사 상세 페이지로 이동하는 액션 추가 -->
+        <!-- 행사 상세 -->
         <action
             android:id="@+id/action_homeFragment_to_eventDetailFragment"
             app:destination="@id/eventDetailFragment" />
+
+        <!-- ✅ 스트레스 상세 -->
+        <action
+            android:id="@+id/action_homeFragment_to_stressDetailFragment"
+            app:destination="@id/stressDetailFragment" />
     </fragment>
 
     <!-- 웹 상세 -->
@@ -59,17 +65,22 @@
         android:label="행사 정보"
         tools:layout="@layout/fragment_event_detail" />
 
-    <!-- 6. 긴급 스트레스 모드로 이동 -->
+    <!-- 6. 스트레스 상세 -->
+    <fragment
+        android:id="@+id/stressDetailFragment"
+        android:name="com.example.nogorok.features.stress.StressDetailFragment"
+        android:label="스트레스 관리 상세"
+        tools:layout="@layout/fragment_web_detail" />
+
+    <!-- 7. 긴급 스트레스 모드 -->
     <fragment
         android:id="@+id/chronicStressModeFragment"
         android:name="com.example.nogorok.features.stress.ChronicStressModeFragment"
         android:label="Chronic Stress Mode">
 
-        <!-- 커스텀 스킴 딥링크 -->
         <deepLink
             app:uri="nogorok://stress/chronic" />
 
-        <!-- HTTPS 앱링크(선택) -->
         <deepLink
             app:uri="https://nogorok.app/stress/chronic" />
     </fragment>

@@ -8,6 +8,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import com.example.nogorok.network.api.*
 import com.example.nogorok.features.event.EventApi
+import com.example.nogorok.features.stress.StressApi  // ✅ import 추가
 
 object RetrofitClient {
 
@@ -85,5 +86,7 @@ object RetrofitClient {
     val bannerSurveyApi: BannerSurveyApi by lazy { retrofit.create(BannerSurveyApi::class.java) }
     val deviceApi: DeviceApi by lazy { retrofit.create(DeviceApi::class.java) }
     val eventApi: EventApi by lazy { retrofit.create(EventApi::class.java) }
+    // ✅ StressApi 추가
+    val stressApi: StressApi by lazy { retrofit.create(StressApi::class.java) }
 
 }
