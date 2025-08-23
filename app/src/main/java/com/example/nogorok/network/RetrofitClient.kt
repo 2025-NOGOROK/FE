@@ -1,62 +1,58 @@
 package com.example.nogorok.network
 
-import com.example.nogorok.network.api.AuthApi
-import com.example.nogorok.network.api.FcmApi
-import com.example.nogorok.network.api.HealthApi
-import com.example.nogorok.network.api.SurveyApi
-import com.example.nogorok.network.api.GoogleApi
-import com.example.nogorok.network.api.DiaryApi
-import com.example.nogorok.network.api.MypageApi
-import com.example.nogorok.network.api.MonthlyApi
-import com.example.nogorok.network.api.WeeklyApi
-import com.example.nogorok.network.api.HomeApi
-import com.example.nogorok.network.api.ShortRestApi
-import com.example.nogorok.network.api.CalendarApi
-import com.example.nogorok.network.api.LongRestApi
-import com.example.nogorok.network.api.DeviceApi
+import android.util.Log
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import com.example.nogorok.network.api.BannerSurveyApi
 
+import com.example.nogorok.network.api.*
 
 object RetrofitClient {
 
     private const val BASE_URL = "https://recommend.ai.kr/"
 
-    // 외부에서 주입하는 토큰 변수 (로그인/연동 후 설정 필요)
-    private var accessToken: String? = null
+    // 수동 주입도 허용(백업용). 가능하면 tokenProvider를 쓰는 걸 추천
+    @Volatile private var accessToken: String? = null
+    fun setAccessToken(token: String?) { accessToken = token }
 
-    fun setAccessToken(token: String?) {
-        accessToken = token
-    }
+    // ★ 매 요청 시 호출되는 토큰 공급자(lambda)
+    @Volatile private var tokenProvider: (() -> String?)? = null
+    fun setTokenProvider(provider: () -> String?) { tokenProvider = provider }
 
-    // 로그 출력용 인터셉터
+    // 로그 인터셉터(Authorization 헤더는 마스킹)
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
+        redactHeader("Authorization")
     }
 
-    // Authorization 헤더 자동 추가 인터셉터
+    // Authorization 헤더 자동 추가
     private val authInterceptor = Interceptor { chain ->
         val request = chain.request()
-        val url = request.url.encodedPath
+        val urlPath = request.url.encodedPath
 
-        val excludedPaths = listOf(
+        // 로그인/회원가입 등 토큰 불필요 엔드포인트만 예외 처리
+        val excludedPaths = setOf(
             "/auth/signUp",
             "/auth/signIn",
             "/auth/google/callback",
-            "/auth/google/mobile-register", // ✅ 구글 연동 시 제외 경로 추가
+            "/auth/google/mobile-register",
         )
 
-        val requestBuilder = request.newBuilder()
+        val rb = request.newBuilder()
 
-        if (!excludedPaths.contains(url) && !accessToken.isNullOrEmpty()) {
-            requestBuilder.addHeader("Authorization", "Bearer $accessToken")
+        // ★ provider 우선 → 없으면 accessToken 백업 사용
+        val token = try { tokenProvider?.invoke() } catch (e: Exception) {
+            Log.w("RetrofitClient", "tokenProvider error: ${e.message}")
+            null
+        } ?: accessToken
+
+        if (!excludedPaths.contains(urlPath) && !token.isNullOrBlank()) {
+            rb.addHeader("Authorization", "Bearer $token")
         }
 
-        chain.proceed(requestBuilder.build())
+        chain.proceed(rb.build())
     }
 
     private val okHttpClient = OkHttpClient.Builder()
@@ -72,7 +68,7 @@ object RetrofitClient {
             .build()
     }
 
-    // 각 API 인터페이스
+    // === APIs ===
     val authApi: AuthApi by lazy { retrofit.create(AuthApi::class.java) }
     val surveyApi: SurveyApi by lazy { retrofit.create(SurveyApi::class.java) }
     val healthApi: HealthApi by lazy { retrofit.create(HealthApi::class.java) }
@@ -88,5 +84,4 @@ object RetrofitClient {
     val longrestApi: LongRestApi by lazy { retrofit.create(LongRestApi::class.java) }
     val bannerSurveyApi: BannerSurveyApi by lazy { retrofit.create(BannerSurveyApi::class.java) }
     val deviceApi: DeviceApi by lazy { retrofit.create(DeviceApi::class.java) }
-
 }
