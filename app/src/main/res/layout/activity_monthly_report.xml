@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:background="@color/white">
 
-    <!-- ✅ ScrollView는 직계 자식 1개만 -->
+    <!-- ScrollView는 자식 1개만 -->
     <LinearLayout
         android:id="@+id/rootContainer"
         android:layout_width="match_parent"
@@ -40,7 +41,7 @@
                 android:fontFamily="@font/pretendard_semibold" />
         </LinearLayout>
 
-        <!-- 내용 -->
+        <!-- 본문 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -70,6 +71,7 @@
                 android:paddingBottom="2dp"
                 android:layout_marginBottom="8dp" />
 
+            <!-- 요약 카드들(동적) -->
             <LinearLayout
                 android:id="@+id/mockSummaryContainer"
                 android:layout_width="match_parent"
@@ -99,7 +101,7 @@
                 android:orientation="vertical"
                 android:layout_marginTop="12dp">
 
-                <!-- 카드 #1: 비지(살색) 카드 — F4EED4 30% -->
+                <!-- 카드 #1: 살색 (F4EED4 30%) -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -108,7 +110,6 @@
                     android:orientation="vertical"
                     android:layout_marginBottom="12dp">
 
-                    <!-- 쉼표 아이콘 -->
                     <ImageView
                         android:layout_width="34dp"
                         android:layout_height="34dp"
@@ -116,7 +117,6 @@
                         android:alpha="0.7"
                         android:layout_marginBottom="8dp" />
 
-                    <!-- 설명 -->
                     <TextView
                         android:id="@+id/tvMostStressDesc"
                         android:layout_width="match_parent"
@@ -128,45 +128,15 @@
                         android:layout_marginBottom="12dp"
                         android:fontFamily="@font/pretendard_semibold" />
 
-                    <!-- 태그/시간 알약 -->
+                    <!-- ✅ 동적 칩 컨테이너 (여기에 여러 칩을 추가) -->
                     <LinearLayout
+                        android:id="@+id/mostPillList"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
-
-                        <TextView
-                            android:id="@+id/tagMost1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/bg_pill_brown_filled"
-                            android:paddingStart="14dp"
-                            android:paddingEnd="14dp"
-                            android:paddingTop="8dp"
-                            android:paddingBottom="8dp"
-                            android:text="독서하기"
-                            android:textColor="@android:color/white"
-                            android:textSize="13sp"
-                            android:fontFamily="@font/pretendard_semibold" />
-
-                        <TextView
-                            android:id="@+id/timeMost1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/bg_pill_brown_filled"
-                            android:paddingStart="14dp"
-                            android:paddingEnd="14dp"
-                            android:paddingTop="8dp"
-                            android:paddingBottom="8dp"
-                            android:text="20:00-20:30"
-                            android:textColor="@android:color/white"
-                            android:textSize="13sp"
-                            android:fontFamily="@font/pretendard_semibold"
-                            android:layout_marginStart="10dp" />
-                    </LinearLayout>
+                        android:orientation="vertical" />
                 </LinearLayout>
 
-                <!-- 카드 #2: 민트 카드 — B0CFB2 50% + 외곽선 73605A -->
+                <!-- 카드 #2: 민트 (B0CFB2 50% + 테두리 #73605A) -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -192,82 +162,47 @@
                         android:layout_marginBottom="12dp"
                         android:fontFamily="@font/pretendard_semibold" />
 
+                    <!-- ✅ 동적 칩 컨테이너 (여기에 여러 칩을 추가) -->
                     <LinearLayout
+                        android:id="@+id/leastPillList"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <!-- 첫 줄 -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical">
-
-                            <TextView
-                                android:id="@+id/tagLeast1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/bg_pill_brown_filled"
-                                android:paddingStart="14dp"
-                                android:paddingEnd="14dp"
-                                android:paddingTop="8dp"
-                                android:paddingBottom="8dp"
-                                android:text="독서하기"
-                                android:textColor="@android:color/white"
-                                android:textSize="13sp"
-                                android:fontFamily="@font/pretendard_semibold" />
-                        </LinearLayout>
-
-                        <!-- 둘째 줄: 민트 아웃라인 알약 2개 -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical"
-                            android:layout_marginTop="10dp">
-
-                            <TextView
-                                android:id="@+id/tagLeast2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/bg_pill_outline_mint"
-                                android:paddingStart="14dp"
-                                android:paddingEnd="14dp"
-                                android:paddingTop="8dp"
-                                android:paddingBottom="8dp"
-                                android:text="경복궁 야간개장"
-                                android:textColor="#5B463E"
-                                android:textSize="13sp"
-                                android:fontFamily="@font/pretendard_semibold" />
-
-                            <TextView
-                                android:id="@+id/timeLeast2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/bg_pill_outline_mint"
-                                android:paddingStart="14dp"
-                                android:paddingEnd="14dp"
-                                android:paddingTop="8dp"
-                                android:paddingBottom="8dp"
-                                android:text="21:00-22:30"
-                                android:textColor="#5B463E"
-                                android:textSize="13sp"
-                                android:fontFamily="@font/pretendard_semibold"
-                                android:layout_marginStart="10dp" />
-                        </LinearLayout>
-                    </LinearLayout>
+                        android:orientation="vertical" />
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- (선택) 차트 카드 자리 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="220dp"
-                android:background="@drawable/bg_card_elevated"
-                android:orientation="vertical"
-                android:padding="16dp"
-                android:layout_marginTop="28dp" />
+            <!-- 차트 섹션 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="최근 나의 스트레스 지수"
+                android:textSize="18sp"
+                android:fontFamily="@font/pretendard_semibold"
+                android:textColor="@color/black"
+                android:background="@drawable/bg_text_highlight"
+                android:paddingBottom="2dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginBottom="12dp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="360dp"
+                android:layout_height="250dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="4dp"
+                app:cardUseCompatPadding="true"
+                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardElevation="12dp">
+
+                <com.example.nogorok.features.report.StressLineChartView
+                    android:id="@+id/stressChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingStart="32dp"
+                    android:paddingEnd="32dp"
+                    android:paddingTop="44dp"
+                    android:paddingBottom="22dp" />
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

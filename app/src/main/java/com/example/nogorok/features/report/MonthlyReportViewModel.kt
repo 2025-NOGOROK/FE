@@ -5,9 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.nogorok.network.RetrofitClient
-import com.example.nogorok.network.dto.MonthlyCountsDto
-import com.example.nogorok.network.dto.MonthlyStressDto
-import com.example.nogorok.network.dto.StressfulDay
+import com.example.nogorok.network.dto.*
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -20,67 +18,63 @@ class MonthlyReportViewModel : ViewModel() {
     private val _stress = MutableLiveData<MonthlyStressDto?>()
     val stress: LiveData<MonthlyStressDto?> = _stress
 
+    // ✅ 추가: 트렌드 데이터
+    private val _trend = MutableLiveData<MonthlyStressTrendDto?>()
+    val trend: LiveData<MonthlyStressTrendDto?> = _trend
+
     private val _error = MutableLiveData<String?>()
     val error: LiveData<String?> = _error
 
-    /** 현재 연월 기준으로 두 API 동시 조회 */
+    /** 현재 연/월 기준으로 3개 API 동시 조회 */
     fun load(year: Int = LocalDate.now().year, month: Int = LocalDate.now().monthValue) {
         viewModelScope.launch {
             try {
                 val countsDefer = async { RetrofitClient.monthlyApi.getMonthly(year, month) }
                 val stressDefer = async { RetrofitClient.monthlyApi.getMonthlyStress(year, month) }
+                val trendDefer  = async { RetrofitClient.monthlyApi.getMonthlyStressTrend() }
 
-                // /api/report/monthly
                 countsDefer.await().let { res ->
-                    if (res.isSuccessful) {
-                        _counts.postValue(res.body())
-                    } else {
+                    if (res.isSuccessful) _counts.postValue(res.body())
+                    else {
                         _counts.postValue(null)
                         _error.postValue("monthly 실패: ${res.code()}")
                     }
                 }
 
-                // /api/report/monthly-stress
                 stressDefer.await().let { res ->
-                    if (res.isSuccessful) {
-                        _stress.postValue(res.body())
-                    } else {
+                    if (res.isSuccessful) _stress.postValue(res.body())
+                    else {
                         _stress.postValue(null)
                         _error.postValue("monthly-stress 실패: ${res.code()}")
+                    }
+                }
+
+                trendDefer.await().let { res ->
+                    if (res.isSuccessful) _trend.postValue(res.body())
+                    else {
+                        _trend.postValue(null)
+                        _error.postValue("monthly-stress-trend 실패: ${res.code()}")
                     }
                 }
             } catch (t: Throwable) {
                 _error.postValue("네트워크 오류: ${t.message}")
                 _counts.postValue(null)
                 _stress.postValue(null)
+                _trend.postValue(null)
             }
         }
     }
 
-    /** 평균 쉼표 개수(월) 계산: (짧은+긴) / 그 달의 일수 */
-    fun avgCommaPerDayFor(year: Int, month: Int, counts: MonthlyCountsDto?): String {
-        if (counts == null) return "-"
-        val days = LocalDate.of(year, month, 1).lengthOfMonth().coerceAtLeast(1)
-        val avg = (counts.shortCount + counts.longCount).toDouble() / days
-        return String.format("%.1f개", avg)
+    /** 액티비티가 차트에 바로 넣기 쉬운 형태로 변환 */
+    fun trendAsChartData(): Pair<List<Float>, List<String>> {
+        val dto = _trend.value ?: return emptyList<Float>() to emptyList()
+        // 좌→우가 시간 증가하도록 정렬(연/월 오름차순)
+        val sorted = dto.points.sortedWith(compareBy({ it.year }, { it.month }))
+        val values = sorted.map { it.value }
+        val labels = sorted.map { "${it.month}월" }
+        return values to labels
     }
 
-    /** 가장 스트레스 많았던 날 객체 */
     fun mostStressfulDay(): StressfulDay? = _stress.value?.mostStressful
-
-    /**
-     * 서버 스키마에 `leastStressful`이 있는 경우 사용할 수 있도록 안전 래퍼 제공.
-     * DTO에 필드가 없더라도 null 반환하도록 try-catch 처리.
-     */
-    fun leastStressfulDayOrNull(): StressfulDay? {
-        val any = _stress.value ?: return null
-        return try {
-            // 리플렉션 없이 컴파일 안전을 위해 스마트 캐스트 대신 런타임 접근
-            val field = any::class.members.firstOrNull { it.name == "leastStressful" }
-            @Suppress("UNCHECKED_CAST")
-            (field?.call(any) as? StressfulDay)
-        } catch (_: Throwable) {
-            null
-        }
-    }
+    fun leastStressfulDay(): StressfulDay? = _stress.value?.leastStressful
 }
