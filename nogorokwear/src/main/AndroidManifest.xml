@@ -42,6 +42,10 @@
             android:name="com.google.android.wearable.standalone"
             android:value="true" />
 
+        <meta-data
+            android:name="com.google.android.wearable.beta.app"
+            android:resource="@xml/wearable_app_desc" />
+
         <activity
             android:name=".presentation.MainActivity"
             android:exported="true"

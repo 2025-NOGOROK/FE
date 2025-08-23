@@ -15,10 +15,6 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC"/>
 
-    <queries>
-        <package android:name="com.sec.android.app.shealth" />
-    </queries>
-
     <application
         android:name=".App"
         android:usesCleartextTraffic="true"
@@ -60,9 +56,7 @@
             </intent-filter>
         </service>
 
-        <meta-data
-            android:name="com.samsung.android.health.permission.read"
-            android:value="com.samsung.health.heart_rate" />
+
 
         <!-- 삼성 헬스 관련 -->
         <activity android:name=".features.connect.health.HealthMainActivity" android:exported="true" />
@@ -145,6 +139,14 @@
         <activity android:name=".features.home.webview.WebViewActivity" />
         <activity android:name=".features.home.StressWebActivity"
             android:exported="true" />
+
+        <receiver
+            android:name=".wear.StressSampleReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.example.nogorok.ACTION_STRESS_UPDATE"/>
+            </intent-filter>
+        </receiver>
 
     </application>
 </manifest>

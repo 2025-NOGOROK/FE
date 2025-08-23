@@ -1,12 +1,8 @@
 package com.example.nogorok.network.dto
 
+import com.google.gson.annotations.SerializedName
+
 data class HeartRateUploadRequest(
-    val email: String,
-    var startTime: String,
-    var endTime: String,
-    var count: Int,
-    val min: Float,
-    val max: Float,
-    val avg: Float,
-    val stress: Float
+    @SerializedName("email") val email: String,
+    @SerializedName("samples") val samples: List<HeartRateSample>
 )

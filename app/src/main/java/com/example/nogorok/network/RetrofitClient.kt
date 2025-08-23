@@ -13,6 +13,7 @@ import com.example.nogorok.network.api.HomeApi
 import com.example.nogorok.network.api.ShortRestApi
 import com.example.nogorok.network.api.CalendarApi
 import com.example.nogorok.network.api.LongRestApi
+import com.example.nogorok.network.api.DeviceApi
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -86,5 +87,6 @@ object RetrofitClient {
     val calendarApi: CalendarApi by lazy { retrofit.create(CalendarApi::class.java) }
     val longrestApi: LongRestApi by lazy { retrofit.create(LongRestApi::class.java) }
     val bannerSurveyApi: BannerSurveyApi by lazy { retrofit.create(BannerSurveyApi::class.java) }
+    val deviceApi: DeviceApi by lazy { retrofit.create(DeviceApi::class.java) }
 
 }
