@@ -18,6 +18,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.nogorok.R
 import com.example.nogorok.databinding.FragmentHomeBinding
@@ -26,6 +28,7 @@ import com.example.nogorok.network.dto.TourItem
 import com.example.nogorok.utils.CustomTypefaceSpan
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
 
@@ -50,6 +53,7 @@ class HomeFragment : Fragment() {
         showTourPlaceholders()
         setupStressCardClickListeners()
 
+        // ✅ 배너 설문 클릭 이벤트
         binding.bannerSurvey.setOnClickListener {
             startActivity(Intent(requireContext(), BannerSurveyActivity::class.java))
         }
@@ -96,7 +100,7 @@ class HomeFragment : Fragment() {
         // ✅ 삼성병원 카드
         Glide.with(this)
             .load("http://www.samsunghospital.com/_newhome/ui/health_center/static/img/checkup-after/after-clinic-stress05-img01.png")
-            .placeholder(R.drawable.sample) // 노고록 기본 이미지
+            .placeholder(R.drawable.sample)
             .error(R.drawable.sample)
             .into(binding.ivSamsungStress)
 
@@ -119,11 +123,9 @@ class HomeFragment : Fragment() {
         binding.containerSamsung.setOnClickListener {
             openWebView("https://www.samsunghospital.com/home/healthMedical/private/lifeClinicStress05.do")
         }
-
         binding.containerLawtimes.setOnClickListener {
             openWebView("https://www.sciencetimes.co.kr/nscvrg/view/menu/251?searchCategory=223&nscvrgSn=260043")
         }
-
         binding.containerTrauma.setOnClickListener {
             openWebView("https://doctornow.co.kr/content/magazine/ce509c92b93d4329b03435840ef2a608")
         }
@@ -159,34 +161,21 @@ class HomeFragment : Fragment() {
                 scaleType = ImageView.ScaleType.CENTER_CROP
             }
 
-            val titleOverlay = TextView(context).apply {
-                text = item.title
-                setTextColor(Color.WHITE)
-                textSize = 14f
-                setTypeface(null, android.graphics.Typeface.BOLD)
-                setPadding(10.dp, 10.dp, 10.dp, 10.dp)
-                background = ContextCompat.getDrawable(context, R.drawable.overlay_background)
-                layoutParams = FrameLayout.LayoutParams(
-                    FrameLayout.LayoutParams.MATCH_PARENT,
-                    FrameLayout.LayoutParams.WRAP_CONTENT
-                ).apply {
-                    gravity = Gravity.BOTTOM
-                }
-            }
-
-            val imageUrl = when {
-                !item.firstImage.isNullOrBlank() -> item.firstImage
-                !item.firstImage2.isNullOrBlank() -> item.firstImage2
-                else -> null
-            }
-
+            val imageUrl = item.thumbnail
             Glide.with(this)
                 .load(imageUrl ?: R.drawable.sample)
                 .into(imageView)
 
             frameLayout.addView(imageView)
-            frameLayout.addView(titleOverlay)
             container.addView(frameLayout)
+
+            // ✅ 클릭 시 이벤트 상세 화면으로 이동
+            frameLayout.setOnClickListener {
+                val bundle = Bundle().apply {
+                    putInt("eventSeq", item.seq)
+                }
+                findNavController().navigate(R.id.action_homeFragment_to_eventDetailFragment, bundle)
+            }
         }
     }
 

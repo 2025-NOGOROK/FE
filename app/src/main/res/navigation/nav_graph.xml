@@ -31,8 +31,14 @@
         <action
             android:id="@+id/action_homeFragment_to_webDetailFragment"
             app:destination="@id/webDetailFragment" />
+
+        <!-- ✅ 행사 상세 페이지로 이동하는 액션 추가 -->
+        <action
+            android:id="@+id/action_homeFragment_to_eventDetailFragment"
+            app:destination="@id/eventDetailFragment" />
     </fragment>
 
+    <!-- 웹 상세 -->
     <fragment
         android:id="@+id/webDetailFragment"
         android:name="com.example.nogorok.features.web.WebDetailFragment"
@@ -53,7 +59,7 @@
         android:label="행사 정보"
         tools:layout="@layout/fragment_event_detail" />
 
-    <!-- 6. 긴금 스트레스 모드로 이동 -->
+    <!-- 6. 긴급 스트레스 모드로 이동 -->
     <fragment
         android:id="@+id/chronicStressModeFragment"
         android:name="com.example.nogorok.features.stress.ChronicStressModeFragment"
@@ -67,6 +73,5 @@
         <deepLink
             app:uri="https://nogorok.app/stress/chronic" />
     </fragment>
-
 
 </navigation>

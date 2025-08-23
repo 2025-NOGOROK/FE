@@ -6,8 +6,8 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-
 import com.example.nogorok.network.api.*
+import com.example.nogorok.features.event.EventApi
 
 object RetrofitClient {
 
@@ -84,4 +84,6 @@ object RetrofitClient {
     val longrestApi: LongRestApi by lazy { retrofit.create(LongRestApi::class.java) }
     val bannerSurveyApi: BannerSurveyApi by lazy { retrofit.create(BannerSurveyApi::class.java) }
     val deviceApi: DeviceApi by lazy { retrofit.create(DeviceApi::class.java) }
+    val eventApi: EventApi by lazy { retrofit.create(EventApi::class.java) }
+
 }
