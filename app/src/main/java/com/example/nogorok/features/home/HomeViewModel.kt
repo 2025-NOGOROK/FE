@@ -35,7 +35,7 @@ class HomeViewModel : ViewModel() {
                 Log.d("fetchLatestStress", "response code: ${response.code()}, body: ${response.body()}")
 
                 if (response.isSuccessful) {
-                    _stress.value = response.body()?.avg ?: 0f
+                    _stress.value = response.body()?.stressEma ?: 0f
                 } else {
                     Log.e("fetchLatestStress", "API 실패: ${response.code()} - ${response.errorBody()?.string()}")
                     _stress.value = 0f
