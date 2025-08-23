@@ -11,7 +11,7 @@ import com.example.nogorok.network.api.*
 
 object RetrofitClient {
 
-    private const val BASE_URL = "https://recommend.ai.kr/"
+    private const val BASE_URL = "https://recommend.ai.kr"
 
     // 수동 주입도 허용(백업용). 가능하면 tokenProvider를 쓰는 걸 추천
     @Volatile private var accessToken: String? = null

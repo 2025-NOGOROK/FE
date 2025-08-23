@@ -1,21 +1,21 @@
 package com.example.nogorok.network.api
 
-import com.example.nogorok.network.dto.MonthlyResponse
-import com.example.nogorok.network.dto.MonthlyStressResponse
+import com.example.nogorok.network.dto.MonthlyCountsDto
+import com.example.nogorok.network.dto.MonthlyStressDto
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface MonthlyApi {
-    @GET("/api/monthly/emotion")
-    suspend fun getMonthlyEmotion(
+    @GET("/api/report/monthly")
+    suspend fun getMonthly(
         @Query("year") year: Int,
         @Query("month") month: Int
-    ): MonthlyResponse
+    ): Response<MonthlyCountsDto>
 
-    // 🔹 월간 스트레스 API 추가
-    @GET("/api/monthly/stress")
+    @GET("/api/report/monthly-stress")
     suspend fun getMonthlyStress(
         @Query("year") year: Int,
         @Query("month") month: Int
-    ): MonthlyStressResponse
+    ): Response<MonthlyStressDto>
 }
