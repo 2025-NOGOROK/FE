@@ -19,7 +19,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.nogorok.R
@@ -29,7 +28,6 @@ import com.example.nogorok.network.dto.TourItem
 import com.example.nogorok.utils.CustomTypefaceSpan
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
 
@@ -101,49 +99,37 @@ class HomeFragment : Fragment() {
         // ✅ 삼성병원 카드
         Glide.with(this)
             .load("http://www.samsunghospital.com/_newhome/ui/health_center/static/img/checkup-after/after-clinic-stress05-img01.png")
-            .placeholder(R.drawable.sample)
-            .error(R.drawable.sample)
             .into(binding.ivSamsungStress)
 
         // ✅ 사이언스타임즈 카드
         Glide.with(this)
             .load("https://www.sciencetimes.co.kr/jnrepo/upload/editor/202503/f8c1e3e053ca4453b59b14d1a2e6dceb_1743368019590.png")
-            .placeholder(R.drawable.sample)
-            .error(R.drawable.sample)
             .into(binding.ivLawtimes)
 
         // ✅ 닥터나우 카드
         Glide.with(this)
             .load("https://d2m9duoqjhyhsq.cloudfront.net/marketingContents/article/article230-01.jpg")
-            .placeholder(R.drawable.sample)
-            .error(R.drawable.sample)
             .into(binding.ivTrauma)
     }
 
     private fun setupStressCardClickListeners() {
         binding.containerSamsung.setOnClickListener {
-            openStressDetail(
-                "http://www.samsunghospital.com/home/healthMedical/private/lifeClinicStress05.do",
-                "http://www.samsunghospital.com/_newhome/ui/health_center/static/img/checkup-after/after-clinic-stress05-img01.png"
-            )
+            openStressDetail("samsung",
+                "http://www.samsunghospital.com/_newhome/ui/health_center/static/img/checkup-after/after-clinic-stress05-img01.png")
         }
         binding.containerLawtimes.setOnClickListener {
-            openStressDetail(
-                "https://www.sciencetimes.co.kr/nscvrg/view/menu/251?searchCategory=223&nscvrgSn=260043",
-                "https://www.sciencetimes.co.kr/jnrepo/upload/editor/202503/f8c1e3e053ca4453b59b14d1a2e6dceb_1743368019590.png"
-            )
+            openStressDetail("science",
+                "https://www.sciencetimes.co.kr/jnrepo/upload/editor/202503/f8c1e3e053ca4453b59b14d1a2e6dceb_1743368019590.png")
         }
         binding.containerTrauma.setOnClickListener {
-            openStressDetail(
-                "https://doctornow.co.kr/content/magazine/ce509c92b93d4329b03435840ef2a608",
-                "https://d2m9duoqjhyhsq.cloudfront.net/marketingContents/article/article230-01.jpg"
-            )
+            openStressDetail("doctor",
+                "https://d2m9duoqjhyhsq.cloudfront.net/marketingContents/article/article230-01.jpg")
         }
     }
 
-    private fun openStressDetail(linkUrl: String, thumbnailUrl: String) {
+    private fun openStressDetail(linkKey: String, thumbnailUrl: String) {
         val bundle = Bundle().apply {
-            putString("linkUrl", linkUrl)
+            putString("linkKey", linkKey)
             putString("thumbnailUrl", thumbnailUrl)
         }
         findNavController().navigate(R.id.action_homeFragment_to_stressDetailFragment, bundle)
@@ -155,11 +141,8 @@ class HomeFragment : Fragment() {
 
         tourList.forEach { item ->
             val context = requireContext()
-
             val frameLayout = FrameLayout(context).apply {
-                layoutParams = LinearLayout.LayoutParams(168.dp, 200.dp).apply {
-                    marginEnd = 12.dp
-                }
+                layoutParams = LinearLayout.LayoutParams(168.dp, 200.dp).apply { marginEnd = 12.dp }
                 clipToOutline = true
                 background = ContextCompat.getDrawable(context, R.drawable.rounded_item_background)
                 outlineProvider = ViewOutlineProvider.BACKGROUND
@@ -173,19 +156,15 @@ class HomeFragment : Fragment() {
                 scaleType = ImageView.ScaleType.CENTER_CROP
             }
 
-            val imageUrl = item.thumbnail
             Glide.with(this)
-                .load(imageUrl ?: R.drawable.sample)
+                .load(item.thumbnail ?: R.drawable.sample)
                 .into(imageView)
 
             frameLayout.addView(imageView)
             container.addView(frameLayout)
 
-            // ✅ 클릭 시 이벤트 상세 화면으로 이동
             frameLayout.setOnClickListener {
-                val bundle = Bundle().apply {
-                    putInt("eventSeq", item.seq)
-                }
+                val bundle = Bundle().apply { putInt("eventSeq", item.seq) }
                 findNavController().navigate(R.id.action_homeFragment_to_eventDetailFragment, bundle)
             }
         }
@@ -212,7 +191,7 @@ class HomeFragment : Fragment() {
 
     private fun createStressMessage(stress: Float): SpannableStringBuilder {
         val label = "당신의 최근 스트레스 지수는\n"
-        val stressMessage = SpannableStringBuilder().apply {
+        return SpannableStringBuilder().apply {
             append(label)
             val semiBold = ResourcesCompat.getFont(requireContext(), R.font.pretendard_semibold)
             semiBold?.let { setSpan(CustomTypefaceSpan(it), 0, label.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE) }
@@ -239,14 +218,8 @@ class HomeFragment : Fragment() {
                 stress < 70f -> "지금 상태는 양호해요. 계속 잘 유지해봐요!"
                 else -> "스트레스 지수가 높아요.\n지금은 잠시 쉼표가 필요한 순간이에요."
             }
-            val statusStart = length
             append(statusMessage)
-            val regular = ResourcesCompat.getFont(requireContext(), R.font.pretendard_regular)
-            regular?.let { setSpan(CustomTypefaceSpan(it), statusStart, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE) }
-            setSpan(AbsoluteSizeSpan(16, true), statusStart, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            setSpan(ForegroundColorSpan(Color.parseColor("#73605A")), statusStart, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
-        return stressMessage
     }
 
     override fun onDestroyView() {
