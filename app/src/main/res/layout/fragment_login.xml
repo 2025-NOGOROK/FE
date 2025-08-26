@@ -43,7 +43,7 @@
         android:contentDescription="로고"
         app:layout_constraintTop_toBottomOf="@id/tvTitle"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="24dp" />
+        android:layout_marginStart="16dp" />
 
     <!-- 이메일 입력 -->
     <EditText
