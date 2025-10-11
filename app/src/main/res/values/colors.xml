@@ -38,6 +38,7 @@
     <color name="button_disabled">#8073605A</color>
     <color name="checkbox_checked">#73605A</color> <!-- 진한 갈색 -->
     <color name="checkbox_unchecked">#E0E0E0</color> <!-- 연회색(비활성화용) -->
+    <color name="nogorok_brown">#73605A</color>
 
     <!--  비활성화용 예시  -->
      <color name="button_text_enabled">#F4EED4</color>

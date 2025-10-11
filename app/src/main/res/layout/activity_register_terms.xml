@@ -9,7 +9,14 @@
     <LinearLayout android:id="@+id/termsSection" android:layout_width="0dp" android:layout_height="wrap_content" android:orientation="vertical" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent" android:layout_marginBottom="0dp">
         <!--  약관 전체동의  -->
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginStart="24dp" android:layout_marginEnd="24dp" android:paddingTop="8dp" android:paddingBottom="8dp">
-            <CheckBox android:id="@+id/chkAll" android:layout_width="wrap_content" android:layout_height="wrap_content" android:button="@drawable/selector_circle_checkbox" android:textColor="@color/checkbox_text_selector"/>
+            <CheckBox
+                android:id="@+id/chkAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/selector_circle_checkbox"
+                android:textColor="@color/checkbox_text_selector"
+                app:buttonTint="@null"/>
+
             <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="약관 전체동의" android:textSize="16sp" android:textColor="#222222" android:paddingStart="8dp"/>
         </LinearLayout>
         <!--  하단 선(전체동의 바로 아래)  -->
@@ -18,25 +25,53 @@
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginStart="24dp" android:layout_marginEnd="24dp">
             <!--  서비스 이용 약관(필수)  -->
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:paddingTop="8dp" android:paddingBottom="8dp">
-                <CheckBox android:id="@+id/chkService" android:layout_width="wrap_content" android:layout_height="wrap_content" android:button="@drawable/selector_circle_checkbox" android:textColor="@color/checkbox_text_selector"/>
+                <CheckBox
+                    android:id="@+id/chkService"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/selector_circle_checkbox"
+                    android:textColor="@color/checkbox_text_selector"
+                    app:buttonTint="@null"/>
+
                 <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="서비스 이용 약관(필수)" android:textSize="16sp" android:textColor="#222222" android:paddingStart="8dp"/>
                 <ImageButton android:id="@+id/btnServiceDetail" android:layout_width="48dp" android:layout_height="48dp" android:src="@drawable/ic_arrow_right" android:background="@android:color/transparent" android:contentDescription="상세보기"/>
             </LinearLayout>
             <!--  개인정보 수집 및 이용(필수)  -->
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:paddingTop="8dp" android:paddingBottom="8dp">
-                <CheckBox android:id="@+id/chkPrivacy" android:layout_width="wrap_content" android:layout_height="wrap_content" android:button="@drawable/selector_circle_checkbox" android:textColor="@color/checkbox_text_selector"/>
+                <CheckBox
+                    android:id="@+id/chkPrivacy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/selector_circle_checkbox"
+                    android:textColor="@color/checkbox_text_selector"
+                    app:buttonTint="@null"/>
+
                 <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="개인정보 수집 및 이용(필수)" android:textSize="16sp" android:textColor="#222222" android:paddingStart="8dp"/>
                 <ImageButton android:id="@+id/btnPrivacyDetail" android:layout_width="48dp" android:layout_height="48dp" android:src="@drawable/ic_arrow_right" android:background="@android:color/transparent" android:contentDescription="상세보기"/>
             </LinearLayout>
             <!--  건강정보 수집 및 이용(필수)  -->
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:paddingTop="8dp" android:paddingBottom="8dp">
-                <CheckBox android:id="@+id/chkHealth" android:layout_width="wrap_content" android:layout_height="wrap_content" android:button="@drawable/selector_circle_checkbox" android:textColor="@color/checkbox_text_selector"/>
+                <CheckBox
+                    android:id="@+id/chkHealth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/selector_circle_checkbox"
+                    android:textColor="@color/checkbox_text_selector"
+                    app:buttonTint="@null"/>
+
                 <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="건강정보 수집 및 이용(필수)" android:textSize="16sp" android:textColor="#222222" android:paddingStart="8dp"/>
                 <ImageButton android:id="@+id/btnHealthDetail" android:layout_width="48dp" android:layout_height="48dp" android:src="@drawable/ic_arrow_right" android:background="@android:color/transparent" android:contentDescription="상세보기"/>
             </LinearLayout>
             <!--  위치기반 서비스 이용(필수)  -->
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:paddingTop="8dp" android:paddingBottom="8dp">
-                <CheckBox android:id="@+id/chkLocation" android:layout_width="wrap_content" android:layout_height="wrap_content" android:button="@drawable/selector_circle_checkbox" android:textColor="@color/checkbox_text_selector"/>
+                <CheckBox
+                    android:id="@+id/chkLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/selector_circle_checkbox"
+                    android:textColor="@color/checkbox_text_selector"
+                    app:buttonTint="@null"/>
+
                 <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="위치기반 서비스 이용(필수)" android:textSize="16sp" android:textColor="#222222" android:paddingStart="8dp"/>
                 <ImageButton android:id="@+id/btnLocationDetail" android:layout_width="48dp" android:layout_height="48dp" android:src="@drawable/ic_arrow_right" android:background="@android:color/transparent" android:contentDescription="상세보기"/>
             </LinearLayout>
